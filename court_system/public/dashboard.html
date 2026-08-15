@@ -199,7 +199,7 @@ function switchView(viewName) {
 async function loadInitialData() {
   try {
     const [cRes, bRes, jRes] = await Promise.all([
-      fetch(`${API}/cases?role=${currentUser.role}&userId=${currentUser.id || currentUser.licenseNumber || ''}`),
+      fetch(`${API}/cases?role=${currentUser.role}&userId=${currentUser.id || currentUser.licenseNumber || ''}&phone=${currentUser.phone || currentUser.username || ''}`),
       fetch(`${API}/branches`),
       fetch(`${API}/judges`)
     ]);

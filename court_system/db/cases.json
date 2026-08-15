@@ -1,6 +1,7 @@
 [
   {
     "caseId": "CASE-1786816470851",
+    "tempPin": "123456",
     "status": "in_progress",
     "caseTitle": "fedral",
     "caseType": "Criminal",
@@ -73,7 +74,7 @@
   {
     "caseId": "CASE-1786820416223",
     "tempPin": "999982",
-    "status": "pending_review",
+    "status": "in_progress",
     "caseTitle": "fedral",
     "caseType": "Criminal",
     "jurisdiction": "Addis Ababa",
@@ -99,18 +100,34 @@
       }
     ],
     "assignedOfficerId": null,
-    "assignedBranchId": null,
-    "assignedJudgeId": null,
+    "assignedBranchId": "BRANCH-001",
+    "assignedJudgeId": "JUDGE-003",
     "plaintiffLawyerLicense": null,
     "plaintiffLawyerStatus": null,
     "defendantLawyerLicense": null,
     "defendantLawyerStatus": null,
-    "officialLetterSent": false,
-    "adminNote": "",
+    "officialLetterSent": true,
+    "adminNote": "Accepted by Admin",
     "officerNote": "",
     "sessions": [],
     "ratings": {},
     "filedAt": "2026-08-15T19:00:16.224Z",
-    "updatedAt": "2026-08-15T19:00:16.224Z"
+    "updatedAt": "2026-08-15T19:33:57.348Z",
+    "assignmentHistory": [
+      {
+        "timestamp": "2026-08-15T19:10:52.493Z",
+        "action": "branch_assigned",
+        "branchId": "BRANCH-001",
+        "officerNote": ""
+      },
+      {
+        "timestamp": "2026-08-15T19:10:52.514Z",
+        "action": "judge_assigned",
+        "judgeId": "JUDGE-003",
+        "judgeFullName": "Hon. Judge Hassan Ibrahim",
+        "note": ""
+      }
+    ],
+    "officialLetterDate": "2026-08-15T19:33:57.348Z"
   }
 ]

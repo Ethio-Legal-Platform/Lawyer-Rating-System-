@@ -316,9 +316,21 @@ app.get('/api/cases', (req, res) => {
     );
     return res.json(cases);
   }
-  // filer: by phone
+  if (role === 'filer') {
+    const targetPhone = phone || req.query.username;
+    const targetCaseId = userId && userId.startsWith('FILER-') ? userId.replace('FILER-', '') : null;
+    
+    return res.json(cases.filter(c => {
+      if (targetCaseId && c.caseId === targetCaseId) return true;
+      if (c.filer && c.filer.phone) {
+        if (targetPhone && c.filer.phone.slice(-9) === targetPhone.slice(-9)) return true;
+        if (userId && c.filer.phone.slice(-9) === String(userId).slice(-9)) return true;
+      }
+      return false;
+    }));
+  }
   if (phone) {
-    cases = cases.filter(c => c.filer.phone === phone);
+    cases = cases.filter(c => c.filer && c.filer.phone && c.filer.phone.slice(-9) === phone.slice(-9));
     return res.json(cases);
   }
   res.json([]);
