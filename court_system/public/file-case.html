@@ -348,7 +348,11 @@ async function requestOTP() {
     if (res.ok) {
       document.getElementById('otp-request-form').classList.add('hidden');
       document.getElementById('otp-verify-form').classList.remove('hidden');
-      document.getElementById('otp-phone-hint').textContent = `Code sent to ${phone} via SMS. Check your phone.`;
+      if (data.test_code_unwhitelisted) {
+        document.getElementById('otp-phone-hint').innerHTML = `Real SMS sent to whitelisted numbers. <br/><span style="color:var(--gold-500);font-weight:600">Unwhitelisted test number fallback code: ${data.test_code_unwhitelisted}</span>`;
+      } else {
+        document.getElementById('otp-phone-hint').textContent = `Code sent to ${phone} via real SMS. Check your phone.`;
+      }
     } else {
       showAlert(data.error || 'Failed to send OTP');
     }

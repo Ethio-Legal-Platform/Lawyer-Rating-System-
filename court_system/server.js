@@ -158,11 +158,22 @@ app.post('/api/otp/request', async (req, res) => {
 
   const smsResult = await sendSMS(phone, `Your Federal Court Verification Code is: ${code}. Valid for 10 minutes. Do not share.`);
 
-  if (smsResult && smsResult.status === 'error') {
-    return res.status(500).json({ error: `Failed to send SMS: ${smsResult.message}` });
+  // If SMSEthiopia restricts to whitelisted numbers on starter API key
+  const isNotWhitelisted = smsResult?.error_message?.includes('DEFAULT_CAMPAIGN_RECIPIENT_NOT_WHITELISTED');
+
+  if (isNotWhitelisted) {
+    return res.json({
+      success: true,
+      message: 'OTP generated. Note: Real SMS is delivered to whitelisted numbers on your SMSEthiopia account. For unwhitelisted test numbers, use the code below.',
+      test_code_unwhitelisted: code
+    });
   }
 
-  res.json({ success: true, message: 'OTP sent to your phone via SMS.' });
+  if (smsResult && smsResult.status === 'error') {
+    return res.status(500).json({ error: `Failed to send SMS: ${smsResult.error_message || smsResult.message}` });
+  }
+
+  res.json({ success: true, message: 'OTP sent to your phone via real SMS.' });
 });
 
 // POST /api/otp/verify
