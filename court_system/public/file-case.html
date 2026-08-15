@@ -107,7 +107,6 @@
             <button class="btn btn-ghost" onclick="resetOTP()">← Change Number</button>
           </div>
         </div>
-        <p id="dev-otp-hint" class="form-helper" style="text-align:center;margin-top:.5rem;color:var(--gold-500)"></p>
       </div>
 
       <div id="otp-done" class="hidden">
@@ -349,10 +348,7 @@ async function requestOTP() {
     if (res.ok) {
       document.getElementById('otp-request-form').classList.add('hidden');
       document.getElementById('otp-verify-form').classList.remove('hidden');
-      document.getElementById('otp-phone-hint').textContent = `Code sent to ${phone}. Check your SMS.`;
-      if (data.dev_code) {
-        document.getElementById('dev-otp-hint').textContent = `[Dev] OTP: ${data.dev_code}`;
-      }
+      document.getElementById('otp-phone-hint').textContent = `Code sent to ${phone} via SMS. Check your phone.`;
     } else {
       showAlert(data.error || 'Failed to send OTP');
     }
@@ -387,7 +383,6 @@ function resetOTP() {
   document.getElementById('otp-verify-form').classList.add('hidden');
   document.getElementById('otp-request-form').classList.remove('hidden');
   document.getElementById('otp-code').value = '';
-  document.getElementById('dev-otp-hint').textContent = '';
   clearAlert();
 }
 

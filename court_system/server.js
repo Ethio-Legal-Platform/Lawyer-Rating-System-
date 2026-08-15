@@ -158,7 +158,11 @@ app.post('/api/otp/request', async (req, res) => {
 
   const smsResult = await sendSMS(phone, `Your Federal Court Verification Code is: ${code}. Valid for 10 minutes. Do not share.`);
 
-  res.json({ success: true, message: 'OTP sent to your phone', dev_code: process.env.NODE_ENV !== 'production' ? code : undefined });
+  if (smsResult && smsResult.status === 'error') {
+    return res.status(500).json({ error: `Failed to send SMS: ${smsResult.message}` });
+  }
+
+  res.json({ success: true, message: 'OTP sent to your phone via SMS.' });
 });
 
 // POST /api/otp/verify
