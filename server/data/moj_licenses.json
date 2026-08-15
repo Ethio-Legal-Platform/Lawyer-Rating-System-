@@ -1,0 +1,50 @@
+[
+  {
+    "licenseNumber": "LAW-1001",
+    "fullName": "John Smith",
+    "status": "ACTIVE",
+    "issueDate": "2018-05-12",
+    "expiryDate": "2028-05-12",
+    "specialization": "Criminal"
+  },
+  {
+    "licenseNumber": "LAW-1002",
+    "fullName": "Sarah Jones",
+    "status": "ACTIVE",
+    "issueDate": "2016-09-20",
+    "expiryDate": "2026-09-20",
+    "specialization": "Corporate"
+  },
+  {
+    "licenseNumber": "LAW-1003",
+    "fullName": "Michael Davis",
+    "status": "ACTIVE",
+    "issueDate": "2020-01-15",
+    "expiryDate": "2030-01-15",
+    "specialization": "Civil"
+  },
+  {
+    "licenseNumber": "LAW-1004",
+    "fullName": "Fatima Al Mansoori",
+    "status": "ACTIVE",
+    "issueDate": "2019-03-10",
+    "expiryDate": "2029-03-10",
+    "specialization": "Family"
+  },
+  {
+    "licenseNumber": "LAW-1005",
+    "fullName": "Zayed Al Nahyan",
+    "status": "ACTIVE",
+    "issueDate": "2017-11-05",
+    "expiryDate": "2027-11-05",
+    "specialization": "Civil"
+  },
+  {
+    "licenseNumber": "LAW-1006",
+    "fullName": "Amina Al Hashimi",
+    "status": "ACTIVE",
+    "issueDate": "2021-07-18",
+    "expiryDate": "2031-07-18",
+    "specialization": "Corporate"
+  }
+]

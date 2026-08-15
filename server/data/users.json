@@ -1,0 +1,85 @@
+[
+  {
+    "id": "lawyer-1",
+    "name": "John Smith",
+    "username": "jsmith",
+    "password": "password123",
+    "email": "smith@example.com",
+    "role": "lawyer",
+    "licenseNumber": "LAW-1001",
+    "specialization": "Criminal",
+    "profilePic": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "lawyer-2",
+    "name": "Sarah Jones",
+    "username": "sjones",
+    "password": "password123",
+    "email": "jones@example.com",
+    "role": "lawyer",
+    "licenseNumber": "LAW-1002",
+    "specialization": "Corporate",
+    "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "lawyer-3",
+    "name": "Fatima Al Mansoori",
+    "username": "fatima_adv",
+    "password": "password123",
+    "email": "fatima@example.com",
+    "role": "lawyer",
+    "licenseNumber": "LAW-1004",
+    "specialization": "Family",
+    "profilePic": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "lawyer-4",
+    "name": "Zayed Al Nahyan",
+    "username": "zayed_adv",
+    "password": "password123",
+    "email": "zayed@example.com",
+    "role": "lawyer",
+    "licenseNumber": "LAW-1005",
+    "specialization": "Civil",
+    "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "lawyer-5",
+    "name": "Amina Al Hashimi",
+    "username": "amina_adv",
+    "password": "password123",
+    "email": "amina@example.com",
+    "role": "lawyer",
+    "licenseNumber": "LAW-1006",
+    "specialization": "Corporate",
+    "profilePic": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "client-1",
+    "name": "Alex Carter",
+    "username": "alex_c",
+    "password": "password123",
+    "email": "alex@example.com",
+    "role": "client",
+    "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+    "verified": true
+  },
+  {
+    "id": "client-1786797465678",
+    "name": "Kalalew",
+    "username": "kalalew",
+    "password": "1234",
+    "email": "qalalewtere@gmail.com",
+    "role": "client",
+    "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+    "licenseNumber": null,
+    "specialization": null,
+    "elo": null,
+    "verified": true
+  }
+]
