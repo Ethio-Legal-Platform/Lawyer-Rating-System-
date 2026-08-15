@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Federal Court Case Management System</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <style>
+    body{background:var(--navy-950);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem}
+    .login-wrap{width:100%;max-width:26rem}
+    .login-brand{text-align:center;margin-bottom:2rem}
+    .login-seal{font-size:3rem;margin-bottom:.75rem;display:block}
+    .login-title{font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:white;line-height:1.2;margin-bottom:.375rem}
+    .login-subtitle{font-size:.875rem;color:rgba(255,255,255,.45)}
+    .login-card{background:white;border-radius:var(--radius-xl);padding:2rem;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+    .login-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:1.5rem}
+    .login-tab{padding:.75rem;text-align:center;font-size:.9375rem;font-weight:500;cursor:pointer;color:var(--navy-700);opacity:.6;border-bottom:2px solid transparent;transition:all var(--trans);border:none;background:none}
+    .login-tab.active{color:var(--navy-900);opacity:1;border-bottom:2px solid var(--navy-800);font-weight:600}
+    .role-hint{display:flex;flex-wrap:wrap;gap:.375rem;margin-bottom:1.25rem}
+    .role-chip{font-size:.75rem;padding:.2rem .5rem;border-radius:var(--radius-full);border:1px solid var(--line);color:var(--navy-700);opacity:.7;cursor:pointer;transition:all var(--trans)}
+    .role-chip:hover{border-color:var(--navy-600);opacity:1}
+    .role-chip.selected{background:var(--navy-800);border-color:var(--navy-800);color:white;opacity:1}
+    .login-footer{text-align:center;margin-top:1.25rem;font-size:.875rem;color:var(--navy-700);opacity:.6}
+    .login-footer a{color:var(--navy-800);font-weight:600;opacity:1;text-decoration:underline;text-underline-offset:2px}
+  </style>
+</head>
+<body>
+<div class="login-wrap anim-up">
+  <div class="login-brand">
+    <span class="login-seal">⚖</span>
+    <h1 class="login-title">Federal Court Case<br/>Management System</h1>
+    <p class="login-subtitle">Ministry of Justice · Ethiopia</p>
+  </div>
+
+  <div class="login-card">
+    <div class="login-tabs" role="tablist">
+      <button class="login-tab active" id="tab-login"    onclick="switchTab('login')">Sign In</button>
+      <button class="login-tab"        id="tab-register" onclick="switchTab('register')">Register Lawyer</button>
+    </div>
+
+    <!-- Alerts -->
+    <div id="alert-box"></div>
+
+    <!-- ── LOGIN FORM ── -->
+    <div id="pane-login">
+      <p style="font-size:.8125rem;color:var(--navy-700);opacity:.6;margin-bottom:1rem">
+        Sign in with your assigned credentials. Judges, clerks, officers and admins use username + password.
+      </p>
+
+      <div class="role-hint" id="role-hints" aria-label="Quick-fill credentials (development only)">
+        <span class="role-chip" onclick="fillCreds('admin','admin123','Admin')">Admin</span>
+        <span class="role-chip" onclick="fillCreds('judge.maktoum','judge123','Judge')">Judge</span>
+        <span class="role-chip" onclick="fillCreds('clerk.ibrahim','clerk123','Clerk')">Clerk</span>
+        <span class="role-chip" onclick="fillCreds('officer.hassan','officer123','Officer')">Officer</span>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input class="form-input" id="username" type="text" autocomplete="username" placeholder="Enter your username" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-input" id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:.25rem" id="login-btn">
+          Sign In
+        </button>
+      </form>
+    </div>
+
+    <!-- ── REGISTER LAWYER ── -->
+    <div id="pane-register" class="hidden">
+      <div class="alert alert-info">
+        <span>🔒</span>
+        <span>Your full name must exactly match your MoJ registry record. Your license will be verified before account creation.</span>
+      </div>
+      <form id="register-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="reg-license">MoJ License Number</label>
+          <input class="form-input" id="reg-license" type="text" placeholder="e.g. LAW-1001" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">Full Name (as on MoJ registry)</label>
+          <input class="form-input" id="reg-fullname" type="text" autocomplete="name" placeholder="e.g. John Smith" required/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="reg-username">Username</label>
+            <input class="form-input" id="reg-username" type="text" autocomplete="username" placeholder="Choose a username" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password</label>
+            <input class="form-input" id="reg-password" type="password" autocomplete="new-password" placeholder="Create password" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email (optional)</label>
+            <input class="form-input" id="reg-email" type="email" autocomplete="email" placeholder="you@example.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-phone">Phone (optional)</label>
+            <input class="form-input" id="reg-phone" type="tel" placeholder="0911234567"/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-gold btn-full btn-lg" id="register-btn">
+          Verify License &amp; Create Account
+        </button>
+      </form>
+    </div>
+
+    <p class="login-footer">
+      Filing a new case? <a href="/file-case">Click here to file a case</a>
+    </p>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5001/api';
+
+function switchTab(tab) {
+  document.getElementById('pane-login').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('pane-register').classList.toggle('hidden', tab !== 'register');
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+  clearAlert();
+}
+
+function fillCreds(u, p) {
+  document.getElementById('username').value = u;
+  document.getElementById('password').value = p;
+  clearAlert();
+}
+
+function showAlert(msg, type='error') {
+  const box = document.getElementById('alert-box');
+  box.innerHTML = `<div class="alert alert-${type}"><span>${type==='error'?'⚠':'✓'}</span><span>${msg}</span></div>`;
+}
+function clearAlert() { document.getElementById('alert-box').innerHTML = ''; }
+
+function setLoading(btnId, loading, label) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<span class="spin"></span> Processing…' : label;
+}
+
+// ── Login ──
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault(); clearAlert();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  if (!username || !password) return showAlert('Please enter username and password');
+
+  setLoading('login-btn', true, 'Sign In');
+  try {
+    const res  = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      sessionStorage.setItem('court_user', JSON.stringify(data.user));
+      showAlert(`Welcome, ${data.user.fullName}! Redirecting…`, 'success');
+      setTimeout(() => window.location.href = '/dashboard', 700);
+    } else {
+      showAlert(data.error || 'Login failed');
+    }
+  } catch {
+    showAlert('Cannot connect to server. Make sure it is running on port 5001.');
+  } finally {
+    setLoading('login-btn', false, 'Sign In');
+  }
+});
+
+// ── Register Lawyer ──
+document.getElementById('register-form').addEventListener('submit', async e => {
+  e.preventDefault(); clearAlert();
+  const body = {
+    licenseNumber: document.getElementById('reg-license').value.trim(),
+    fullName:      document.getElementById('reg-fullname').value.trim(),
+    username:      document.getElementById('reg-username').value.trim(),
+    password:      document.getElementById('reg-password').value,
+    email:         document.getElementById('reg-email').value.trim(),
+    phone:         document.getElementById('reg-phone').value.trim(),
+  };
+  if (!body.licenseNumber || !body.fullName || !body.username || !body.password) {
+    return showAlert('License number, full name, username and password are required');
+  }
+  setLoading('register-btn', true, 'Verify License & Create Account');
+  try {
+    const res  = await fetch(`${API}/auth/register-lawyer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showAlert('Account created! Please sign in.', 'success');
+      setTimeout(() => switchTab('login'), 1500);
+    } else {
+      showAlert(data.error || 'Registration failed');
+    }
+  } catch {
+    showAlert('Cannot connect to server.');
+  } finally {
+    setLoading('register-btn', false, 'Verify License & Create Account');
+  }
+});
+
+// Redirect if already logged in
+if (sessionStorage.getItem('court_user')) window.location.href = '/dashboard';
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "JUDGE-001",
+    "username": "judge.maktoum",
+    "password": "judge123",
+    "fullName": "Hon. Judge Al Maktoum",
+    "role": "judge",
+    "branch": "Federal Criminal Court",
+    "enrolledDate": "2020-01-10",
+    "activeCaseCount": 2
+  },
+  {
+    "id": "JUDGE-002",
+    "username": "judge.alnahyan",
+    "password": "judge123",
+    "fullName": "Hon. Judge Al Nahyan",
+    "role": "judge",
+    "branch": "Federal Civil & Commercial Court",
+    "enrolledDate": "2019-06-15",
+    "activeCaseCount": 1
+  },
+  {
+    "id": "JUDGE-003",
+    "username": "judge.hassan",
+    "password": "judge123",
+    "fullName": "Hon. Judge Hassan Ibrahim",
+    "role": "judge",
+    "branch": "Family Affairs Court",
+    "enrolledDate": "2021-03-22",
+    "activeCaseCount": 0
+  }
+]

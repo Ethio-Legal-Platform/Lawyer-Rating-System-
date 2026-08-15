@@ -1,0 +1,10 @@
+[
+  {
+    "id": "OFFICER-001",
+    "username": "officer.hassan",
+    "password": "officer123",
+    "fullName": "Case Assignment Officer Hassan",
+    "role": "officer",
+    "email": "officer@courts.gov.et"
+  }
+]
