@@ -261,7 +261,7 @@ function renderMainView() {
     `;
   } else if (currentView === 'cases' || currentView === 'my_docket' || currentView === 'my_cases' || currentView === 'my_filed_cases') {
     let list = cachedCases;
-    if (currentView === 'my_docket') list = cachedCases.filter(c => c.assignedJudgeId === currentUser.id);
+    if (currentView === 'my_docket') list = cachedCases.filter(c => c.assignedJudgeId === currentUser.id || c.assignedJudgeId === currentUser.username);
     if (currentView === 'my_cases') list = cachedCases.filter(c => c.plaintiffLawyerLicense === currentUser.licenseNumber || c.defendantLawyerLicense === currentUser.licenseNumber);
     if (currentView === 'my_filed_cases') {
       list = cachedCases.filter(c => {

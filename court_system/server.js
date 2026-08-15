@@ -302,7 +302,13 @@ app.get('/api/cases', (req, res) => {
 
   if (role === 'admin' || role === 'officer') return res.json(cases);
   if (role === 'judge') {
-    cases = cases.filter(c => c.assignedJudgeId === userId);
+    const jId = userId;
+    const jUsername = req.query.username;
+    cases = cases.filter(c =>
+      c.assignedJudgeId === jId ||
+      c.assignedJudgeId === jUsername ||
+      (jId && c.assignedJudgeId && c.assignedJudgeId.toLowerCase() === jId.toLowerCase())
+    );
     return res.json(cases);
   }
   if (role === 'clerk') {
@@ -702,8 +708,24 @@ app.post('/api/cases/:id/rate-lawyer', (req, res) => {
 
 app.get('/api/branches', (req, res) => res.json(readDB('branches.json')));
 app.get('/api/judges',   (req, res) => {
-  const judges = readDB('judges.json').map(({ password: _, ...j }) => j);
-  res.json(judges);
+  const judges = readDB('judges.json');
+  const cases  = readDB('cases.json');
+
+  const syncedJudges = judges.map(({ password: _, ...j }) => {
+    const judgeCases = cases.filter(c => 
+      c.assignedJudgeId === j.id || c.assignedJudgeId === j.username
+    );
+    const activeCases = judgeCases.filter(c => c.status !== 'closed');
+
+    return {
+      ...j,
+      activeCaseCount: activeCases.length,
+      totalAssignedCases: judgeCases.length,
+      assignedCaseIds: judgeCases.map(c => c.caseId)
+    };
+  });
+
+  res.json(syncedJudges);
 });
 app.get('/api/session-events', (req, res) => res.json(SESSION_EVENTS));
 app.get('/api/moj/verify-license/:licenseNumber', (req, res) => {
