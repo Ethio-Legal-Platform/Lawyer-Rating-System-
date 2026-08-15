@@ -263,20 +263,71 @@ function renderMainView() {
     let list = cachedCases;
     if (currentView === 'my_docket') list = cachedCases.filter(c => c.assignedJudgeId === currentUser.id);
     if (currentView === 'my_cases') list = cachedCases.filter(c => c.plaintiffLawyerLicense === currentUser.licenseNumber || c.defendantLawyerLicense === currentUser.licenseNumber);
-    if (currentView === 'my_filed_cases') list = cachedCases.filter(c => c.filer.phone === currentUser.phone || c.caseId === currentUser.caseId);
+    if (currentView === 'my_filed_cases') {
+      list = cachedCases.filter(c => {
+        if (!c.filer || !c.filer.phone) return false;
+        const p1 = String(c.filer.phone).slice(-9);
+        const p2 = String(currentUser.phone || currentUser.username || '').slice(-9);
+        return p1 === p2 || c.caseId === currentUser.caseId;
+      });
+    }
 
     main.innerHTML = `
       ${role === 'filer' ? `
         <div class="alert alert-info" style="margin-bottom:1.5rem">
           <span>🔑</span>
           <div>
-            <strong>Temporary Litigant Account Active:</strong> You are logged in with your phone number (<strong>${currentUser.phone}</strong>). This temporary account remains active until your case is closed. You can track status, view session records, and request a lawyer below.
+            <strong>Temporary Litigant Account Active:</strong> Logged in as <strong>${currentUser.fullName}</strong> (${currentUser.phone}). This temporary account remains active until your case is closed.
+          </div>
+        </div>
+
+        <!-- Dedicated Appoint Lawyer Panel for Litigants -->
+        <div class="panel" style="border:2px solid var(--gold-500);margin-bottom:1.5rem">
+          <div class="panel-header" style="background:rgba(200,147,42,.08)">
+            <h2 class="panel-title" style="color:var(--navy-950)">👨‍⚖️ Appoint / Request a Lawyer for Your Case</h2>
+            <span class="badge badge-gold">Litigant Self-Service</span>
+          </div>
+          <div class="panel-body-padded">
+            <p style="font-size:.875rem;color:var(--navy-800);margin-bottom:1rem">
+              Did you file on your own and now want legal representation? Enter your lawyer's Ministry of Justice License Number (e.g. <code>LAW-1001</code>, <code>LAW-1002</code>). An official request &amp; SMS notification will be sent to the lawyer.
+            </p>
+            ${list.length > 0 ? `
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label">Select Your Case</label>
+                  <select class="form-select" id="dash-appoint-case-id">
+                    ${list.map(c => `<option value="${c.caseId}">${c.caseTitle} (${c.caseId})</option>`).join('')}
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label">MoJ License Number</label>
+                  <input class="form-input" id="dash-appoint-license" placeholder="e.g. LAW-1001"/>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top:1rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label">Side of Representation</label>
+                  <select class="form-select" id="dash-appoint-side">
+                    <option value="plaintiff">Plaintiff / Filer Side</option>
+                    <option value="defendant">Defendant Side</option>
+                  </select>
+                </div>
+                <div style="display:flex;align-items:flex-end">
+                  <button class="btn btn-gold btn-full" onclick="submitDashAppointLawyer()">
+                    ✉️ Send Representation Request &amp; SMS Notice
+                  </button>
+                </div>
+              </div>
+            ` : `
+              <p style="font-size:.875rem;color:var(--navy-700);opacity:.7">No active cases found linked to phone number ${currentUser.phone}.</p>
+            `}
           </div>
         </div>
       ` : ''}
+
       <div class="panel">
         <div class="panel-header">
-          <h2 class="panel-title">${role === 'filer' ? '⚖️ My Filed Cases & Status' : '📋 Case Registry Overview'}</h2>
+          <h2 class="panel-title">${role === 'filer' ? '⚖️ My Filed Cases & Case Status' : '📋 Case Registry Overview'}</h2>
           <span class="badge badge-navy">${list.length} case(s)</span>
         </div>
         <div class="panel-body-padded">
@@ -681,6 +732,34 @@ async function recordClerkEvent(id) {
   });
 
   openCaseModal(id);
+}
+
+async function submitDashAppointLawyer() {
+  const caseId        = document.getElementById('dash-appoint-case-id').value;
+  const licenseNumber = document.getElementById('dash-appoint-license').value.trim();
+  const side          = document.getElementById('dash-appoint-side').value;
+
+  if (!caseId || !licenseNumber) {
+    alert('Please enter a valid MoJ License Number (e.g. LAW-1001)');
+    return;
+  }
+  const endpoint = side === 'plaintiff' ? 'add-plaintiff-lawyer' : 'add-defendant-lawyer';
+  try {
+    const res  = await fetch(`${API}/cases/${caseId}/${endpoint}`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ licenseNumber })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert(`Representation request sent to ${data.lawyerName} (${licenseNumber}). An SMS notification was sent to the lawyer.`);
+      loadInitialData();
+    } else {
+      alert(data.error || 'Failed to send representation request');
+    }
+  } catch (err) {
+    alert('Error connecting to server.');
+  }
 }
 
 async function addLawyerToCase(id) {
