@@ -1,1 +1,73 @@
-[]
+[
+  {
+    "caseId": "CASE-1786816470851",
+    "status": "in_progress",
+    "caseTitle": "fedral",
+    "caseType": "Criminal",
+    "jurisdiction": "Addis Ababa",
+    "description": "**Case Complaint**\r\n\r\nThe plaintiff respectfully submits this complaint against the defendant concerning a contractual dispute arising from an unpaid financial obligation. On June 10, 2026, the defendant agreed to provide specified services in exchange for a payment of 50,000 Ethiopian Birr. The plaintiff fulfilled all agreed responsibilities and provided the required payment schedule. However, despite repeated requests, the defendant failed to complete the agreed services and refused to return the amount already paid. The plaintiff has attached the relevant agreement, payment receipts, and communication records as supporting documents. The plaintiff therefore respectfully requests that the court review the matter and grant appropriate legal relief.",
+    "incidentDate": null,
+    "incidentLocation": "Kilinto",
+    "filer": {
+      "name": "Kalalew Terefe",
+      "phone": "0955282973",
+      "email": "qalalewtere@gmail.com",
+      "address": "Addis Ababa",
+      "role": "individual"
+    },
+    "client": null,
+    "isProsecutor": false,
+    "evidenceFiles": [
+      {
+        "originalName": "supporting_documents_and_evidence.pdf",
+        "storedName": "576ce3bf-16a9-4030-bf7e-1dec767a815d-supporting_documents_and_evidence.pdf",
+        "size": 23325,
+        "uploadedAt": "2026-08-15T17:54:30.851Z",
+        "encrypted": true
+      }
+    ],
+    "assignedOfficerId": null,
+    "assignedBranchId": "BRANCH-001",
+    "assignedJudgeId": "JUDGE-001",
+    "plaintiffLawyerLicense": null,
+    "plaintiffLawyerStatus": null,
+    "defendantLawyerLicense": null,
+    "defendantLawyerStatus": null,
+    "officialLetterSent": true,
+    "adminNote": "Accepted by Admin",
+    "officerNote": "",
+    "sessions": [],
+    "ratings": {},
+    "filedAt": "2026-08-15T17:54:30.851Z",
+    "updatedAt": "2026-08-15T18:04:25.624Z",
+    "assignmentHistory": [
+      {
+        "timestamp": "2026-08-15T18:02:04.600Z",
+        "action": "branch_assigned",
+        "branchId": "BRANCH-001",
+        "officerNote": ""
+      },
+      {
+        "timestamp": "2026-08-15T18:02:04.621Z",
+        "action": "judge_assigned",
+        "judgeId": "JUDGE-001",
+        "judgeFullName": "Hon. Judge Al Maktoum",
+        "note": ""
+      },
+      {
+        "timestamp": "2026-08-15T18:02:36.541Z",
+        "action": "branch_assigned",
+        "branchId": "BRANCH-001",
+        "officerNote": ""
+      },
+      {
+        "timestamp": "2026-08-15T18:02:36.554Z",
+        "action": "judge_assigned",
+        "judgeId": "JUDGE-001",
+        "judgeFullName": "Hon. Judge Al Maktoum",
+        "note": ""
+      }
+    ],
+    "officialLetterDate": "2026-08-15T18:04:25.624Z"
+  }
+]

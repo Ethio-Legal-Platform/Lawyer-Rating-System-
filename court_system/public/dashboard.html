@@ -557,9 +557,33 @@ async function openCaseModal(caseId) {
 
       <!-- Representation Status -->
       <h4 style="font-weight:600;margin-top:1.25rem;margin-bottom:.5rem">👨‍⚖️ Lawyer Representation</h4>
-      <div style="font-size:.875rem">
+      <div style="font-size:.875rem;margin-bottom:1rem">
         <div>Plaintiff Lawyer: <strong>${c.plaintiffLawyerLicense || 'Not Assigned'}</strong> (${c.plaintiffLawyerStatus || 'None'})</div>
         <div>Defense Lawyer: <strong>${c.defendantLawyerLicense || 'Not Assigned'}</strong> (${c.defendantLawyerStatus || 'None'})</div>
+      </div>
+
+      <!-- Add Lawyer Action Box -->
+      <div style="background:var(--cream-100);padding:1rem;border-radius:var(--radius-md);margin-bottom:1.25rem">
+        <h4 style="font-weight:600;font-size:.9375rem;margin-bottom:.5rem;color:var(--navy-900)">➕ Appoint / Request Lawyer for this Case</h4>
+        <p style="font-size:.8125rem;color:var(--navy-700);opacity:.8;margin-bottom:.75rem">
+          If you filed on your own and now want legal representation, enter your lawyer's MoJ License Number (e.g. <code>LAW-1001</code>). An official request &amp; SMS will be sent to the lawyer to accept.
+        </p>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" style="font-size:.8125rem">MoJ License Number</label>
+            <input class="form-input" id="add-lawyer-license-${c.caseId}" placeholder="e.g. LAW-1001" style="padding:.45rem .75rem;font-size:.875rem"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" style="font-size:.8125rem">Side</label>
+            <select class="form-select" id="add-lawyer-side-${c.caseId}" style="padding:.45rem .75rem;font-size:.875rem">
+              <option value="plaintiff">Plaintiff / Filer Side</option>
+              <option value="defendant">Defendant Side</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-gold btn-sm" style="margin-top:.75rem" onclick="addLawyerToCase('${c.caseId}')">
+          ✉️ Send Representation Request to Lawyer
+        </button>
       </div>
 
       ${roleActions}
@@ -628,6 +652,33 @@ async function recordClerkEvent(id) {
   });
 
   openCaseModal(id);
+}
+
+async function addLawyerToCase(id) {
+  const licenseNumber = document.getElementById(`add-lawyer-license-${id}`).value.trim();
+  const side          = document.getElementById(`add-lawyer-side-${id}`).value;
+  if (!licenseNumber) {
+    alert('Please enter a valid MoJ License Number (e.g. LAW-1001)');
+    return;
+  }
+  const endpoint = side === 'plaintiff' ? 'add-plaintiff-lawyer' : 'add-defendant-lawyer';
+  try {
+    const res  = await fetch(`${API}/cases/${id}/${endpoint}`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ licenseNumber })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert(`Representation request sent to ${data.lawyerName} (${licenseNumber}). An SMS notification was sent to the lawyer.`);
+      openCaseModal(id);
+      loadInitialData();
+    } else {
+      alert(data.error || 'Failed to send representation request');
+    }
+  } catch (err) {
+    alert('Error connecting to server.');
+  }
 }
 
 async function judgeCloseCase(id) {
