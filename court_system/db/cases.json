@@ -69,5 +69,48 @@
       }
     ],
     "officialLetterDate": "2026-08-15T18:04:25.624Z"
+  },
+  {
+    "caseId": "CASE-1786820416223",
+    "tempPin": "999982",
+    "status": "pending_review",
+    "caseTitle": "fedral",
+    "caseType": "Criminal",
+    "jurisdiction": "Addis Ababa",
+    "description": "**Case Complaint**\r\n\r\nThe plaintiff respectfully submits this complaint against the defendant concerning a contractual dispute arising from an unpaid financial obligation. On June 10, 2026, the defendant agreed to provide specified services in exchange for a payment of 50,000 Ethiopian Birr. The plaintiff fulfilled all agreed responsibilities and provided the required payment schedule. However, despite repeated requests, the defendant failed to complete the agreed services and refused to return the amount already paid. The plaintiff has attached the relevant agreement, payment receipts, and communication records as supporting documents. The plaintiff therefore respectfully requests that the court review the matter and grant appropriate legal relief.",
+    "incidentDate": "2026-08-15",
+    "incidentLocation": "Kilinto",
+    "filer": {
+      "name": "Kalalew Terefe",
+      "phone": "0985340573",
+      "email": "qalalewtere@gmail.com",
+      "address": "Addis Ababa",
+      "role": "individual"
+    },
+    "client": null,
+    "isProsecutor": false,
+    "evidenceFiles": [
+      {
+        "originalName": "supporting_documents_and_evidence.pdf",
+        "storedName": "19bfe201-4865-405f-869a-3d978ef792e2-supporting_documents_and_evidence.pdf",
+        "size": 23325,
+        "uploadedAt": "2026-08-15T19:00:16.224Z",
+        "encrypted": true
+      }
+    ],
+    "assignedOfficerId": null,
+    "assignedBranchId": null,
+    "assignedJudgeId": null,
+    "plaintiffLawyerLicense": null,
+    "plaintiffLawyerStatus": null,
+    "defendantLawyerLicense": null,
+    "defendantLawyerStatus": null,
+    "officialLetterSent": false,
+    "adminNote": "",
+    "officerNote": "",
+    "sessions": [],
+    "ratings": {},
+    "filedAt": "2026-08-15T19:00:16.224Z",
+    "updatedAt": "2026-08-15T19:00:16.224Z"
   }
 ]
