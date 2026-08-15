@@ -103,7 +103,30 @@ app.post('/api/auth/login', (req, res) => {
       return res.json({ success: true, user: { ...safeUser, role } });
     }
   }
-  return res.status(401).json({ error: 'Invalid username or password' });
+
+  // Check Temporary Filer Account (Phone number + Temporary Case PIN)
+  const cases = readDB('cases.json');
+  const filerCase = cases.find(c =>
+    (c.filer.phone === username || `251${username.slice(1)}` === c.filer.phone) &&
+    c.tempPin === password &&
+    c.status !== 'closed' // Active until case is closed
+  );
+
+  if (filerCase) {
+    return res.json({
+      success: true,
+      user: {
+        id: `FILER-${filerCase.caseId}`,
+        username: filerCase.filer.phone,
+        fullName: filerCase.filer.name,
+        role: 'filer',
+        phone: filerCase.filer.phone,
+        caseId: filerCase.caseId
+      }
+    });
+  }
+
+  return res.status(401).json({ error: 'Invalid username/phone or password/PIN' });
 });
 
 // POST /api/auth/register-lawyer  — verifies MoJ license first
@@ -218,6 +241,8 @@ app.post('/api/cases/file', upload.array('evidenceFiles', 10), (req, res) => {
   }
 
   const caseId = `CASE-${Date.now()}`;
+  const tempPin = genOTP(); // 6-digit temporary access PIN for filer
+
   const evidenceFiles = (req.files || []).map(f => ({
     originalName: f.originalname,
     storedName:   f.filename,
@@ -228,6 +253,7 @@ app.post('/api/cases/file', upload.array('evidenceFiles', 10), (req, res) => {
 
   const newCase = {
     caseId,
+    tempPin, // Temporary access PIN for filer until case is closed
     status: 'pending_review',  // → accepted | rejected | assigned | in_progress | closed
     caseTitle, caseType, jurisdiction, description,
     incidentDate: incidentDate || null,
@@ -257,7 +283,16 @@ app.post('/api/cases/file', upload.array('evidenceFiles', 10), (req, res) => {
   cases.push(newCase);
   writeDB('cases.json', cases);
 
-  res.json({ success: true, message: 'Case filed successfully. You will be notified when reviewed.', caseId });
+  // Send SMS notice with Temporary Access PIN
+  sendSMS(filerPhone, `Federal Court: Your case ${caseId} has been submitted. Your temporary access PIN is: ${tempPin}. Login with your phone & PIN at http://localhost:5001 to track status or request a lawyer.`);
+
+  res.json({
+    success: true,
+    message: 'Case filed successfully. Temporary access account created.',
+    caseId,
+    tempPin,
+    filerPhone
+  });
 });
 
 // GET /api/cases  — role-filtered

@@ -119,6 +119,18 @@ function checkAuth() {
   document.getElementById('user-display-name').textContent = currentUser.fullName;
   document.getElementById('user-display-role').textContent = currentUser.role.toUpperCase();
 
+  if (currentUser.role === 'filer') {
+    currentView = 'my_filed_cases';
+  } else if (currentUser.role === 'judge') {
+    currentView = 'my_docket';
+  } else if (currentUser.role === 'officer') {
+    currentView = 'needs_assignment';
+  } else if (currentUser.role === 'lawyer') {
+    currentView = 'notifs';
+  } else if (currentUser.role === 'clerk') {
+    currentView = 'sessions';
+  }
+
   renderSidebar();
   loadInitialData();
 }
@@ -165,6 +177,12 @@ function renderSidebar() {
       <div class="dash-section-label">Court Clerk / Registrar</div>
       <button class="nav-item active" onclick="switchView('sessions')">📝 Record Sessions</button>
       <button class="nav-item" onclick="switchView('cases')">📋 Court Registry</button>
+    `;
+  } else if (role === 'filer') {
+    html = `
+      <div class="dash-section-label">Litigant Portal (Temporary Account)</div>
+      <button class="nav-item active" onclick="switchView('my_filed_cases')">⚖️ My Case Status</button>
+      <button class="nav-item" onclick="window.location.href='/file-case'">➕ File Another Case</button>
     `;
   }
 
@@ -241,16 +259,25 @@ function renderMainView() {
         </div>
       </div>
     `;
-  } else if (currentView === 'cases' || currentView === 'my_docket' || currentView === 'my_cases') {
+  } else if (currentView === 'cases' || currentView === 'my_docket' || currentView === 'my_cases' || currentView === 'my_filed_cases') {
     let list = cachedCases;
     if (currentView === 'my_docket') list = cachedCases.filter(c => c.assignedJudgeId === currentUser.id);
     if (currentView === 'my_cases') list = cachedCases.filter(c => c.plaintiffLawyerLicense === currentUser.licenseNumber || c.defendantLawyerLicense === currentUser.licenseNumber);
+    if (currentView === 'my_filed_cases') list = cachedCases.filter(c => c.filer.phone === currentUser.phone || c.caseId === currentUser.caseId);
 
     main.innerHTML = `
+      ${role === 'filer' ? `
+        <div class="alert alert-info" style="margin-bottom:1.5rem">
+          <span>🔑</span>
+          <div>
+            <strong>Temporary Litigant Account Active:</strong> You are logged in with your phone number (<strong>${currentUser.phone}</strong>). This temporary account remains active until your case is closed. You can track status, view session records, and request a lawyer below.
+          </div>
+        </div>
+      ` : ''}
       <div class="panel">
         <div class="panel-header">
-          <h2 class="panel-title">📋 Case Registry Overview</h2>
-          <span class="badge badge-navy">${list.length} cases</span>
+          <h2 class="panel-title">${role === 'filer' ? '⚖️ My Filed Cases & Status' : '📋 Case Registry Overview'}</h2>
+          <span class="badge badge-navy">${list.length} case(s)</span>
         </div>
         <div class="panel-body-padded">
           ${renderCasesTable(list)}
