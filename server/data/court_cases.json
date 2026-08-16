@@ -1,5 +1,24 @@
 [
   {
+    "caseTitle": "Test Rating Case",
+    "caseType": "Criminal",
+    "judgeId": "JUDGE-GOV-001",
+    "judgeName": "Hon. Judge Al Maktoum",
+    "plaintiffClientId": "client-1",
+    "plaintiffClientName": "Alex Carter",
+    "plaintiffLawyerLicense": "LAW-1001",
+    "plaintiffLawyerName": "John Smith",
+    "judgeRatingPlaintiff": 5.0,
+    "clientRatingPlaintiff": 4.5,
+    "defendantClientId": "client-1786797465678",
+    "defendantClientName": "Kalalew",
+    "defendantLawyerLicense": "LAW-1002",
+    "defendantLawyerName": "Sarah Jones",
+    "judgeRatingDefendant": 2.0,
+    "clientRatingDefendant": 1.5,
+    "verdict": "Defendant"
+  },
+  {
     "caseId": "CASE-TEST-002",
     "caseTitle": "Corporate Compliance Hearing",
     "caseType": "Corporate",
@@ -18,7 +37,7 @@
     "defendantLawyerName": "Fatima Al Mansoori",
     "judgeRatingDefendant": 5.0,
     "clientRatingDefendant": 5.0,
-    "verdict": "Defendant"
+    "verdict": "Plaintiff"
   },
   {
     "caseId": "CASE-TEST-001",
@@ -39,7 +58,7 @@
     "defendantLawyerName": "Sarah Jones",
     "judgeRatingDefendant": 3.0,
     "clientRatingDefendant": 3.0,
-    "verdict": "Plaintiff"
+    "verdict": "Defendant"
   },
   {
     "caseId": "CASE-2026-001",

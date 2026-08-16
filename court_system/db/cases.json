@@ -142,5 +142,63 @@
       }
     ],
     "officialLetterDate": "2026-08-15T19:33:57.348Z"
+  },
+  {
+    "caseId": "CASE-1786897642507",
+    "tempPin": "937112",
+    "status": "assigned",
+    "caseTitle": "fedral",
+    "caseType": "Family",
+    "jurisdiction": "Addis Ababa",
+    "description": "Jesus, full of the Holy Spirit, returned from the Jordan and was led by the Spirit in the wilderness, where for forty days he was tempted by the devil.\r\n\r\n—Luke 4:1–2a\r\n\r\nSo we are on the way in this business of Lent. There is the assuring voice of God, which says, “I will protect and I will answer and I will deliver.” That voice, however, is countered by a second voice that mocks and seduces men and women of faith, making easy promises, issuing facile invitations, urging acts that are against our faith and our identity. Lent is a time for learning how to listen to the voices of promise and seduction and decide how to adjudicate them, to hear better the true voice of assurance and to notice quickly the seductive voice of unfaith, and to distinguish the same psalm when it speaks faith and when it serves unfaith.\r\n\r\nIt will be a gain for us to see our Lent as placing us between these conflicting voices. Christians in our society are cast exactly between these voices epistemologically, deciding if we have faith that seeks understanding or if our learning is simply power packaged as knowledge. Christians in our society are cast between these voices in terms of political and economic power, to see whether we can honor the pain-filled voices of marginality or if we will notice only the tired claims of the old monopolies. Christians in our society are cast between these voices in terms of self-identity, to see if we can receive the innocence of real faith or if we will practice the old cynicism of despair, which works most of the time. We are at risk because the very assurances of God can be turned against our true selves as a warrant for cheap, self-serving actions.\r\n\r\nWe begin our Lenten journey addressed by the remarkable assurance that the God who summons us is the God who goes along with us. We begin our journey knowing we will want to ease off and not take the risk. We will have chances, epistemologically, economically, in terms of self-perception, to make decisions, hearing more than one inviting voice. The world thinks this journey is unimportant and therefore easy. Well, yes, the world may think it easy, because it is only faith that requires entering the danger zone where our lives are at risk.\r\n\r\nTeach us in this season how to listen to the voices of promise and seduction and how to tell them apart. May we hear better your voice of assurance and recognize its counterfeit, that we may walk faithfully before you. Amen.",
+    "incidentDate": "2026-08-16",
+    "incidentLocation": "Kilinto",
+    "filer": {
+      "name": "Kalalew Terefe",
+      "phone": "0944430222",
+      "email": "qalalewtere@gmail.com",
+      "address": "Addis Ababa",
+      "role": "individual"
+    },
+    "client": null,
+    "isProsecutor": false,
+    "evidenceFiles": [
+      {
+        "originalName": "supporting_documents_and_evidence.pdf",
+        "storedName": "9124bb33-8c84-4447-bf65-e8cda6500ebb-supporting_documents_and_evidence.pdf",
+        "size": 23325,
+        "uploadedAt": "2026-08-16T16:27:22.507Z",
+        "encrypted": true
+      }
+    ],
+    "assignedOfficerId": null,
+    "assignedBranchId": "BRANCH-001",
+    "assignedJudgeId": "JUDGE-001",
+    "plaintiffLawyerLicense": "LAW-1001",
+    "plaintiffLawyerStatus": "accepted",
+    "defendantLawyerLicense": null,
+    "defendantLawyerStatus": null,
+    "officialLetterSent": false,
+    "adminNote": "Accepted by Admin",
+    "officerNote": "",
+    "sessions": [],
+    "ratings": {},
+    "filedAt": "2026-08-16T16:27:22.507Z",
+    "updatedAt": "2026-08-16T16:33:50.118Z",
+    "assignmentHistory": [
+      {
+        "timestamp": "2026-08-16T16:33:50.099Z",
+        "action": "branch_assigned",
+        "branchId": "BRANCH-001",
+        "officerNote": ""
+      },
+      {
+        "timestamp": "2026-08-16T16:33:50.118Z",
+        "action": "judge_assigned",
+        "judgeId": "JUDGE-001",
+        "judgeFullName": "Hon. Judge Al Maktoum",
+        "note": ""
+      }
+    ]
   }
 ]
