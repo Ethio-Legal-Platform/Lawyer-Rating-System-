@@ -12,7 +12,12 @@ const pendingRegistrations = {};
 // ── POST /api/auth/register ────────────────────────────────────────────────
 // Validates MoJ license for lawyers, generates OTP, sends verification email.
 router.post('/register', async (req, res) => {
-  const { name, username, password, email, role, licenseNumber, specialization } = req.body;
+  const {
+    name, username, password, email, role,
+    licenseNumber, specialization,
+    // Optional profile fields
+    city, phone, bio, yearsExperience, languages, education
+  } = req.body;
 
   if (!name || !username || !password || !email || !role) {
     return res.status(400).json({ error: 'Name, username, password, email, and role are required' });
@@ -54,8 +59,14 @@ router.post('/register', async (req, res) => {
       id: `${role}-${Date.now()}`,
       name, username, password, email, role,
       profilePic: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
-      licenseNumber:  role === 'lawyer' ? licenseNumber  : null,
-      specialization: role === 'lawyer' ? specialization : null,
+      licenseNumber:   role === 'lawyer' ? licenseNumber  : null,
+      specialization:  role === 'lawyer' ? specialization : null,
+      city:            city            || null,
+      phone:           phone           || null,
+      bio:             bio             || null,
+      yearsExperience: yearsExperience ? Number(yearsExperience) : null,
+      languages:       Array.isArray(languages) ? languages : (languages ? [languages] : []),
+      education:       education       || null,
       elo: role === 'lawyer' ? 1000 : null,
       verified: false
     }

@@ -6,21 +6,25 @@ import { calculateLawyerRatings } from '../services/ratingService.js';
 const router = Router();
 
 // ── GET /api/lawyers/search ────────────────────────────────────────────────
-// Searches verified lawyers by specialization (optional) and returns each one
-// enriched with their real-time ELO score and performance statistics.
-// Results are sorted by ELO descending.
+// Optional query params:
+//   ?specialization=Criminal
+//   ?city=Addis%20Ababa
+// Both can be combined. Results sorted by ELO descending.
 router.get('/search', (req, res) => {
-  const query      = (req.query.specialization || '').toLowerCase().trim();
+  const specQuery = (req.query.specialization || '').toLowerCase().trim();
+  const cityQuery = (req.query.city         || '').toLowerCase().trim();
+
   const users      = readJSON(USERS_PATH);
   const courtCases = readJSON(COURT_CASES_PATH);
 
   const { eloMap, statsMap } = calculateLawyerRatings(users, courtCases);
 
-  const matchingLawyers = users.filter(u =>
-    u.role === 'lawyer' &&
-    u.verified === true &&
-    (query === '' || (u.specialization && u.specialization.toLowerCase().includes(query)))
-  );
+  const matchingLawyers = users.filter(u => {
+    if (u.role !== 'lawyer' || !u.verified) return false;
+    if (specQuery && !(u.specialization || '').toLowerCase().includes(specQuery)) return false;
+    if (cityQuery && !(u.city          || '').toLowerCase().includes(cityQuery)) return false;
+    return true;
+  });
 
   const results = matchingLawyers.map(l => {
     const elo   = eloMap[l.licenseNumber]   || 1000;
@@ -35,7 +39,13 @@ router.get('/search', (req, res) => {
       name:           l.name,
       specialization: l.specialization,
       licenseNumber:  l.licenseNumber,
-      profilePic:     l.profilePic || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
+      city:           l.city           || 'Addis Ababa',
+      phone:          l.phone          || '',
+      bio:            l.bio            || '',
+      yearsExperience: l.yearsExperience || 0,
+      education:      l.education      || '',
+      languages:      l.languages      || [],
+      profilePic:     l.profilePic     || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
       elo,
       rating,
       casesCount: stats.totalCases,
@@ -45,7 +55,6 @@ router.get('/search', (req, res) => {
   });
 
   results.sort((a, b) => b.elo - a.elo);
-
   res.json(results);
 });
 

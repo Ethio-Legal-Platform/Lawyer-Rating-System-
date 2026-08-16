@@ -1330,3 +1330,174 @@ button, input, select, textarea {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ── Lawyer Card: hint + hover ────────────────────────────────────────── */
+.lawyer-card {
+  position: relative;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.lawyer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+}
+.lawyer-card-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  color: rgba(245,239,226,0.35);
+  letter-spacing: 0.05em;
+  transition: color 0.15s;
+}
+.lawyer-card:hover .lawyer-card-hint {
+  color: rgba(245,239,226,0.7);
+}
+
+/* ── City chip variant ────────────────────────────────────────────────── */
+.spec-chip.city-chip {
+  background: rgba(110,170,220,0.08);
+  border-color: rgba(110,170,220,0.2);
+  color: rgba(200,228,245,0.7);
+}
+.spec-chip.city-chip.active {
+  background: rgba(110,170,220,0.25);
+  border-color: rgba(110,170,220,0.55);
+  color: #c8e4f5;
+}
+
+/* ── Lawyer Detail Modal ─────────────────────────────────────────────── */
+.detail-modal {
+  padding: 0;
+  overflow: hidden;
+  background: #f5efe2 !important;   /* warm cream */
+  border: 1px solid #d9cdb8 !important;
+}
+.detail-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.75rem 1.75rem 1rem;
+  background: #ece5d3;
+  border-bottom: 1px solid #d4c9b0;
+  position: relative;
+}
+.detail-modal-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #c8a96e;
+  flex-shrink: 0;
+}
+.detail-modal-info {
+  flex: 1;
+  min-width: 0;
+}
+.detail-modal-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1c3024;        /* deep forest ink */
+  margin-bottom: 0.15rem;
+}
+.detail-tag {
+  display: inline-block;
+  background: rgba(44,122,79,0.1);
+  border: 1px solid rgba(44,122,79,0.25);
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  color: #1f5b3c;        /* forest green */
+  font-weight: 600;
+}
+.detail-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7a6a50;        /* warm tan */
+  margin-bottom: 0.5rem;
+}
+/* close button override for light modal */
+.detail-modal .modal-close {
+  color: #4a5e50;
+  background: rgba(44,122,79,0.08);
+  border: 1px solid rgba(44,122,79,0.2);
+}
+.detail-modal .modal-close:hover {
+  background: rgba(44,122,79,0.16);
+  color: #1c3024;
+}
+/* override modal-body text inside detail modal */
+.detail-modal .modal-body p,
+.detail-modal .modal-body span,
+.detail-modal .modal-body a,
+.detail-modal .modal-body div {
+  color: #2a3d30;        /* dark green-ink default */
+}
+.detail-modal .modal-body a {
+  color: #1f5b3c;
+  text-decoration: underline;
+}
+.detail-modal .modal-body [style*='rgba(245'] {
+  color: #4a5e50 !important;
+}
+.detail-modal .modal-body [style*='rgba(126'] {
+  color: #2c7a4f !important;   /* green wins */
+}
+.detail-modal .modal-body [style*='rgba(224'] {
+  color: #9c3f2e !important;   /* clay losses */
+}
+.detail-modal .modal-body [style*='rgba(240'] {
+  color: #c8932a !important;   /* gold win-rate */
+}
+.detail-modal .modal-body > div {
+  background: rgba(44,122,79,0.06) !important;
+  border-color: #d4c9b0 !important;
+}
+.detail-modal .modal-body > div:last-child {
+  background: transparent !important;
+  border-color: #d4c9b0 !important;
+  color: #9a8c78 !important;
+}
+
+/* ── Law Topic Cards ─────────────────────────────────────────────────── */
+.law-topic-card {
+  background: rgba(245,239,226,0.04);
+  border: 1px solid rgba(245,239,226,0.1);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.law-topic-card:hover {
+  background: rgba(245,239,226,0.08);
+  border-color: rgba(245,239,226,0.2);
+}
+.law-topic-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.law-topic-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+.law-topic-title {
+  flex: 1;
+  font-weight: 600;
+  color: rgba(245,239,226,0.85);
+  font-size: 0.95rem;
+}
+.law-topic-chevron {
+  font-size: 0.65rem;
+  color: rgba(245,239,226,0.35);
+}
+.law-topic-desc {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(245,239,226,0.6);
+  line-height: 1.7;
+  padding-left: 2.1rem;
+}
+
