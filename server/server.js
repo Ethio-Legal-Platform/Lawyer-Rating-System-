@@ -14,6 +14,7 @@ import authRoutes   from './routes/authRoutes.js';
 import mojRoutes    from './routes/mojRoutes.js';
 import courtRoutes  from './routes/courtRoutes.js';
 import lawyerRoutes from './routes/lawyerRoutes.js';
+import qaRoutes     from './routes/qaRoutes.js';
 
 // ── App setup ──────────────────────────────────────────────────────────────
 const app = express();
@@ -29,7 +30,8 @@ app.get('/', (req, res) => {
       auth:    '/api/auth    → POST /register, /register-verify, /login',
       moj:     '/api/moj     → POST /verify-license  |  GET /licenses',
       court:   '/api/court   → GET /cases, GET /lawyer-rating/:id  |  POST /cases',
-      lawyers: '/api/lawyers → GET /search?specialization=...'
+      lawyers: '/api/lawyers → GET /search?specialization=...',
+      qa:      '/api/qa      → GET /questions, POST /questions, POST /questions/:id/answers'
     }
   });
 });
@@ -39,6 +41,7 @@ app.use('/api/auth',    authRoutes);
 app.use('/api/moj',     mojRoutes);
 app.use('/api/court',   courtRoutes);
 app.use('/api/lawyers', lawyerRoutes);
+app.use('/api/qa',      qaRoutes);
 
 // ── Start ──────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
@@ -47,5 +50,6 @@ app.listen(PORT, () => {
   console.log(`   Auth API:   /api/auth`);
   console.log(`   MoJ API:    /api/moj`);
   console.log(`   Court API:  /api/court`);
-  console.log(`   Lawyer API: /api/lawyers\n`);
+  console.log(`   Lawyer API: /api/lawyers`);
+  console.log(`   Q&A API:    /api/qa\n`);
 });

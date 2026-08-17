@@ -16,7 +16,7 @@
     "education": "LLB – Addis Ababa University (2008), LLM Criminal Law – Haramaya University (2012)",
     "languages": ["Amharic", "English", "Oromiffa"],
     "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1280
   },
   {
     "id": "lawyer-1002",
@@ -35,7 +35,7 @@
     "education": "LLB – Addis Ababa University (2010), LLM Commercial Law – University of London (2014)",
     "languages": ["Amharic", "English", "French"],
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1310
   },
   {
     "id": "lawyer-1003",
@@ -54,7 +54,7 @@
     "education": "LLB – Hawassa University (2012), LLM Civil Procedure – Addis Ababa University (2016)",
     "languages": ["Amharic", "English", "Sidamigna"],
     "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1195
   },
   {
     "id": "lawyer-1004",
@@ -66,14 +66,14 @@
     "verified": true,
     "licenseNumber": "LAW-1004",
     "specialization": "Family",
-    "city": "Bahir Dar",
+    "city": "Dire Dawa",
     "phone": "+251911234504",
-    "bio": "Family law specialist with extensive experience in divorce proceedings, child custody, inheritance disputes, and domestic relations cases before Amhara Regional Courts.",
+    "bio": "Compassionate family law specialist with vast experience in contested divorce, marital asset division, child custody battles, and probate succession.",
     "yearsExperience": 9,
-    "education": "LLB – Bahir Dar University (2013), Certified Family Law Mediator – ACAS Ethiopia (2018)",
-    "languages": ["Amharic", "English"],
-    "profilePic": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "education": "LLB – Dire Dawa University (2014), LLM Family Law – Bahir Dar University (2018)",
+    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "elo": 1210
   },
   {
     "id": "lawyer-1005",
@@ -85,14 +85,14 @@
     "verified": true,
     "licenseNumber": "LAW-1005",
     "specialization": "Civil",
-    "city": "Dire Dawa",
+    "city": "Bahir Dar",
     "phone": "+251911234505",
-    "bio": "Seasoned civil attorney with 14 years practicing in Eastern Ethiopia. Handles commercial lease disputes, contract enforcement, construction claims, and municipal property matters.",
+    "bio": "Senior advocate at Amhara Regional Supreme Court. Specializes in complex land lease disputes, contract enforcement, and construction litigation.",
     "yearsExperience": 14,
-    "education": "LLB – Haramaya University (2009), LLM Property Law – Addis Ababa University (2013)",
-    "languages": ["Amharic", "English", "Somali"],
-    "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "education": "LLB – Bahir Dar University (2008), LLM Business Law – Addis Ababa University (2013)",
+    "languages": ["Amharic", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    "elo": 1150
   },
   {
     "id": "lawyer-1006",
@@ -106,12 +106,12 @@
     "specialization": "Criminal",
     "city": "Mekelle",
     "phone": "+251911234506",
-    "bio": "Prominent criminal defense lawyer in Tigray with deep expertise in drug trafficking cases, armed conflict-related offenses, and international humanitarian law proceedings.",
+    "bio": "Trial lawyer based in Mekelle handling major criminal proceedings, constitutional challenges, and appellate reviews before the Federal Supreme Court Cassation Bench.",
     "yearsExperience": 11,
-    "education": "LLB – Mekelle University (2011), LLM International Criminal Law – University of Pretoria (2015)",
-    "languages": ["Amharic", "Tigrinya", "English"],
-    "profilePic": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "education": "LLB – Mekelle University (2011), LLM International Human Rights – University of Pretoria (2015)",
+    "languages": ["Tigrigna", "Amharic", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
+    "elo": 1240
   },
   {
     "id": "lawyer-1007",
@@ -123,14 +123,14 @@
     "verified": true,
     "licenseNumber": "LAW-1007",
     "specialization": "Corporate",
-    "city": "Gondar",
+    "city": "Adama",
     "phone": "+251911234507",
-    "bio": "Corporate attorney advising businesses on formation, investment, and regulatory matters in the Amhara region. Experienced in trade licensing, banking law, and public procurement.",
+    "bio": "Commercial attorney advising manufacturing hubs, agro-industries, and logistics enterprises in the Adama-Bishoftu industrial corridor on tax, labor, and investment permits.",
     "yearsExperience": 8,
-    "education": "LLB – Gondar University (2014), LLM Business Law – Jimma University (2018)",
-    "languages": ["Amharic", "English"],
-    "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "education": "LLB – Jimma University (2015), LLM Commercial Law – Addis Ababa University (2019)",
+    "languages": ["Amharic", "Oromiffa", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    "elo": 1130
   },
   {
     "id": "lawyer-1008",
@@ -144,12 +144,12 @@
     "specialization": "Family",
     "city": "Jimma",
     "phone": "+251911234508",
-    "bio": "Family and personal status law advocate based in Jimma. Handles spousal support, child protection cases, traditional marriage disputes, and probate in Oromia courts.",
+    "bio": "Advocate specializing in women and children's welfare, domestic disputes, inheritance settlements, and family mediation throughout Jimma and Oromia Region.",
     "yearsExperience": 7,
-    "education": "LLB – Jimma University (2015), Diploma in Alternative Dispute Resolution – AAUL (2019)",
-    "languages": ["Amharic", "Oromiffa", "English"],
-    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "education": "LLB – Jimma University (2016)",
+    "languages": ["Oromiffa", "Amharic", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "elo": 1180
   },
   {
     "id": "lawyer-1009",
@@ -161,14 +161,14 @@
     "verified": true,
     "licenseNumber": "LAW-1009",
     "specialization": "Criminal",
-    "city": "Adama",
+    "city": "Gondar",
     "phone": "+251911234509",
-    "bio": "Veteran criminal prosecutor turned defense counsel with 18 years of experience. Known for landmark acquittals in federal terrorism and financial crime cases.",
-    "yearsExperience": 18,
-    "education": "LLB – Addis Ababa University (2004), Former Federal Prosecutor (2005–2013)",
-    "languages": ["Amharic", "Oromiffa", "English"],
-    "profilePic": "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "bio": "Prominent criminal law defender in Gondar and North Gondar High Court. Renowned for meticulous forensic analysis and constitutional rights defense.",
+    "yearsExperience": 16,
+    "education": "LLB – Addis Ababa University (2007), LLM Criminal Justice – University of Gondar (2011)",
+    "languages": ["Amharic", "English"],
+    "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    "elo": 1260
   },
   {
     "id": "lawyer-1010",
@@ -187,7 +187,7 @@
     "education": "LLB – Addis Ababa University (2009), LLM Securities Law – Georgetown University (2013)",
     "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1340
   },
   {
     "id": "lawyer-1011",
@@ -206,7 +206,7 @@
     "education": "LLB – Haramaya University (2010), LLM – Ethiopian Civil Service University (2014)",
     "languages": ["Amharic", "Harari", "Somali", "English"],
     "profilePic": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1140
   },
   {
     "id": "lawyer-1012",
@@ -225,20 +225,72 @@
     "education": "LLB – Wollo University (2012), LLM Gender and Law – Addis Ababa University (2016)",
     "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=200",
-    "elo": 1000
+    "elo": 1160
+  },
+  {
+    "id": "client-101",
+    "name": "Eleni Teshome",
+    "username": "eleni_t",
+    "password": "password123",
+    "email": "eleni.teshome@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Addis Ababa",
+    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": "client-102",
+    "name": "Yared Bekele",
+    "username": "yared_b",
+    "password": "password123",
+    "email": "yared.bekele@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Addis Ababa",
+    "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": "client-103",
+    "name": "Meseret Alemu",
+    "username": "meseret_a",
+    "password": "password123",
+    "email": "meseret.alemu@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Hawassa",
+    "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": "client-104",
+    "name": "Marcus Vance",
+    "username": "marcus_v",
+    "password": "password123",
+    "email": "marcus.vance@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Addis Ababa",
+    "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": "client-105",
+    "name": "Samuel Kassa",
+    "username": "samuel_k",
+    "password": "password123",
+    "email": "samuel.kassa@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Dire Dawa",
+    "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200"
   },
   {
     "id": "client-1786541946657",
     "name": "Kalalew Tere",
     "username": "kalalew",
-    "password": "1234",
+    "password": "password123",
     "email": "qalalewtere@gmail.com",
     "role": "client",
     "verified": true,
-    "licenseNumber": null,
-    "specialization": null,
-    "city": null,
-    "elo": null,
+    "city": "Addis Ababa",
     "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200"
   }
 ]
