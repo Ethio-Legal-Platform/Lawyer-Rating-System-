@@ -7,21 +7,53 @@ const ETHIOPIAN_CITIES = [
   'Addis Ababa','Dire Dawa','Hawassa','Bahir Dar',
   'Mekelle','Gondar','Jimma','Adama','Dessie','Harar'
 ];
-const SPECS = ['Criminal','Corporate','Family','Civil'];
-const LAW_TOPICS = [
-  { icon:'⚖️', title:'Criminal Law', desc:'Covers offenses against the state and society — from theft and fraud to homicide. Ethiopian criminal procedure is governed by the Criminal Procedure Code (1961) and the Revised Criminal Code (2004).' },
-  { icon:'🏢', title:'Corporate & Commercial Law', desc:'Regulates business entities, contracts, mergers, and trade. The Commercial Code of Ethiopia (2021) modernized company registration, partnerships, and securities law.' },
-  { icon:'👨‍👩‍👧', title:'Family & Personal Status', desc:'Governs marriage, divorce, child custody, and inheritance. The Federal Family Law (Revised) applies in Addis Ababa; regional states may have their own codes.' },
-  { icon:'🏠', title:'Civil & Land Law', desc:'Addresses property rights, land tenure, torts, and contract enforcement. Ethiopia uses a dual land tenure system — state ownership with use-right certificates for citizens.' },
-  { icon:'🌍', title:'Constitutional Law', desc:'The FDRE Constitution (1995) is the supreme law. It guarantees fundamental rights, federalism, and the right of nationalities to self-determination.' },
-  { icon:'👷', title:'Labour Law', desc:'The Labour Proclamation No. 1156/2019 protects workers\' rights, defines employment contracts, sets minimum conditions, and governs dispute resolution through labour boards.' },
+
+const PRACTICE_AREAS = [
+  { icon:'⚖️', label:'Criminal',    spec:'Criminal' },
+  { icon:'🏢', label:'Corporate',   spec:'Corporate' },
+  { icon:'👨‍👩‍👧', label:'Family',     spec:'Family' },
+  { icon:'🏠', label:'Civil',       spec:'Civil' },
+  { icon:'💼', label:'Employment',  spec:'' },
+  { icon:'🌍', label:'Immigration', spec:'' },
+  { icon:'🏥', label:'Medical',     spec:'' },
+  { icon:'🚗', label:'Personal Injury', spec:'' },
 ];
 
-// ─── Star Rating ──────────────────────────────────────────────────────────────
+const QA_DATA = [
+  { id:1, tag:'Criminal', question:'Can I be charged without evidence? What does "beyond reasonable doubt" mean?', answers:4, time:'2 hrs ago' },
+  { id:2, tag:'Family', question:'My spouse refuses divorce — can the court grant it without consent?', answers:7, time:'5 hrs ago' },
+  { id:3, tag:'Corporate', question:'What documents are required to register a PLC in Ethiopia?', answers:3, time:'1 day ago' },
+  { id:4, tag:'Civil', question:'My landlord is evicting me without notice. What are my rights?', answers:5, time:'2 days ago' },
+  { id:5, tag:'Labour', question:'My employer withheld 2 months of salary — what legal action can I take?', answers:9, time:'3 days ago' },
+  { id:6, tag:'Immigration', question:'How long does a work permit renewal take in Ethiopia?', answers:2, time:'4 days ago' },
+];
+
+const GUIDE_COLORS = ['#f55d25','#008cc9','#52a304','#8b5cf6','#ed4f4b','#fc9835'];
+const GUIDES_DATA = [
+  { cat:'Criminal Law', title:'Your Rights When Arrested Under Ethiopian Law', read:'5 min read', color: GUIDE_COLORS[0] },
+  { cat:'Family Law', title:'Understanding Divorce Procedures in Ethiopia', read:'8 min read', color: GUIDE_COLORS[1] },
+  { cat:'Corporate Law', title:'How to Register a Business in Ethiopia (2026 Guide)', read:'6 min read', color: GUIDE_COLORS[2] },
+  { cat:'Civil Law', title:'Land Rights and Title Deeds: What Every Ethiopian Must Know', read:'7 min read', color: GUIDE_COLORS[3] },
+  { cat:'Labour Law', title:'Employee Rights Under Proclamation No. 1156/2019', read:'5 min read', color: GUIDE_COLORS[4] },
+  { cat:'Constitutional', title:'Your Fundamental Rights Under the FDRE Constitution', read:'10 min read', color: GUIDE_COLORS[5] },
+];
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+function eloToRating(elo) {
+  // Map ELO 800–1600 → 1–10
+  const r = ((elo - 800) / 800) * 9 + 1;
+  return Math.min(10, Math.max(1, parseFloat(r.toFixed(1))));
+}
+function ratingColor(r) {
+  if (r >= 8) return 'excellent';
+  if (r >= 6) return 'good';
+  if (r >= 4) return 'average';
+  return 'low';
+}
 function StarRow({ rating, max = 5 }) {
   const filled = Math.round(rating);
   return (
-    <span className="lawyer-card-stars" aria-label={`${rating} out of ${max} stars`}>
+    <span className="lawyer-card-stars">
       {Array.from({ length: max }, (_, i) => (
         <span key={i} className={`star${i < filled ? '' : ' empty'}`}>★</span>
       ))}
@@ -32,254 +64,263 @@ function StarRow({ rating, max = 5 }) {
 // ─── ELO Bar ──────────────────────────────────────────────────────────────────
 function EloBar({ elo }) {
   const pct = Math.min(100, Math.max(0, ((elo - 800) / 600) * 100));
-  const color = elo >= 1200 ? '#f0c040' : elo >= 1100 ? '#7ec8a0' : '#6eaadc';
+  const color = elo >= 1200 ? '#f59e0b' : elo >= 1100 ? '#52a304' : '#008cc9';
   return (
-    <div style={{ margin: '0.5rem 0' }}>
-      <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.75rem', color:'rgba(245,239,226,0.5)', marginBottom:'0.25rem' }}>
-        <span>ELO Score</span><span style={{ color, fontWeight:700 }}>{elo}</span>
+    <div className="elo-bar-wrap">
+      <div className="elo-bar-header">
+        <span>ELO Rating</span><strong style={{ color }}>{elo}</strong>
       </div>
-      <div style={{ background:'rgba(255,255,255,0.08)', borderRadius:99, height:6 }}>
-        <div style={{ width:`${pct}%`, background:color, borderRadius:99, height:6, transition:'width 0.6s ease' }} />
+      <div className="elo-bar-track">
+        <div className="elo-bar-fill" style={{ width: `${pct}%`, background: color }} />
       </div>
     </div>
   );
 }
 
 // ─── Lawyer Detail Modal ──────────────────────────────────────────────────────
-function LawyerDetailModal({ lawyer, onClose }) {
-  useEffect(() => {
-    const handleKey = e => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
-
+function LawyerModal({ lawyer, onClose }) {
+  const [tab, setTab] = useState('overview');
+  const avvoRating = eloToRating(lawyer.elo);
+  const ratingClass = ratingColor(avvoRating);
   const winRate = lawyer.casesCount > 0
     ? Math.round((lawyer.casesWon / lawyer.casesCount) * 100)
     : null;
 
+  useEffect(() => {
+    const h = e => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, [onClose]);
+
   return (
-    <div className="modal-backdrop animate-fade-in" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Profile of ${lawyer.name}`}>
-      <div className="modal detail-modal animate-fade-up" onClick={e => e.stopPropagation()} style={{ maxWidth: 620 }}>
-        {/* Header */}
-        <div className="detail-modal-header">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="lawyer-modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+        {/* Hero header */}
+        <div className="lawyer-modal-hero">
           <img
             src={lawyer.profilePic}
             alt={lawyer.name}
-            className="detail-modal-avatar"
+            className="lawyer-modal-photo"
             onError={e => { e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'; }}
           />
-          <div className="detail-modal-info">
-            <h2 className="detail-modal-name">{lawyer.name}</h2>
-            <span className="lawyer-card-spec" style={{ fontSize:'0.9rem' }}>{lawyer.specialization} Law</span>
-            <div style={{ display:'flex', gap:'0.75rem', marginTop:'0.5rem', flexWrap:'wrap' }}>
-              <span className="detail-tag">📍 {lawyer.city || 'Addis Ababa'}</span>
-              {lawyer.yearsExperience > 0 && <span className="detail-tag">🗓 {lawyer.yearsExperience} yrs exp.</span>}
-              {lawyer.licenseNumber && <span className="detail-tag">🔖 {lawyer.licenseNumber}</span>}
+          <div className="lawyer-modal-info">
+            <div className="lawyer-modal-name">{lawyer.name}</div>
+            <div className="lawyer-modal-spec">{lawyer.specialization} Law · {lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} years exp.` : 'Verified Advocate'}</div>
+            <div className="lawyer-modal-tags">
+              <span className="lawyer-modal-tag">📍 {lawyer.city || 'Ethiopia'}</span>
+              <span className="lawyer-modal-tag">🔖 {lawyer.licenseNumber}</span>
+              <span className={`lawyer-modal-tag`} style={{ background: avvoRating >= 8 ? '#52a304' : avvoRating >= 6 ? '#8bc34a' : '#fc9835', border: 'none' }}>
+                ★ {avvoRating} / 10
+              </span>
             </div>
           </div>
-          <button className="modal-close focus-ring" onClick={onClose} aria-label="Close">✕</button>
+          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
 
-        <div className="modal-body" style={{ maxHeight:'70vh', overflowY:'auto' }}>
-          {/* Rating bar */}
-          <div style={{ background:'rgba(255,255,255,0.04)', borderRadius:'var(--radius-md)', padding:'1rem', marginBottom:'1rem' }}>
-            <EloBar elo={lawyer.elo} />
-            <div style={{ display:'flex', gap:'1.5rem', marginTop:'0.75rem' }}>
-              <div style={{ textAlign:'center' }}>
-                <StarRow rating={lawyer.rating} />
-                <div style={{ fontSize:'0.75rem', color:'rgba(245,239,226,0.5)', marginTop:'0.25rem' }}>{lawyer.rating.toFixed(1)} / 5.0 rating</div>
-              </div>
-              <div style={{ display:'flex', gap:'1rem' }}>
-                <div style={{ textAlign:'center' }}>
-                  <div style={{ fontSize:'1.5rem', fontWeight:700, color:'#7ec8a0' }}>{lawyer.casesWon}</div>
-                  <div style={{ fontSize:'0.7rem', color:'rgba(245,239,226,0.45)' }}>Won</div>
+        {/* Tabs */}
+        <div className="lawyer-modal-tabs">
+          {['overview','background'].map(t => (
+            <button key={t} className={`lawyer-modal-tab${tab === t ? ' active' : ''}`} onClick={() => setTab(t)}>
+              {t === 'overview' ? 'Overview' : 'Background'}
+            </button>
+          ))}
+        </div>
+
+        {/* Body */}
+        <div className="lawyer-modal-body">
+          {tab === 'overview' && (
+            <>
+              {/* Stats */}
+              <div className="modal-stats-row">
+                <div className="modal-stat-box">
+                  <span className="modal-stat-num green">{lawyer.casesWon}</span>
+                  <span className="modal-stat-label">Cases Won</span>
                 </div>
-                <div style={{ textAlign:'center' }}>
-                  <div style={{ fontSize:'1.5rem', fontWeight:700, color:'#e07c7c' }}>{lawyer.casesLost}</div>
-                  <div style={{ fontSize:'0.7rem', color:'rgba(245,239,226,0.45)' }}>Lost</div>
+                <div className="modal-stat-box">
+                  <span className="modal-stat-num red">{lawyer.casesLost}</span>
+                  <span className="modal-stat-label">Cases Lost</span>
                 </div>
-                <div style={{ textAlign:'center' }}>
-                  <div style={{ fontSize:'1.5rem', fontWeight:700, color:'rgba(245,239,226,0.8)' }}>{lawyer.casesCount}</div>
-                  <div style={{ fontSize:'0.7rem', color:'rgba(245,239,226,0.45)' }}>Total</div>
+                <div className="modal-stat-box">
+                  <span className="modal-stat-num blue">{lawyer.casesCount}</span>
+                  <span className="modal-stat-label">Total Cases</span>
                 </div>
                 {winRate !== null && (
-                  <div style={{ textAlign:'center' }}>
-                    <div style={{ fontSize:'1.5rem', fontWeight:700, color:'#f0c040' }}>{winRate}%</div>
-                    <div style={{ fontSize:'0.7rem', color:'rgba(245,239,226,0.45)' }}>Win rate</div>
+                  <div className="modal-stat-box">
+                    <span className="modal-stat-num gold">{winRate}%</span>
+                    <span className="modal-stat-label">Win Rate</span>
                   </div>
                 )}
               </div>
-            </div>
-          </div>
 
-          {/* Bio */}
-          {lawyer.bio && (
-            <div style={{ marginBottom:'1rem' }}>
-              <h4 className="detail-section-title">About</h4>
-              <p style={{ color:'rgba(245,239,226,0.7)', fontSize:'0.875rem', lineHeight:1.7 }}>{lawyer.bio}</p>
-            </div>
-          )}
+              <EloBar elo={lawyer.elo} />
 
-          {/* Education */}
-          {lawyer.education && (
-            <div style={{ marginBottom:'1rem' }}>
-              <h4 className="detail-section-title">🎓 Education</h4>
-              <p style={{ color:'rgba(245,239,226,0.7)', fontSize:'0.875rem' }}>{lawyer.education}</p>
-            </div>
-          )}
-
-          {/* Languages */}
-          {lawyer.languages && lawyer.languages.length > 0 && (
-            <div style={{ marginBottom:'1rem' }}>
-              <h4 className="detail-section-title">🗣 Languages</h4>
-              <div style={{ display:'flex', gap:'0.5rem', flexWrap:'wrap' }}>
-                {lawyer.languages.map(lang => (
-                  <span key={lang} className="detail-tag">{lang}</span>
-                ))}
+              {/* Star rating */}
+              <div style={{ display:'flex', alignItems:'center', gap:'0.8rem', margin:'1.2rem 0', fontSize:'1.4rem', color:'#555' }}>
+                <StarRow rating={lawyer.rating} />
+                <span>{lawyer.rating.toFixed(1)} average performance rating</span>
               </div>
-            </div>
+
+              {/* Bio */}
+              {lawyer.bio && (
+                <div className="modal-section">
+                  <div className="modal-section-title">About</div>
+                  <p className="modal-section-text">{lawyer.bio}</p>
+                </div>
+              )}
+
+              {/* Contact */}
+              {lawyer.phone && (
+                <div className="modal-section">
+                  <div className="modal-section-title">Contact</div>
+                  <p className="modal-section-text" style={{ fontWeight:700 }}>
+                    📞 <a href={`tel:${lawyer.phone}`}>{lawyer.phone}</a>
+                  </p>
+                </div>
+              )}
+
+              <button className="modal-contact-btn" onClick={() => alert('Contact feature requires backend integration (email/messaging system).')}>
+                📨 Send a Message
+              </button>
+              <button className="modal-contact-btn" style={{ background:'#fff', color:'#f55d25', border:'2px solid #f55d25', marginTop:'0.8rem' }}
+                onClick={() => alert('Free consultation request sent! (requires messaging backend)')}>
+                Schedule Free Consultation
+              </button>
+            </>
           )}
 
-          {/* Contact */}
-          {lawyer.phone && (
-            <div style={{ marginBottom:'1rem' }}>
-              <h4 className="detail-section-title">📞 Contact</h4>
-              <a href={`tel:${lawyer.phone}`} style={{ color:'#6eaadc', fontSize:'0.875rem' }}>{lawyer.phone}</a>
-            </div>
+          {tab === 'background' && (
+            <>
+              {lawyer.education && (
+                <div className="modal-section">
+                  <div className="modal-section-title">🎓 Education</div>
+                  <p className="modal-section-text">{lawyer.education}</p>
+                </div>
+              )}
+              {lawyer.languages && lawyer.languages.length > 0 && (
+                <div className="modal-section">
+                  <div className="modal-section-title">🗣 Languages</div>
+                  <div className="lang-pills">
+                    {lawyer.languages.map(l => <span key={l} className="lang-pill">{l}</span>)}
+                  </div>
+                </div>
+              )}
+              <div className="modal-section">
+                <div className="modal-section-title">📋 License & Credentials</div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.8rem', fontSize:'1.35rem', color:'#555' }}>
+                  {[
+                    ['License Number', lawyer.licenseNumber],
+                    ['Specialization', lawyer.specialization],
+                    ['Years of Experience', lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} years` : 'N/A'],
+                    ['City', lawyer.city || 'Addis Ababa'],
+                    ['ELO Score', lawyer.elo],
+                    ['Platform Rating', `${eloToRating(lawyer.elo)} / 10`],
+                  ].map(([k,v]) => (
+                    <div key={k} style={{ background:'#f9f9f9', border:'1px solid rgba(0,0,0,0.08)', borderRadius:4, padding:'0.8rem 1rem' }}>
+                      <div style={{ fontSize:'1.1rem', fontWeight:700, color:'#777', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:'0.2rem' }}>{k}</div>
+                      <div style={{ fontWeight:600, color:'#333' }}>{v || 'N/A'}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="modal-section" style={{ background:'#fffbf5', border:'1px solid #ffd09b', borderRadius:6, padding:'1.2rem' }}>
+                <div style={{ fontSize:'1.3rem', color:'#92400e', fontWeight:600 }}>
+                  ✅ MoJ Verified · All credentials verified by Ministry of Justice, Ethiopia
+                </div>
+              </div>
+            </>
           )}
-
-          <div style={{ borderTop:'1px solid rgba(245,239,226,0.08)', paddingTop:'1rem', fontSize:'0.75rem', color:'rgba(245,239,226,0.35)' }}>
-            MoJ License: {lawyer.licenseNumber} · Verified Advocate · LEX-RATING Platform
-          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Lawyer Card ──────────────────────────────────────────────────────────────
-function LawyerCard({ lawyer, onClick }) {
-  return (
-    <article className="lawyer-card animate-fade-up" onClick={onClick} style={{ cursor:'pointer' }} role="button" tabIndex={0}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
-      aria-label={`View profile of ${lawyer.name}`}
-    >
-      <img
-        src={lawyer.profilePic}
-        alt={lawyer.name}
-        className="lawyer-card-avatar"
-        onError={e => { e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'; }}
-      />
-      <div className="lawyer-card-body">
-        <h3 className="lawyer-card-name">{lawyer.name}</h3>
-        <span className="lawyer-card-spec">{lawyer.specialization}</span>
-        {lawyer.city && (
-          <span style={{ fontSize:'0.75rem', color:'rgba(245,239,226,0.4)', display:'block', marginTop:'0.15rem' }}>📍 {lawyer.city}</span>
-        )}
-        <div className="lawyer-card-stats">
-          <StarRow rating={lawyer.rating} />
-          <span className="lawyer-card-rating">{lawyer.rating.toFixed(1)}</span>
-          <span className="lawyer-card-cases">{lawyer.casesCount} {lawyer.casesCount === 1 ? 'case' : 'cases'}</span>
-          <span className="lawyer-card-elo">{lawyer.elo} ELO</span>
-        </div>
-        {lawyer.yearsExperience > 0 && (
-          <span style={{ fontSize:'0.72rem', color:'rgba(245,239,226,0.35)', marginTop:'0.25rem', display:'block' }}>
-            {lawyer.yearsExperience} yrs experience
-          </span>
-        )}
-      </div>
-      <div className="lawyer-card-hint">View Profile →</div>
-    </article>
-  );
-}
-
 // ─── Auth Modal ───────────────────────────────────────────────────────────────
 function AuthModal({ onClose, onLogin }) {
-  const [tab, setTab]       = useState('login');
-  const [step, setStep]     = useState('form');
-  const [loading, setLoading] = useState(false);
-  const [error, setError]   = useState('');
-  const [success, setSuccess] = useState('');
+  const [tab, setTab]           = useState('login');
+  const [step, setStep]         = useState('form');
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState('');
+  const [success, setSuccess]   = useState('');
   const [loginForm, setLoginForm] = useState({ username:'', password:'' });
-  const [regForm, setRegForm] = useState({
+  const [regForm, setRegForm]   = useState({
     name:'', username:'', password:'', email:'', role:'client',
     licenseNumber:'', specialization:'Criminal',
     city:'', phone:'', bio:'', yearsExperience:'', education:'', languages:'',
   });
   const [otpEmail, setOtpEmail] = useState('');
-  const [otpCode, setOtpCode] = useState('');
-  const clearMessages = () => { setError(''); setSuccess(''); };
+  const [otpCode, setOtpCode]   = useState('');
+  const clear = () => { setError(''); setSuccess(''); };
+  const f = (k, v) => setRegForm(p => ({ ...p, [k]: v }));
 
   const handleLogin = async e => {
-    e.preventDefault(); clearMessages(); setLoading(true);
+    e.preventDefault(); clear(); setLoading(true);
     try {
       const res  = await fetch(`${API_BASE}/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(loginForm) });
       const data = await res.json();
-      if (res.ok) { setSuccess(`Welcome back, ${data.user.name}!`); setTimeout(() => { onLogin(data.user); onClose(); }, 800); }
-      else setError(data.error || 'Login failed.');
-    } catch { setError('Cannot reach the server.'); } finally { setLoading(false); }
+      if (res.ok) { setSuccess(`Welcome back, ${data.user.name}!`); setTimeout(() => { onLogin(data.user); onClose(); }, 700); }
+      else setError(data.error || 'Login failed. Check your credentials.');
+    } catch { setError('Cannot reach server on port 5000.'); } finally { setLoading(false); }
   };
 
   const handleRegister = async e => {
-    e.preventDefault(); clearMessages(); setLoading(true);
+    e.preventDefault(); clear(); setLoading(true);
     try {
       const payload = { ...regForm, languages: regForm.languages ? regForm.languages.split(',').map(l => l.trim()) : [] };
       const res  = await fetch(`${API_BASE}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
       const data = await res.json();
-      if (res.ok) { setOtpEmail(regForm.email); setStep('otp'); setSuccess('A 6-digit verification code has been sent to your email.'); }
+      if (res.ok) { setOtpEmail(regForm.email); setStep('otp'); setSuccess('Verification code sent to your email.'); }
       else setError(data.error || 'Registration failed.');
-    } catch { setError('Cannot reach the server.'); } finally { setLoading(false); }
+    } catch { setError('Cannot reach server.'); } finally { setLoading(false); }
   };
 
   const handleVerify = async e => {
-    e.preventDefault(); clearMessages(); setLoading(true);
+    e.preventDefault(); clear(); setLoading(true);
     try {
       const res  = await fetch(`${API_BASE}/auth/register-verify`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: otpEmail, code: otpCode }) });
       const data = await res.json();
-      if (res.ok) { setSuccess('Account verified! Please sign in.'); setTimeout(() => { setTab('login'); setStep('form'); clearMessages(); }, 1200); }
-      else setError(data.error || 'Invalid or expired code.');
-    } catch { setError('Cannot reach the server.'); } finally { setLoading(false); }
+      if (res.ok) { setSuccess('Verified! Please sign in.'); setTimeout(() => { setTab('login'); setStep('form'); clear(); }, 1200); }
+      else setError(data.error || 'Invalid code.');
+    } catch { setError('Cannot reach server.'); } finally { setLoading(false); }
   };
 
-  const f = (key, val) => setRegForm(p => ({ ...p, [key]: val }));
-
   return (
-    <div className="modal-backdrop animate-fade-in" onClick={onClose}>
-      <div className="modal animate-fade-up" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div className="modal-header">
-          <div>
-            <h2 className="modal-title" id="modal-title">
-              {step === 'otp' ? 'Verify your email' : tab === 'login' ? 'Welcome back' : 'Create account'}
-            </h2>
-            <p className="modal-subtitle">
-              {step === 'otp' ? `Code sent to ${otpEmail}` : tab === 'login' ? 'Sign in to LEX-RATING' : 'Register with your credentials'}
-            </p>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="auth-modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+        <div className="auth-modal-header">
+          <div className="auth-modal-title">
+            {step === 'otp' ? 'Verify your email' : tab === 'login' ? 'Sign in to LEX-RATING' : 'Create your account'}
           </div>
-          <button className="modal-close focus-ring" onClick={onClose} aria-label="Close">✕</button>
+          <div className="auth-modal-sub">
+            {step === 'otp' ? `Code sent to ${otpEmail}` : tab === 'login' ? 'Access your legal directory account' : 'Join Ethiopia\'s official legal directory'}
+          </div>
+          <button className="auth-modal-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
-        <div className="modal-body">
-          {step === 'form' && (
-            <div className="modal-tabs" role="tablist">
-              <button role="tab" aria-selected={tab==='login'} className={`modal-tab${tab==='login'?' active':''}`} onClick={() => { setTab('login'); clearMessages(); }}>Sign In</button>
-              <button role="tab" aria-selected={tab==='register'} className={`modal-tab${tab==='register'?' active':''}`} onClick={() => { setTab('register'); clearMessages(); }}>Register</button>
-            </div>
-          )}
-          {error   && <div className="alert alert-error" role="alert"><span>⚠</span><span>{error}</span></div>}
-          {success && <div className="alert alert-success" role="status"><span>✓</span><span>{success}</span></div>}
+
+        {step === 'form' && (
+          <div className="auth-tabs">
+            <button className={`auth-tab${tab==='login'?' active':''}`} onClick={() => { setTab('login'); clear(); }}>Sign In</button>
+            <button className={`auth-tab${tab==='register'?' active':''}`} onClick={() => { setTab('register'); clear(); }}>Register</button>
+          </div>
+        )}
+
+        <div className="auth-body">
+          {error   && <div className="alert alert-error">⚠ {error}</div>}
+          {success && <div className="alert alert-success">✓ {success}</div>}
 
           {/* OTP */}
           {step === 'otp' && (
             <form onSubmit={handleVerify} noValidate>
               <div className="form-group">
-                <label htmlFor="otp-code" className="form-label">6-Digit Code</label>
-                <input id="otp-code" type="text" inputMode="numeric" maxLength={6} className="form-input otp-input focus-ring"
-                  placeholder="• • • • • •" value={otpCode} onChange={e => setOtpCode(e.target.value.replace(/\D/g,''))} required autoFocus />
-                <p className="form-helper">Check your inbox and spam folder. Expires in 10 minutes.</p>
+                <label className="form-label">6-Digit Verification Code</label>
+                <input className="form-input otp-input" type="text" inputMode="numeric" maxLength={6}
+                  placeholder="••••••" value={otpCode} onChange={e => setOtpCode(e.target.value.replace(/\D/g,''))} required autoFocus />
+                <p className="form-helper">Check inbox and spam. Expires in 10 minutes.</p>
               </div>
-              <button type="submit" className="btn btn-primary btn-full btn-lg" disabled={loading || otpCode.length !== 6}>
-                {loading ? <span className="loading-spinner" /> : 'Verify & Complete Registration'}
+              <button type="submit" className="btn btn-orange btn-full" disabled={loading || otpCode.length !== 6}>
+                {loading ? <span className="loading-spinner" /> : 'Verify & Activate Account'}
               </button>
-              <button type="button" className="btn btn-ghost btn-full" style={{ marginTop:'0.5rem' }} onClick={() => { setStep('form'); setOtpCode(''); clearMessages(); }}>← Back</button>
+              <button type="button" className="btn btn-ghost btn-full" style={{ marginTop:'0.8rem' }} onClick={() => { setStep('form'); setOtpCode(''); clear(); }}>← Back</button>
             </form>
           )}
 
@@ -287,16 +328,16 @@ function AuthModal({ onClose, onLogin }) {
           {step === 'form' && tab === 'login' && (
             <form onSubmit={handleLogin} noValidate>
               <div className="form-group">
-                <label htmlFor="login-username" className="form-label">Username or Email</label>
-                <input id="login-username" type="text" autoComplete="username" className="form-input focus-ring"
-                  placeholder="Your username or email" value={loginForm.username} onChange={e => setLoginForm({...loginForm, username: e.target.value})} required autoFocus />
+                <label className="form-label">Username or Email</label>
+                <input className="form-input" type="text" autoComplete="username" placeholder="Enter username or email"
+                  value={loginForm.username} onChange={e => setLoginForm({...loginForm, username: e.target.value})} required autoFocus />
               </div>
               <div className="form-group">
-                <label htmlFor="login-password" className="form-label">Password</label>
-                <input id="login-password" type="password" autoComplete="current-password" className="form-input focus-ring"
-                  placeholder="Your password" value={loginForm.password} onChange={e => setLoginForm({...loginForm, password: e.target.value})} required />
+                <label className="form-label">Password</label>
+                <input className="form-input" type="password" autoComplete="current-password" placeholder="Enter password"
+                  value={loginForm.password} onChange={e => setLoginForm({...loginForm, password: e.target.value})} required />
               </div>
-              <button type="submit" className="btn btn-primary btn-full btn-lg" style={{ marginTop:'0.5rem' }} disabled={loading}>
+              <button type="submit" className="btn btn-orange btn-full" style={{ marginTop:'0.4rem' }} disabled={loading}>
                 {loading ? <span className="loading-spinner" /> : 'Sign In'}
               </button>
             </form>
@@ -304,95 +345,83 @@ function AuthModal({ onClose, onLogin }) {
 
           {/* Register */}
           {step === 'form' && tab === 'register' && (
-            <form onSubmit={handleRegister} noValidate style={{ maxHeight:'60vh', overflowY:'auto', paddingRight:'0.25rem' }}>
-              <p style={{ fontSize:'0.78rem', color:'rgba(245,239,226,0.4)', marginBottom:'0.75rem' }}>Fields marked * are required</p>
-
+            <form onSubmit={handleRegister} noValidate style={{ maxHeight:'55vh', overflowY:'auto', paddingRight:'0.25rem' }}>
               <div className="form-group">
-                <label htmlFor="reg-name" className="form-label">Full Name *</label>
-                <input id="reg-name" type="text" autoComplete="name" className="form-input focus-ring"
-                  placeholder="e.g. Kebede Haile Mariam" value={regForm.name} onChange={e => f('name', e.target.value)} required autoFocus />
+                <label className="form-label">Full Name *</label>
+                <input className="form-input" type="text" placeholder="e.g. Kebede Haile Mariam" value={regForm.name} onChange={e => f('name', e.target.value)} required autoFocus />
               </div>
               <div className="form-group">
-                <label htmlFor="reg-email" className="form-label">Email *</label>
-                <input id="reg-email" type="email" autoComplete="email" className="form-input focus-ring"
-                  placeholder="yourname@example.et" value={regForm.email} onChange={e => f('email', e.target.value)} required />
+                <label className="form-label">Email *</label>
+                <input className="form-input" type="email" placeholder="yourname@example.et" value={regForm.email} onChange={e => f('email', e.target.value)} required />
               </div>
               <div className="form-group">
-                <label htmlFor="reg-username" className="form-label">Username *</label>
-                <input id="reg-username" type="text" autoComplete="username" className="form-input focus-ring"
-                  placeholder="Choose a username" value={regForm.username} onChange={e => f('username', e.target.value)} required />
+                <label className="form-label">Username *</label>
+                <input className="form-input" type="text" placeholder="Choose a username" value={regForm.username} onChange={e => f('username', e.target.value)} required />
               </div>
               <div className="form-group">
-                <label htmlFor="reg-password" className="form-label">Password *</label>
-                <input id="reg-password" type="password" autoComplete="new-password" className="form-input focus-ring"
-                  placeholder="Create a secure password" value={regForm.password} onChange={e => f('password', e.target.value)} required />
+                <label className="form-label">Password *</label>
+                <input className="form-input" type="password" placeholder="Create a secure password" value={regForm.password} onChange={e => f('password', e.target.value)} required />
               </div>
               <div className="form-group">
-                <label htmlFor="reg-role" className="form-label">Account Type *</label>
-                <select id="reg-role" className="form-select focus-ring" value={regForm.role} onChange={e => f('role', e.target.value)}>
+                <label className="form-label">Account Type *</label>
+                <select className="form-select" value={regForm.role} onChange={e => f('role', e.target.value)}>
                   <option value="client">Client (Litigant)</option>
                   <option value="lawyer">Advocate (Lawyer)</option>
                 </select>
               </div>
 
-              {/* Lawyer-only fields */}
               {regForm.role === 'lawyer' && (
                 <div className="license-box">
-                  <div className="license-box-title"><span>🔒</span> MoJ License Verification Required</div>
+                  <div className="license-box-title">🔒 MoJ License Verification Required</div>
                   <div className="form-group">
-                    <label htmlFor="reg-license" className="form-label">License Number *</label>
-                    <input id="reg-license" type="text" className="form-input focus-ring" placeholder="e.g. LAW-1001"
+                    <label className="form-label">License Number *</label>
+                    <input className="form-input" type="text" placeholder="e.g. LAW-1001"
                       value={regForm.licenseNumber} onChange={e => f('licenseNumber', e.target.value)} required />
-                    <p className="form-helper">Your full name must exactly match the MoJ registry.</p>
+                    <p className="form-helper">Your full name must match the MoJ registry exactly.</p>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="reg-spec" className="form-label">Specialization *</label>
-                    <select id="reg-spec" className="form-select focus-ring" value={regForm.specialization} onChange={e => f('specialization', e.target.value)}>
-                      {SPECS.map(s => <option key={s} value={s}>{s}</option>)}
+                    <label className="form-label">Specialization *</label>
+                    <select className="form-select" value={regForm.specialization} onChange={e => f('specialization', e.target.value)}>
+                      {['Criminal','Corporate','Family','Civil'].map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
                 </div>
               )}
 
-              {/* Optional profile fields */}
-              <div style={{ borderTop:'1px solid rgba(245,239,226,0.08)', paddingTop:'0.75rem', marginTop:'0.75rem' }}>
-                <p style={{ fontSize:'0.78rem', color:'rgba(245,239,226,0.4)', marginBottom:'0.5rem' }}>Optional — enriches your public profile</p>
-                <div className="form-group">
-                  <label htmlFor="reg-city" className="form-label">City</label>
-                  <select id="reg-city" className="form-select focus-ring" value={regForm.city} onChange={e => f('city', e.target.value)}>
-                    <option value="">Select your city</option>
-                    {ETHIOPIAN_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="reg-phone" className="form-label">Phone Number</label>
-                  <input id="reg-phone" type="tel" className="form-input focus-ring" placeholder="+251911..." value={regForm.phone} onChange={e => f('phone', e.target.value)} />
-                </div>
-                {regForm.role === 'lawyer' && (
-                  <>
-                    <div className="form-group">
-                      <label htmlFor="reg-exp" className="form-label">Years of Experience</label>
-                      <input id="reg-exp" type="number" min="0" max="60" className="form-input focus-ring" placeholder="e.g. 8" value={regForm.yearsExperience} onChange={e => f('yearsExperience', e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="reg-education" className="form-label">Education</label>
-                      <input id="reg-education" type="text" className="form-input focus-ring" placeholder="e.g. LLB – Addis Ababa University" value={regForm.education} onChange={e => f('education', e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="reg-languages" className="form-label">Languages (comma-separated)</label>
-                      <input id="reg-languages" type="text" className="form-input focus-ring" placeholder="e.g. Amharic, English, Oromiffa" value={regForm.languages} onChange={e => f('languages', e.target.value)} />
-                    </div>
-                    <div className="form-group" style={{ marginBottom:0 }}>
-                      <label htmlFor="reg-bio" className="form-label">Bio / Profile Summary</label>
-                      <textarea id="reg-bio" className="form-input focus-ring" rows={3} placeholder="Briefly describe your practice and expertise…"
-                        value={regForm.bio} onChange={e => f('bio', e.target.value)}
-                        style={{ resize:'vertical', fontFamily:'inherit' }} />
-                    </div>
-                  </>
-                )}
+              <div className="form-section-divider">Optional Profile Info</div>
+              <div className="form-group">
+                <label className="form-label">City</label>
+                <select className="form-select" value={regForm.city} onChange={e => f('city', e.target.value)}>
+                  <option value="">Select city</option>
+                  {ETHIOPIAN_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
               </div>
+              <div className="form-group">
+                <label className="form-label">Phone</label>
+                <input className="form-input" type="tel" placeholder="+251911..." value={regForm.phone} onChange={e => f('phone', e.target.value)} />
+              </div>
+              {regForm.role === 'lawyer' && (
+                <>
+                  <div className="form-group">
+                    <label className="form-label">Years of Experience</label>
+                    <input className="form-input" type="number" min="0" max="60" placeholder="e.g. 8" value={regForm.yearsExperience} onChange={e => f('yearsExperience', e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Education</label>
+                    <input className="form-input" type="text" placeholder="e.g. LLB – Addis Ababa University (2015)" value={regForm.education} onChange={e => f('education', e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Languages <span style={{fontWeight:400, color:'#777'}}>(comma-separated)</span></label>
+                    <input className="form-input" type="text" placeholder="e.g. Amharic, English, Oromiffa" value={regForm.languages} onChange={e => f('languages', e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Bio</label>
+                    <textarea className="form-textarea" placeholder="Briefly describe your practice area and expertise…" value={regForm.bio} onChange={e => f('bio', e.target.value)} />
+                  </div>
+                </>
+              )}
 
-              <button type="submit" className="btn btn-primary btn-full btn-lg" style={{ marginTop:'0.75rem' }} disabled={loading}>
+              <button type="submit" className="btn btn-orange btn-full" disabled={loading}>
                 {loading ? <span className="loading-spinner" /> : 'Create Account & Send OTP'}
               </button>
             </form>
@@ -403,43 +432,24 @@ function AuthModal({ onClose, onLogin }) {
   );
 }
 
-// ─── Law Topic Card ───────────────────────────────────────────────────────────
-function LawTopicCard({ icon, title, desc }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="law-topic-card" onClick={() => setOpen(o => !o)} role="button" tabIndex={0}
-      onKeyDown={e => { if (e.key === 'Enter') setOpen(o => !o); }}
-      aria-expanded={open}
-    >
-      <div className="law-topic-header">
-        <span className="law-topic-icon">{icon}</span>
-        <span className="law-topic-title">{title}</span>
-        <span className="law-topic-chevron">{open ? '▲' : '▼'}</span>
-      </div>
-      {open && <p className="law-topic-desc">{desc}</p>}
-    </div>
-  );
-}
-
-// ─── MoJ Preview ─────────────────────────────────────────────────────────────
+// ─── MoJ Registry mini preview ────────────────────────────────────────────────
 function MojPreview() {
   const [licenses, setLicenses] = useState([]);
-  const [loading, setLoading]   = useState(true);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch(`${API_BASE}/moj/licenses`).then(r => r.json())
       .then(d => { if (Array.isArray(d)) setLicenses(d.slice(0, 6)); })
-      .catch(() => setLicenses([]))
-      .finally(() => setLoading(false));
+      .catch(() => {}).finally(() => setLoading(false));
   }, []);
-  if (loading) return <div style={{ padding:'1.5rem', textAlign:'center', color:'rgba(245,239,226,0.4)', fontSize:'0.875rem' }}>Loading registry…</div>;
-  if (!licenses.length) return <div style={{ padding:'1.5rem', textAlign:'center', color:'rgba(245,239,226,0.4)', fontSize:'0.875rem' }}>Registry unavailable — start the server.</div>;
+  if (loading) return <div style={{ padding:'2rem', textAlign:'center', color:'#777' }}>Loading registry…</div>;
   return (
-    <div className="moj-list" role="list">
+    <div>
       {licenses.map(lic => (
-        <div key={lic.licenseNumber} className="moj-item" role="listitem">
-          <span className="moj-item-badge">{lic.licenseNumber}</span>
-          <span className="moj-item-name">{lic.fullName}</span>
-          <span className="moj-item-spec">{lic.specialization}</span>
+        <div key={lic.licenseNumber} style={{ display:'flex', alignItems:'center', gap:'1rem', padding:'0.8rem 0', borderBottom:'1px solid rgba(0,0,0,0.07)', fontSize:'1.35rem' }}>
+          <span style={{ background:'#e8f4fb', color:'#005a9e', padding:'0.2rem 0.7rem', borderRadius:99, fontWeight:700, fontSize:'1.2rem', flexShrink:0 }}>{lic.licenseNumber}</span>
+          <span style={{ fontWeight:600, color:'#333', flex:1 }}>{lic.fullName}</span>
+          <span style={{ color:'#777', fontSize:'1.2rem' }}>{lic.specialization}</span>
+          <span style={{ color:'#52a304', fontWeight:700, fontSize:'1.2rem' }}>✓</span>
         </div>
       ))}
     </div>
@@ -448,17 +458,18 @@ function MojPreview() {
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function App() {
-  const [user, setUser]           = useState(null);
-  const [showAuth, setShowAuth]   = useState(false);
-  const [activeTab, setActiveTab] = useState('home');
+  const [user, setUser]                 = useState(null);
+  const [showAuth, setShowAuth]         = useState(false);
+  const [page, setPage]                 = useState('home'); // 'home'|'directory'|'guides'|'about'
   const [selectedLawyer, setSelectedLawyer] = useState(null);
 
-  // Filters
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeSpec, setActiveSpec]   = useState('');
-  const [activeCity, setActiveCity]   = useState('');
-  const [lawyers, setLawyers]         = useState([]);
-  const [loading, setLoading]         = useState(false);
+  // Directory state
+  const [lawyers, setLawyers]           = useState([]);
+  const [loading, setLoading]           = useState(false);
+  const [searchSpec, setSearchSpec]     = useState('');
+  const [searchCity, setSearchCity]     = useState('');
+  const [specInput, setSpecInput]       = useState('');
+  const [cityInput, setCityInput]       = useState('');
 
   const fetchLawyers = useCallback(async (spec = '', city = '') => {
     setLoading(true);
@@ -474,59 +485,51 @@ export default function App() {
 
   useEffect(() => { fetchLawyers('', ''); }, [fetchLawyers]);
 
-  const handleSearch = e => {
-    const val = e.target.value;
-    setSearchQuery(val); setActiveSpec(''); setActiveCity('');
-    fetchLawyers(val, '');
+  const doSearch = () => { setSearchSpec(specInput); setSearchCity(cityInput); fetchLawyers(specInput, cityInput); setPage('directory'); };
+  const handleSpecChip = spec => { const n = searchSpec === spec ? '' : spec; setSearchSpec(n); setSpecInput(n); fetchLawyers(n, searchCity); };
+  const handleCityChip = city => { const n = searchCity === city ? '' : city; setSearchCity(n); setCityInput(n); fetchLawyers(searchSpec, n); };
+  const clearFilters = () => { setSearchSpec(''); setSearchCity(''); setSpecInput(''); setCityInput(''); fetchLawyers('', ''); };
+  const handlePracticeCard = area => {
+    if (!area.spec) return;
+    setSearchSpec(area.spec); setSpecInput(area.spec); setSearchCity(''); setCityInput('');
+    fetchLawyers(area.spec, '');
+    setPage('directory');
   };
-  const handleSpecChip = spec => {
-    const next = activeSpec === spec ? '' : spec;
-    setActiveSpec(next); setSearchQuery('');
-    fetchLawyers(next, activeCity);
-  };
-  const handleCityChip = city => {
-    const next = activeCity === city ? '' : city;
-    setActiveCity(next); setSearchQuery('');
-    fetchLawyers(activeSpec, next);
-  };
-  const clearAll = () => { setSearchQuery(''); setActiveSpec(''); setActiveCity(''); fetchLawyers('', ''); };
-  const logout   = () => { setUser(null); setActiveTab('home'); };
+  const logout = () => { setUser(null); };
 
-  const hasFilter = searchQuery || activeSpec || activeCity;
+  const hasFilter = searchSpec || searchCity;
 
   return (
-    <div className="app-wrapper">
-      {/* ── NAVBAR ── */}
-      <nav className="navbar" role="navigation" aria-label="Main navigation">
-        <div className="navbar-inner">
-          <button className="navbar-logo focus-ring" onClick={() => setActiveTab('home')} aria-label="LEX-RATING home" style={{ border:'none', background:'none' }}>
-            <div className="navbar-logo-icon" aria-hidden="true">⚖</div>
-            <div className="navbar-logo-text">
-              <span className="navbar-logo-title">LEX-RATING</span>
-              <span className="navbar-logo-subtitle">B2G Legal Directory · Ethiopia</span>
-            </div>
+    <div>
+      {/* ── NAV ── */}
+      <nav className="avvo-nav">
+        <div className="avvo-nav-inner">
+          <button className="avvo-logo" onClick={() => setPage('home')} style={{ background:'none', border:'none' }}>
+            <span className="avvo-logo-icon">⚖</span>
+            <span>LEX-RATING</span>
           </button>
-          <div className="navbar-nav" role="menubar">
-            <button role="menuitem" className={`navbar-nav-link focus-ring${activeTab==='home'?' active':''}`} onClick={() => setActiveTab('home')}>Directory</button>
-            <button role="menuitem" className={`navbar-nav-link focus-ring${activeTab==='topics'?' active':''}`} onClick={() => setActiveTab('topics')}>Law Topics</button>
-            <button role="menuitem" className={`navbar-nav-link focus-ring${activeTab==='about'?' active':''}`} onClick={() => setActiveTab('about')}>About</button>
+          <div className="avvo-nav-links">
+            <button className={`avvo-nav-link${page==='directory'?' active':''}`} onClick={() => setPage('directory')}>Find a Lawyer</button>
+            <button className={`avvo-nav-link${page==='qa'?' active':''}`} onClick={() => setPage('qa')}>Legal Q&A</button>
+            <button className={`avvo-nav-link${page==='guides'?' active':''}`} onClick={() => setPage('guides')}>Legal Guides</button>
+            <button className={`avvo-nav-link${page==='about'?' active':''}`} onClick={() => setPage('about')}>About</button>
           </div>
-          <div className="navbar-actions">
+          <div className="avvo-nav-actions">
             {user ? (
               <>
-                <div className="navbar-user">
-                  <img src={user.profilePic || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'}
-                    alt={user.name} className="navbar-user-avatar"
-                    onError={e => { e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'; }} />
-                  <div className="navbar-user-info">
-                    <span className="navbar-user-name">{user.name}</span>
-                    <span className="navbar-user-role">{user.role}</span>
-                  </div>
+                <div className="avvo-nav-user">
+                  <img src={user.profilePic || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'}
+                    alt={user.name} className="avvo-nav-avatar"
+                    onError={e => { e.target.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'; }} />
+                  <span className="avvo-nav-username">{user.name}</span>
                 </div>
-                <button className="btn btn-secondary btn-sm focus-ring" onClick={logout}>Sign Out</button>
+                <button className="btn btn-ghost btn-sm" onClick={logout}>Sign Out</button>
               </>
             ) : (
-              <button id="btn-signin" className="btn btn-primary btn-sm focus-ring" onClick={() => setShowAuth(true)}>Sign In</button>
+              <>
+                <button className="btn btn-ghost btn-sm" onClick={() => setShowAuth(true)}>Sign In</button>
+                <button className="btn btn-primary btn-sm" onClick={() => { setShowAuth(true); }}>For Lawyers</button>
+              </>
             )}
           </div>
         </div>
@@ -534,268 +537,460 @@ export default function App() {
 
       {/* ── MODALS ── */}
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} onLogin={u => setUser(u)} />}
-      {selectedLawyer && <LawyerDetailModal lawyer={selectedLawyer} onClose={() => setSelectedLawyer(null)} />}
+      {selectedLawyer && <LawyerModal lawyer={selectedLawyer} onClose={() => setSelectedLawyer(null)} />}
 
-      {/* ══════════════════════════════════════════
-          HOME — DIRECTORY
-      ══════════════════════════════════════════ */}
-      {activeTab === 'home' && (
+      {/* ══════════════════════════════════════════ HOME ══════════════════════════ */}
+      {page === 'home' && (
         <>
           {/* Hero */}
-          <section className="hero texture-grain" aria-labelledby="hero-heading">
-            <div className="hero-glow-1" aria-hidden="true" />
-            <div className="hero-glow-2" aria-hidden="true" />
-            <div className="hero-inner">
-              <div className="hero-badge" aria-label="Status: Live">
-                <span className="hero-badge-dot" aria-hidden="true" />
-                Official Ministry of Justice Registry · Ethiopia
+          <section className="avvo-hero">
+            <div className="avvo-hero-tag">🇪🇹 Official Ministry of Justice Registry</div>
+            <h1>Legal. <em>Easier.</em></h1>
+            <p className="avvo-hero-sub">
+              Find MoJ-verified Ethiopian lawyers by practice area and city. Compare live ELO ratings, read profiles, and connect instantly.
+            </p>
+
+            {/* Dual search bar */}
+            <div className="avvo-search-box">
+              <div className="avvo-search-field">
+                <span className="avvo-search-icon">⚖</span>
+                <input className="avvo-search-input" type="text" list="spec-list"
+                  placeholder="Practice area (Criminal, Family…)"
+                  value={specInput}
+                  onChange={e => setSpecInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
+                />
+                <datalist id="spec-list">
+                  {['Criminal','Corporate','Family','Civil'].map(s => <option key={s} value={s} />)}
+                </datalist>
               </div>
-              <h1 className="hero-title" id="hero-heading">
-                Find a <span className="hero-title-accent">verified</span><br />legal advocate
-              </h1>
-              <p className="hero-subtitle">
-                Search MoJ-registered Ethiopian lawyers by specialization and city.
-                Compare real-time ELO performance ratings and connect with the right advocate.
-              </p>
-              <div className="hero-actions">
-                <button className="btn btn-gold btn-lg focus-ring"
-                  onClick={() => document.getElementById('lawyer-directory')?.scrollIntoView({ behavior:'smooth' })}>
-                  Browse Advocates
-                </button>
-                {!user && (
-                  <button className="btn btn-ghost btn-lg focus-ring"
-                    style={{ color:'rgba(245,239,226,0.8)', border:'1px solid rgba(245,239,226,0.2)' }}
-                    onClick={() => setShowAuth(true)}>
-                    Register Account
-                  </button>
-                )}
+              <div className="avvo-search-field">
+                <span className="avvo-search-icon">📍</span>
+                <input className="avvo-search-input" type="text" list="city-list"
+                  placeholder="City (Addis Ababa, Hawassa…)"
+                  value={cityInput}
+                  onChange={e => setCityInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
+                />
+                <datalist id="city-list">
+                  {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
+                </datalist>
               </div>
-              <div className="hero-stats" role="list" aria-label="Platform statistics">
-                <div className="hero-stat" role="listitem">
-                  <div className="hero-stat-value">{lawyers.length}+</div>
-                  <div className="hero-stat-label">Verified Advocates</div>
+              <button className="avvo-search-btn" onClick={doSearch}>Find Lawyers</button>
+            </div>
+
+            {/* Hero stats */}
+            <div className="avvo-hero-stats">
+              {[
+                [`${lawyers.length}+`, 'Verified Advocates'],
+                ['10', 'Ethiopian Cities'],
+                ['4', 'Practice Areas'],
+                ['ELO', 'Live Performance Ratings'],
+              ].map(([num, label]) => (
+                <div key={label} className="avvo-hero-stat">
+                  <span className="avvo-hero-stat-num">{num}</span>
+                  <span className="avvo-hero-stat-label">{label}</span>
                 </div>
-                <div className="hero-stat" role="listitem">
-                  <div className="hero-stat-value">{ETHIOPIAN_CITIES.length}</div>
-                  <div className="hero-stat-label">Cities Covered</div>
-                </div>
-                <div className="hero-stat" role="listitem">
-                  <div className="hero-stat-value">{SPECS.length}</div>
-                  <div className="hero-stat-label">Specializations</div>
-                </div>
-                <div className="hero-stat" role="listitem">
-                  <div className="hero-stat-value">ELO</div>
-                  <div className="hero-stat-label">Live Ratings</div>
-                </div>
-              </div>
+              ))}
             </div>
           </section>
 
-          {/* Directory */}
-          <main className="main-content" id="lawyer-directory">
-            <section className="search-section" aria-label="Search lawyers">
-              <div className="search-header">
-                <h2 className="search-title">Search Legal Advocates</h2>
-                <p className="search-subtitle">Filter by specialization, city, or search by name.</p>
-              </div>
-              <div className="search-bar" role="search">
-                <span className="search-bar-icon" aria-hidden="true">🔍</span>
-                <input id="search-advocates" type="search" className="search-input focus-ring"
-                  placeholder="Search by specialization (Criminal, Corporate, Family, Civil)…"
-                  value={searchQuery} onChange={handleSearch} aria-label="Search legal advocates" />
-              </div>
-
-              {/* Specialization chips */}
-              <div style={{ marginBottom:'0.5rem' }}>
-                <p style={{ fontSize:'0.75rem', color:'rgba(245,239,226,0.4)', marginBottom:'0.4rem', paddingLeft:'0.25rem' }}>SPECIALIZATION</p>
-                <div className="spec-filters" role="group" aria-label="Filter by specialization">
-                  {SPECS.map(spec => (
-                    <button key={spec} className={`spec-chip focus-ring${activeSpec===spec?' active':''}`}
-                      onClick={() => handleSpecChip(spec)} aria-pressed={activeSpec===spec}>{spec}</button>
-                  ))}
-                </div>
-              </div>
-
-              {/* City chips */}
-              <div>
-                <p style={{ fontSize:'0.75rem', color:'rgba(245,239,226,0.4)', marginBottom:'0.4rem', paddingLeft:'0.25rem' }}>📍 CITY</p>
-                <div className="spec-filters" role="group" aria-label="Filter by city">
-                  {ETHIOPIAN_CITIES.map(city => (
-                    <button key={city} className={`spec-chip focus-ring${activeCity===city?' active city-chip':' city-chip'}`}
-                      onClick={() => handleCityChip(city)} aria-pressed={activeCity===city}>{city}</button>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* Results */}
-            <section className="lawyers-section" aria-label="Lawyer directory results">
-              <div className="lawyers-header">
-                <h2 className="lawyers-count">
-                  <span>{lawyers.length}</span>{' '}{lawyers.length === 1 ? 'Advocate' : 'Advocates'} Found
-                  {activeCity && <span style={{ fontWeight:400, color:'rgba(245,239,226,0.5)', fontSize:'0.85rem' }}> in {activeCity}</span>}
-                </h2>
-                {hasFilter && (
-                  <button className="btn btn-ghost btn-sm focus-ring" onClick={clearAll}>Clear all ✕</button>
-                )}
-              </div>
-              {loading ? (
-                <div className="loading-overlay" role="status" aria-live="polite">
-                  <span className="loading-spinner" /><span>Loading advocates…</span>
-                </div>
-              ) : lawyers.length > 0 ? (
-                <div className="lawyers-grid" role="list" aria-label={`${lawyers.length} legal advocates`}>
-                  {lawyers.map(lawyer => (
-                    <div key={lawyer.id} role="listitem">
-                      <LawyerCard lawyer={lawyer} onClick={() => setSelectedLawyer(lawyer)} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="empty-state" role="status">
-                  <div className="empty-state-icon" aria-hidden="true">⚖</div>
-                  <p className="empty-state-text">No verified advocates found</p>
-                  <p className="empty-state-sub">
-                    {hasFilter ? 'No results for the selected filters. Try clearing them.' : 'No lawyers registered yet.'}
-                  </p>
-                  {hasFilter && <button className="btn btn-primary" style={{ marginTop:'1rem' }} onClick={clearAll}>Clear Filters</button>}
-                </div>
-              )}
-            </section>
-          </main>
-        </>
-      )}
-
-      {/* ══════════════════════════════════════════
-          LAW TOPICS PAGE
-      ══════════════════════════════════════════ */}
-      {activeTab === 'topics' && (
-        <main>
-          <section className="hero texture-grain" style={{ minHeight:'auto', padding:'5rem 0 3rem' }} aria-labelledby="topics-heading">
-            <div className="hero-glow-1" aria-hidden="true" />
-            <div className="hero-inner" style={{ textAlign:'center' }}>
-              <div className="hero-badge">📚 Ethiopian Legal Reference</div>
-              <h1 className="hero-title" id="topics-heading" style={{ fontSize:'clamp(2rem,5vw,3rem)' }}>
-                Areas of <span className="hero-title-accent">Ethiopian Law</span>
-              </h1>
-              <p className="hero-subtitle" style={{ maxWidth:600, margin:'0 auto' }}>
-                Understand the key legal domains practiced by advocates on this platform.
-                Each area is governed by specific proclamations and codes.
-              </p>
-            </div>
-          </section>
-
-          <div className="main-content" style={{ maxWidth:780, paddingTop:'2rem', paddingBottom:'4rem' }}>
-            <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem' }}>
-              {LAW_TOPICS.map(t => <LawTopicCard key={t.title} {...t} />)}
-            </div>
-
-            {/* Info box */}
-            <div style={{ marginTop:'2.5rem', background:'rgba(245,239,226,0.04)', border:'1px solid rgba(245,239,226,0.1)', borderRadius:'var(--radius-md)', padding:'1.5rem' }}>
-              <h3 style={{ color:'rgba(245,239,226,0.8)', marginBottom:'0.75rem', fontSize:'1rem' }}>🏛 Ethiopian Court Hierarchy</h3>
-              <div style={{ display:'grid', gap:'0.5rem' }}>
-                {[
-                  ['Federal Supreme Court','Highest appellate court — cassation bench'],
-                  ['Federal High Court','First instance for federal crimes & civil matters'],
-                  ['Federal First Instance Court','Basic federal jurisdiction — Addis Ababa'],
-                  ['Regional Supreme Courts','Highest court in each regional state'],
-                  ['Regional High Courts','Intermediate appellate level'],
-                  ['Woreda Courts','First instance at district level'],
-                ].map(([name, role]) => (
-                  <div key={name} style={{ display:'flex', justifyContent:'space-between', padding:'0.5rem 0', borderBottom:'1px solid rgba(245,239,226,0.06)', fontSize:'0.8125rem' }}>
-                    <span style={{ color:'rgba(245,239,226,0.75)', fontWeight:600 }}>{name}</span>
-                    <span style={{ color:'rgba(245,239,226,0.4)' }}>{role}</span>
+          {/* Practice Area Grid */}
+          <section className="avvo-section avvo-section-white">
+            <div className="container">
+              <h2 className="avvo-section-title">Browse by Practice Area</h2>
+              <p className="avvo-section-sub">Find verified lawyers specializing in your legal need.</p>
+              <div className="practice-grid">
+                {PRACTICE_AREAS.map(area => (
+                  <div key={area.label} className={`practice-card${searchSpec === area.spec && area.spec ? ' active' : ''}`}
+                    onClick={() => handlePracticeCard(area)}>
+                    <span className="practice-card-icon">{area.icon}</span>
+                    <span className="practice-card-label">{area.label}</span>
                   </div>
                 ))}
               </div>
             </div>
+          </section>
 
-            {/* CTA */}
-            <div style={{ textAlign:'center', marginTop:'2.5rem' }}>
-              <p style={{ color:'rgba(245,239,226,0.5)', marginBottom:'1rem', fontSize:'0.9rem' }}>Need legal help? Find a verified advocate.</p>
-              <button className="btn btn-gold btn-lg focus-ring" onClick={() => setActiveTab('home')}>Browse Advocates →</button>
-            </div>
-          </div>
-        </main>
-      )}
-
-      {/* ══════════════════════════════════════════
-          ABOUT PAGE
-      ══════════════════════════════════════════ */}
-      {activeTab === 'about' && (
-        <main>
-          <section className="about-section texture-grain" aria-labelledby="about-heading">
-            <div className="about-inner">
-              <div>
-                <div className="about-eyebrow"><span>⚖</span> Official B2G Portal · Ethiopia</div>
-                <h2 className="about-title" id="about-heading">Transparent, data-driven<br />legal advocacy</h2>
-                <p className="about-text">
-                  LEX-RATING is Ethiopia's official government-to-business legal directory,
-                  connecting litigants with Ministry of Justice verified advocates through
-                  real-time ELO performance ratings.
-                </p>
-                <p className="about-text">
-                  Every lawyer holds a verified MoJ license, ensuring accountability and
-                  professionalism. Ratings are computed automatically from judge and client
-                  scores after each case.
-                </p>
-                <div className="about-features" role="list">
-                  {[
-                    { icon:'🔒', text:'Ministry of Justice license verification on registration' },
-                    { icon:'📊', text:'Real-time ELO rating engine — updated after every case' },
-                    { icon:'⭐', text:'Dual rating system: judge + client performance scores' },
-                    { icon:'📍', text:'Location-based search across 10 Ethiopian cities' },
-                    { icon:'📧', text:'Email-verified accounts via OTP authentication' },
-                    { icon:'📚', text:'Integrated Ethiopian law reference library' },
-                  ].map((f,i) => (
-                    <div key={i} className="about-feature" role="listitem">
-                      <div className="about-feature-icon" aria-hidden="true">{f.icon}</div>
-                      <span className="about-feature-text">{f.text}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ marginTop:'2.5rem', display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
-                  <button className="btn btn-gold btn-lg focus-ring" onClick={() => setActiveTab('home')}>Browse Directory</button>
-                  {!user && (
-                    <button className="btn btn-ghost btn-lg focus-ring"
-                      style={{ color:'rgba(245,239,226,0.8)', border:'1px solid rgba(245,239,226,0.2)' }}
-                      onClick={() => setShowAuth(true)}>Create Account</button>
-                  )}
-                </div>
-              </div>
-              <div>
-                <div className="about-card">
-                  <h3 className="about-card-title">MoJ Verified Registry <span className="verified-badge">✓ Live</span></h3>
-                  <MojPreview />
-                </div>
-                <div style={{ marginTop:'1.25rem', padding:'1rem', background:'rgba(245,239,226,0.04)', border:'1px solid rgba(245,239,226,0.1)', borderRadius:'var(--radius-md)' }}>
-                  <p style={{ fontSize:'0.8125rem', color:'rgba(245,239,226,0.5)', fontFamily:'var(--font-mono)', marginBottom:'0.5rem' }}>API Endpoints</p>
-                  {['GET  /api/lawyers/search?specialization=&city=','POST /api/auth/register','POST /api/auth/login','GET  /api/court/lawyer-rating/:id','POST /api/moj/verify-license'].map(ep => (
-                    <div key={ep} style={{ fontFamily:'var(--font-mono)', fontSize:'0.73rem', color:'rgba(245,239,226,0.55)', padding:'0.25rem 0', borderBottom:'1px solid rgba(245,239,226,0.06)' }}>{ep}</div>
-                  ))}
-                </div>
+          {/* How It Works */}
+          <section className="avvo-section avvo-section-gray">
+            <div className="container">
+              <h2 className="avvo-section-title" style={{ textAlign:'center' }}>How LEX-RATING Works</h2>
+              <p className="avvo-section-sub" style={{ textAlign:'center' }}>Three simple steps to finding your advocate.</p>
+              <div className="how-strip">
+                {[
+                  { num:'1', title:'Search', desc:'Enter your legal issue and city. Filter by specialization to narrow results instantly.' },
+                  { num:'2', title:'Compare', desc:'Review live ELO performance ratings, case win rates, education, and client reviews.' },
+                  { num:'3', title:'Connect', desc:'Message or call the lawyer directly. All advocates are MoJ-verified and licensed.' },
+                ].map(s => (
+                  <div key={s.num} className="how-step">
+                    <div className="how-step-num">{s.num}</div>
+                    <div className="how-step-title">{s.title}</div>
+                    <p className="how-step-desc">{s.desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
-        </main>
+
+          {/* Trust Bar */}
+          <div className="trust-bar">
+            <div className="trust-bar-inner">
+              {[
+                ['12', 'MoJ-Verified Advocates'],
+                ['10+', 'Court Cases Rated'],
+                ['10', 'Cities Covered'],
+                ['1–10', 'Transparent ELO Rating'],
+              ].map(([num, label]) => (
+                <div key={label} className="trust-stat">
+                  <span className="trust-stat-num">{num}</span>
+                  <span className="trust-stat-label">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Lawyers */}
+          <section className="avvo-section avvo-section-white">
+            <div className="container">
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:'1rem', marginBottom:'2.4rem' }}>
+                <div>
+                  <h2 className="avvo-section-title" style={{ marginBottom:'0.3rem' }}>Top-Rated Advocates</h2>
+                  <p className="avvo-section-sub" style={{ marginBottom:0 }}>Sorted by ELO performance rating.</p>
+                </div>
+                <button className="btn btn-secondary btn-sm" onClick={() => setPage('directory')}>View All →</button>
+              </div>
+              {loading ? (
+                <div className="loading-state">Loading advocates <span className="loading-dots"><span/><span/><span/></span></div>
+              ) : (
+                <div className="lawyers-grid">
+                  {lawyers.slice(0, 6).map(lawyer => (
+                    <LawyerCardComponent key={lawyer.id} lawyer={lawyer} onClick={() => setSelectedLawyer(lawyer)} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Q&A Preview */}
+          <section className="avvo-section avvo-section-gray">
+            <div className="container">
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:'1rem', marginBottom:'0.4rem' }}>
+                <div>
+                  <h2 className="avvo-section-title" style={{ marginBottom:'0.3rem' }}>Legal Q&A</h2>
+                  <p className="avvo-section-sub" style={{ marginBottom:0 }}>Real questions, answered by verified Ethiopian lawyers.</p>
+                </div>
+                <button className="btn btn-secondary btn-sm" onClick={() => setPage('qa')}>See All Questions →</button>
+              </div>
+              <div className="qa-grid">
+                {QA_DATA.slice(0, 3).map(q => (
+                  <div key={q.id} className="qa-card" onClick={() => setPage('qa')}>
+                    <span className="qa-tag">{q.tag}</span>
+                    <p className="qa-question">{q.question}</p>
+                    <div className="qa-meta">
+                      <span className="qa-answers">✓ {q.answers} answers</span>
+                      <span>{q.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Legal Guides */}
+          <section className="avvo-section avvo-section-white">
+            <div className="container">
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:'1rem', marginBottom:'0.4rem' }}>
+                <div>
+                  <h2 className="avvo-section-title" style={{ marginBottom:'0.3rem' }}>Legal Guides</h2>
+                  <p className="avvo-section-sub" style={{ marginBottom:0 }}>Understand your rights under Ethiopian law.</p>
+                </div>
+                <button className="btn btn-secondary btn-sm" onClick={() => setPage('guides')}>All Guides →</button>
+              </div>
+              <div className="guides-grid">
+                {GUIDES_DATA.slice(0, 3).map(g => (
+                  <div key={g.title} className="guide-card" onClick={() => setPage('guides')}>
+                    <div className="guide-card-color" style={{ background: g.color }} />
+                    <div className="guide-card-body">
+                      <div className="guide-cat">{g.cat}</div>
+                      <div className="guide-title">{g.title}</div>
+                      <div className="guide-read">📖 {g.read}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Attorney CTA */}
+          {!user && (
+            <div className="attorney-cta">
+              <h2>Are you an Ethiopian lawyer?</h2>
+              <p>Join LEX-RATING to grow your practice, receive MoJ-verified status, and connect with thousands of litigants across Ethiopia.</p>
+              <button className="btn btn-white btn-lg" onClick={() => setShowAuth(true)}>Register as an Advocate →</button>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ══════════════════════════════════════════ DIRECTORY ═════════════════════ */}
+      {page === 'directory' && (
+        <div className="dir-layout">
+          {/* Sidebar */}
+          <aside className="dir-sidebar">
+            <h3>Practice Area</h3>
+            <ul className="sidebar-spec-list">
+              <li className={`sidebar-spec-item${!searchSpec?' active':''}`} onClick={() => { setSearchSpec(''); setSpecInput(''); fetchLawyers('', searchCity); }}>
+                <span className="sidebar-spec-icon">📋</span> All Areas
+              </li>
+              {[
+                { icon:'⚖️', spec:'Criminal' },
+                { icon:'🏢', spec:'Corporate' },
+                { icon:'👨‍👩‍👧', spec:'Family' },
+                { icon:'🏠', spec:'Civil' },
+              ].map(item => (
+                <li key={item.spec} className={`sidebar-spec-item${searchSpec===item.spec?' active':''}`}
+                  onClick={() => { setSearchSpec(item.spec); setSpecInput(item.spec); fetchLawyers(item.spec, searchCity); }}>
+                  <span className="sidebar-spec-icon">{item.icon}</span> {item.spec}
+                </li>
+              ))}
+            </ul>
+
+            <h3 style={{ marginTop:'1.6rem' }}>City</h3>
+            <div style={{ display:'flex', flexDirection:'column', gap:'0.3rem' }}>
+              {['', ...ETHIOPIAN_CITIES].map(city => (
+                <label key={city} style={{ display:'flex', alignItems:'center', gap:'0.6rem', fontSize:'1.35rem', cursor:'pointer', padding:'0.4rem 0.6rem', borderRadius:4, background: searchCity===city && city ? '#fff4f0' : 'transparent', color: searchCity===city && city ? '#f55d25' : '#555', fontWeight: searchCity===city && city ? 700 : 400 }}>
+                  <input type="radio" name="city" checked={searchCity===city}
+                    onChange={() => { setSearchCity(city); setCityInput(city); fetchLawyers(searchSpec, city); }}
+                    style={{ accentColor:'#f55d25' }} />
+                  {city || 'All Cities'}
+                </label>
+              ))}
+            </div>
+          </aside>
+
+          {/* Main */}
+          <div>
+            {/* Search bar */}
+            <div className="dir-search-wrap">
+              <div className="dir-search-row">
+                <div className="dir-search-field" style={{ flex:2 }}>
+                  <span className="dir-search-icon">⚖</span>
+                  <input type="text" placeholder="Practice area…" value={specInput} list="spec-list2"
+                    onChange={e => { setSpecInput(e.target.value); setSearchSpec(e.target.value); fetchLawyers(e.target.value, searchCity); }} />
+                  <datalist id="spec-list2">
+                    {['Criminal','Corporate','Family','Civil'].map(s => <option key={s} value={s} />)}
+                  </datalist>
+                </div>
+                <div className="dir-search-field" style={{ flex:2 }}>
+                  <span className="dir-search-icon">📍</span>
+                  <input type="text" placeholder="City…" value={cityInput} list="city-list2"
+                    onChange={e => { setCityInput(e.target.value); setSearchCity(e.target.value); fetchLawyers(searchSpec, e.target.value); }} />
+                  <datalist id="city-list2">
+                    {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
+                  </datalist>
+                </div>
+                {hasFilter && <button className="btn btn-ghost btn-sm" onClick={clearFilters}>Clear ✕</button>}
+              </div>
+
+              <div className="filter-chips">
+                {['Criminal','Corporate','Family','Civil'].map(s => (
+                  <button key={s} className={`filter-chip${searchSpec===s?' active':''}`} onClick={() => handleSpecChip(s)}>{s}</button>
+                ))}
+                <span style={{ borderLeft:'1px solid #e0e0e0', margin:'0 0.4rem', alignSelf:'stretch' }} />
+                {ETHIOPIAN_CITIES.map(c => (
+                  <button key={c} className={`filter-chip city${searchCity===c?' active':''}`} onClick={() => handleCityChip(c)}>{c}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="results-header">
+              <p className="results-count"><strong>{lawyers.length}</strong> advocates found{searchCity ? ` in ${searchCity}` : ''}{searchSpec ? ` · ${searchSpec}` : ''}</p>
+              {hasFilter && <button className="btn btn-ghost btn-sm" onClick={clearFilters}>Clear all filters ✕</button>}
+            </div>
+
+            {loading ? (
+              <div className="loading-state">Loading advocates <span className="loading-dots"><span/><span/><span/></span></div>
+            ) : lawyers.length > 0 ? (
+              <div className="lawyers-grid">
+                {lawyers.map(lawyer => (
+                  <LawyerCardComponent key={lawyer.id} lawyer={lawyer} onClick={() => setSelectedLawyer(lawyer)} />
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state">
+                <span className="empty-icon">⚖</span>
+                <p className="empty-title">No advocates found</p>
+                <p className="empty-sub">Try adjusting your filters or clearing them to see all lawyers.</p>
+                <button className="btn btn-primary" onClick={clearFilters}>Clear Filters</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════ Q&A ═══════════════════════════ */}
+      {page === 'qa' && (
+        <section className="avvo-section avvo-section-gray" style={{ minHeight:'60vh' }}>
+          <div className="container">
+            <h1 className="avvo-section-title">Legal Q&A</h1>
+            <p className="avvo-section-sub">Browse questions answered by MoJ-verified Ethiopian lawyers.</p>
+            <div style={{ background:'#fff4f0', border:'1px solid #ffd0b0', borderRadius:6, padding:'1.2rem 1.6rem', marginBottom:'2.4rem', fontSize:'1.4rem', color:'#92400e' }}>
+              💡 <strong>Q&A posting requires a backend.</strong> Tell me to implement it and I'll add routes + data model for questions and answers.
+            </div>
+            <div className="qa-grid" style={{ gridTemplateColumns:'repeat(auto-fill, minmax(320px, 1fr))' }}>
+              {QA_DATA.map(q => (
+                <div key={q.id} className="qa-card">
+                  <span className="qa-tag">{q.tag}</span>
+                  <p className="qa-question">{q.question}</p>
+                  <div className="qa-meta">
+                    <span className="qa-answers">✓ {q.answers} answers</span>
+                    <span>{q.time}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════ GUIDES ════════════════════════ */}
+      {page === 'guides' && (
+        <section className="avvo-section avvo-section-gray" style={{ minHeight:'60vh' }}>
+          <div className="container">
+            <h1 className="avvo-section-title">Legal Guides</h1>
+            <p className="avvo-section-sub">Plain-language explanations of Ethiopian law, written for everyone.</p>
+            <div className="guides-grid" style={{ gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))' }}>
+              {GUIDES_DATA.map(g => (
+                <div key={g.title} className="guide-card">
+                  <div className="guide-card-color" style={{ background: g.color }} />
+                  <div className="guide-card-body">
+                    <div className="guide-cat">{g.cat}</div>
+                    <div className="guide-title">{g.title}</div>
+                    <div className="guide-read">📖 {g.read}</div>
+                    <button className="btn btn-secondary btn-sm" style={{ marginTop:'1rem' }}
+                      onClick={() => alert('Full article content requires a CMS/backend. Tell me to implement it!')}>
+                      Read Guide →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════ ABOUT ═════════════════════════ */}
+      {page === 'about' && (
+        <section className="avvo-section avvo-section-white" style={{ minHeight:'60vh' }}>
+          <div className="container" style={{ maxWidth:800 }}>
+            <h1 className="avvo-section-title">About LEX-RATING</h1>
+            <p style={{ fontSize:'1.6rem', color:'#555', lineHeight:1.7, marginBottom:'2rem' }}>
+              LEX-RATING is Ethiopia's official B2G (Business-to-Government) legal directory, connecting litigants with Ministry of Justice verified advocates through transparent, real-time ELO performance ratings.
+            </p>
+            <p style={{ fontSize:'1.5rem', color:'#555', lineHeight:1.7, marginBottom:'2rem' }}>
+              Every lawyer listed has a verified MoJ license. After each court case, our ELO engine automatically updates advocate ratings based on judge scores, client feedback, and case outcomes — ensuring accountability at every level.
+            </p>
+            <div style={{ background:'#f9f9f9', border:'1px solid rgba(0,0,0,0.1)', borderRadius:8, padding:'2rem', marginBottom:'2rem' }}>
+              <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'1.8rem', fontWeight:800, marginBottom:'1.6rem' }}>MoJ Verified Registry</h2>
+              <MojPreview />
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.2rem' }}>
+              {[
+                { icon:'🔒', title:'MoJ Verification', text:'All lawyers verified against the Ministry of Justice license registry.' },
+                { icon:'📊', title:'ELO Rating Engine', text:'Live ratings computed from court outcomes, judge scores, and client feedback.' },
+                { icon:'📍', title:'Location Search', text:'Find advocates in 10 Ethiopian cities with city-specific filtering.' },
+                { icon:'📧', title:'OTP Authentication', text:'Secure email-verified account creation for all users.' },
+              ].map(f => (
+                <div key={f.title} style={{ padding:'1.6rem', background:'#f9f9f9', border:'1px solid rgba(0,0,0,0.08)', borderRadius:8 }}>
+                  <div style={{ fontSize:'2.4rem', marginBottom:'0.6rem' }}>{f.icon}</div>
+                  <div style={{ fontFamily:'var(--font-heading)', fontWeight:700, fontSize:'1.5rem', marginBottom:'0.4rem' }}>{f.title}</div>
+                  <div style={{ fontSize:'1.35rem', color:'#666' }}>{f.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* ── FOOTER ── */}
-      <footer className="footer" role="contentinfo">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <div className="footer-brand-icon" aria-hidden="true">⚖</div>
-            <span className="footer-brand-name">LEX-RATING</span>
+      <footer className="avvo-footer">
+        <div className="avvo-footer-grid">
+          <div className="avvo-footer-brand">
+            <div className="avvo-footer-logo">⚖ LEX-RATING</div>
+            <p className="avvo-footer-tagline">Ethiopia's official B2G legal directory. Find MoJ-verified advocates with real-time ELO performance ratings.</p>
           </div>
-          <nav className="footer-links" aria-label="Footer links">
-            <span className="footer-link" onClick={() => setActiveTab('about')}>About</span>
-            <span className="footer-link" onClick={() => setActiveTab('topics')}>Law Topics</span>
-            <span className="footer-link">Privacy Directive</span>
-            <span className="footer-link">Federal Registry</span>
-          </nav>
-          <span className="footer-copy">© 2026 Ministry of Justice · Court Automation Dept. · Federal Democratic Republic of Ethiopia</span>
+          <div className="avvo-footer-col">
+            <h4>Find a Lawyer</h4>
+            <ul>
+              {['Criminal Law','Corporate Law','Family Law','Civil Law'].map(s => (
+                <li key={s}><a onClick={() => { setSearchSpec(s.replace(' Law','')); fetchLawyers(s.replace(' Law',''),''); setPage('directory'); }}>{s}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div className="avvo-footer-col">
+            <h4>Legal Topics</h4>
+            <ul>
+              {GUIDES_DATA.slice(0,4).map(g => <li key={g.title}><a onClick={() => setPage('guides')}>{g.cat}</a></li>)}
+            </ul>
+          </div>
+          <div className="avvo-footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a onClick={() => setPage('about')}>About LEX-RATING</a></li>
+              <li><a onClick={() => setPage('directory')}>Lawyer Directory</a></li>
+              <li><a onClick={() => setPage('qa')}>Legal Q&A</a></li>
+              <li><a onClick={() => setShowAuth(true)}>For Lawyers</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="avvo-footer-bottom">
+          <span>© 2026 Ministry of Justice · Court Automation Department · Federal Democratic Republic of Ethiopia</span>
+          <span>Privacy Policy · Terms of Use · Federal Registry</span>
         </div>
       </footer>
+    </div>
+  );
+}
+
+// ─── Lawyer Card Component ────────────────────────────────────────────────────
+function LawyerCardComponent({ lawyer, onClick }) {
+  const avvoRating = eloToRating(lawyer.elo);
+  const ratingClass = ratingColor(avvoRating);
+  return (
+    <div className="lawyer-card" onClick={onClick} role="button" tabIndex={0}
+      onKeyDown={e => { if (e.key === 'Enter') onClick(); }}
+      aria-label={`View profile of ${lawyer.name}`}
+    >
+      <div className="lawyer-card-inner">
+        <div className="lawyer-card-photo-wrap">
+          <img
+            src={lawyer.profilePic}
+            alt={lawyer.name}
+            className="lawyer-card-photo"
+            onError={e => { e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'; }}
+          />
+          <div className={`avvo-rating-badge ${ratingClass}`}>{avvoRating}</div>
+        </div>
+        <div className="lawyer-card-body">
+          <div className="lawyer-card-name">{lawyer.name}</div>
+          <div className="lawyer-card-spec">{lawyer.specialization}</div>
+          <div className="lawyer-card-location">📍 {lawyer.city || 'Addis Ababa'}</div>
+          <div style={{ display:'flex', alignItems:'center', gap:'0.6rem' }}>
+            <StarRow rating={lawyer.rating} />
+            <span style={{ fontSize:'1.2rem', color:'#777' }}>{lawyer.rating.toFixed(1)}</span>
+          </div>
+          <div className="lawyer-card-meta">
+            <span>{lawyer.casesCount} cases</span>
+            {lawyer.yearsExperience > 0 && <span>{lawyer.yearsExperience} yrs</span>}
+            <span className="lawyer-card-free">✓ MoJ Verified</span>
+          </div>
+        </div>
+      </div>
+      <div className="lawyer-card-footer">
+        <span className="lawyer-card-elo">ELO {lawyer.elo}</span>
+        <button className="btn btn-primary btn-sm" onClick={e => { e.stopPropagation(); onClick(); }}>View Profile</button>
+      </div>
     </div>
   );
 }
