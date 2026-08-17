@@ -59,13 +59,14 @@ export function calculateLawyerInteractions() {
 
   // 2. Calculate court cases handled
   courtCases.forEach(c => {
-    if (c.lawyerId && lawyerMap[c.lawyerId]) {
-      lawyerMap[c.lawyerId].casesCount += 1;
-    } else if (c.licenseNumber) {
-      const foundId = Object.keys(lawyerMap).find(id => lawyerMap[id].licenseNumber === c.licenseNumber);
+    [c.plaintiffLawyerLicense, c.defendantLawyerLicense].filter(Boolean).forEach(lic => {
+      const foundId = Object.keys(lawyerMap).find(id => lawyerMap[id].licenseNumber === lic);
       if (foundId) {
         lawyerMap[foundId].casesCount += 1;
       }
+    });
+    if (c.lawyerId && lawyerMap[c.lawyerId]) {
+      lawyerMap[c.lawyerId].casesCount += 1;
     }
   });
 

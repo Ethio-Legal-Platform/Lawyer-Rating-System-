@@ -1603,14 +1603,21 @@ export default function App() {
           </aside>
 
           {/* Main */}
-          <div>
+          <div className="dir-main-content">
             {/* Search bar */}
             <div className="dir-search-wrap">
               <div className="dir-search-row">
                 <div className="dir-search-field" style={{ flex:2 }}>
                   <span className="dir-search-icon">⚖</span>
-                  <input type="text" placeholder="Practice area…" value={specInput} list="spec-list2"
-                    onChange={e => { setSpecInput(e.target.value); setSearchSpec(e.target.value); fetchLawyers(e.target.value, searchCity); }} />
+                  <input type="text" placeholder="Practice area or advocate name…" value={specInput} list="spec-list2"
+                    onChange={e => {
+                      const val = e.target.value;
+                      setSpecInput(val);
+                      setSearchSpec(val);
+                      fetchLawyers(val, cityInput);
+                    }}
+                    onKeyDown={e => { if (e.key === 'Enter') fetchLawyers(specInput, cityInput); }}
+                  />
                   <datalist id="spec-list2">
                     {['Criminal','Corporate','Family','Civil'].map(s => <option key={s} value={s} />)}
                   </datalist>
@@ -1618,7 +1625,14 @@ export default function App() {
                 <div className="dir-search-field" style={{ flex:2 }}>
                   <span className="dir-search-icon">📍</span>
                   <input type="text" placeholder="City…" value={cityInput} list="city-list2"
-                    onChange={e => { setCityInput(e.target.value); setSearchCity(e.target.value); fetchLawyers(searchSpec, e.target.value); }} />
+                    onChange={e => {
+                      const val = e.target.value;
+                      setCityInput(val);
+                      setSearchCity(val);
+                      fetchLawyers(specInput, val);
+                    }}
+                    onKeyDown={e => { if (e.key === 'Enter') fetchLawyers(specInput, cityInput); }}
+                  />
                   <datalist id="city-list2">
                     {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
                   </datalist>

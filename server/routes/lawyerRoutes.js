@@ -21,10 +21,12 @@ router.get('/leaderboard', (req, res) => {
 // Optional query params:
 //   ?specialization=Criminal
 //   ?city=Addis%20Ababa
-// Both can be combined. Results sorted by ELO descending.
+//   ?search=Kebede  or  ?q=Family
+// Results sorted by ELO descending.
 router.get('/search', (req, res) => {
-  const specQuery = (req.query.specialization || '').toLowerCase().trim();
-  const cityQuery = (req.query.city         || '').toLowerCase().trim();
+  const specQuery   = (req.query.specialization || '').toLowerCase().trim();
+  const cityQuery   = (req.query.city           || '').toLowerCase().trim();
+  const searchQuery = (req.query.search || req.query.q || '').toLowerCase().trim();
 
   const users      = readJSON(USERS_PATH);
   const courtCases = readJSON(COURT_CASES_PATH);
@@ -34,8 +36,36 @@ router.get('/search', (req, res) => {
 
   const matchingLawyers = users.filter(u => {
     if (u.role !== 'lawyer' || !u.verified) return false;
-    if (specQuery && !(u.specialization || '').toLowerCase().includes(specQuery)) return false;
-    if (cityQuery && !(u.city          || '').toLowerCase().includes(cityQuery)) return false;
+
+    const uSpec = (u.specialization || '').toLowerCase();
+    const uCity = (u.city           || '').toLowerCase();
+    const uName = (u.name || u.fullName || '').toLowerCase();
+    const uBio  = (u.bio            || '').toLowerCase();
+    const uLic  = (u.licenseNumber  || '').toLowerCase();
+
+    // Check specialization matching (bidirectional: "Criminal" matches "Criminal Defense" and vice versa)
+    if (specQuery) {
+      const match = uSpec.includes(specQuery) || specQuery.includes(uSpec);
+      if (!match) return false;
+    }
+
+    // Check city matching
+    if (cityQuery) {
+      const match = uCity.includes(cityQuery) || cityQuery.includes(uCity);
+      if (!match) return false;
+    }
+
+    // Check generic search keyword
+    if (searchQuery) {
+      const match = uName.includes(searchQuery) ||
+                    uSpec.includes(searchQuery) ||
+                    searchQuery.includes(uSpec) ||
+                    uCity.includes(searchQuery) ||
+                    uBio.includes(searchQuery) ||
+                    uLic.includes(searchQuery);
+      if (!match) return false;
+    }
+
     return true;
   });
 
