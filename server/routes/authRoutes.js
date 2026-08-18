@@ -105,3 +105,74 @@ router.post('/register-verify', (req, res) => {
 
   res.json({ message: 'Account verified and registered successfully. You can now login.' });
 });
+
+// ── POST /api/auth/resend-otp ─────────────────────────────────────────────
+// Regenerates and resends OTP for a pending registration.
+router.post('/resend-otp', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+  const record = pendingRegistrations[email];
+  if (!record) return res.status(404).json({ error: 'No pending registration found for this email' });
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  pendingRegistrations[email].code = code;
+  await sendBrevoEmail(email, code);
+  res.json({ message: 'A new verification code has been sent to your email.' });
+});
+
+// ── POST /api/auth/login ───────────────────────────────────────────────────
+// Authenticates a user by username/email + password using bcrypt and returns a JWT token.
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  const cleanInput = String(username).trim().toLowerCase();
+  const cleanPassword = String(password).trim();
+
+  const users = readJSON(USERS_PATH);
+  const user  = users.find(
+    u => (u.username && u.username.toLowerCase().trim() === cleanInput) ||
+         (u.email && u.email.toLowerCase().trim() === cleanInput)
+  );
+
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  let passwordMatch = false;
+  if (user.password) {
+    if (user.password.startsWith('$2')) {
+      passwordMatch = await bcrypt.compare(password, user.password) ||
+                      await bcrypt.compare(cleanPassword, user.password);
+    } else {
+      passwordMatch = (user.password === password) || (user.password === cleanPassword);
+    }
+  }
+
+  if (!passwordMatch) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  const token = jwt.sign(
+    { id: user.id, role: user.role, licenseNumber: user.licenseNumber || null },
+    process.env.JWT_SECRET || 'dev_secret_key_123456789_lex_rating',
+    { expiresIn: '7d' }
+  );
+
+  res.json({
+    message: 'Login successful',
+    token,
+    user: {
+      id:         user.id,
+      name:       user.name,
+      username:   user.username,
+      email:      user.email,
+      role:       user.role,
+      profilePic: user.profilePic || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'
+    }
+  });
+});
+
+export default router;
