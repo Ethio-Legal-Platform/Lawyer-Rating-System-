@@ -74,10 +74,10 @@ export default function Navbar({ user, page, onNavigate, onSignIn, onSignOut }) 
             </>
           ) : (
             <>
-              <button className="btn btn-ghost btn-sm" onClick={onSignIn}>
+              <button className="btn btn-ghost btn-sm" onClick={() => onSignIn({ tab: 'login' })}>
                 Sign In
               </button>
-              <button className="btn btn-primary btn-sm" onClick={onSignIn}>
+              <button className="btn btn-gold btn-sm" onClick={() => onSignIn({ tab: 'register', role: 'lawyer' })}>
                 For Lawyers
               </button>
             </>

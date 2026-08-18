@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LawyerCard from '../features/directory/LawyerCard';
-import { ETHIOPIAN_CITIES } from '../data/constants';
+import { ETHIOPIAN_CITIES, SPECIALIZATION_LIST } from '../data/constants';
 
 export default function DirectoryPage({
   lawyers = [],
@@ -56,26 +56,21 @@ export default function DirectoryPage({
           >
             All Practice Areas
           </li>
-          {[
-            { spec: 'Criminal' },
-            { spec: 'Corporate' },
-            { spec: 'Family' },
-            { spec: 'Civil' },
-          ].map(item => (
+          {SPECIALIZATION_LIST.map(spec => (
             <li
-              key={item.spec}
-              className={`sidebar-spec-item${searchSpec === item.spec ? ' active' : ''}`}
+              key={spec}
+              className={`sidebar-spec-item${searchSpec === spec ? ' active' : ''}`}
               onClick={() => {
-                setSpecInput(item.spec);
-                if (onSearch) onSearch(item.spec, searchCity);
+                setSpecInput(spec);
+                if (onSearch) onSearch(spec, searchCity);
               }}
             >
-              {item.spec}
+              {spec} Law
             </li>
           ))}
         </ul>
 
-        <h3 style={{ marginTop: '1.6rem' }}>City</h3>
+        <h3 style={{ marginTop: '2rem' }}>City</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
           {['', ...ETHIOPIAN_CITIES].map(city => (
             <label
@@ -130,7 +125,7 @@ export default function DirectoryPage({
                 }}
               />
               <datalist id="dir-spec-list">
-                {['Criminal', 'Corporate', 'Family', 'Civil'].map(s => <option key={s} value={s} />)}
+                {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
               </datalist>
             </div>
             <div className="dir-search-field" style={{ flex: 2 }}>
@@ -160,7 +155,7 @@ export default function DirectoryPage({
           </div>
 
           <div className="filter-chips">
-            {['Criminal', 'Corporate', 'Family', 'Civil'].map(s => (
+            {SPECIALIZATION_LIST.map(s => (
               <button
                 key={s}
                 className={`filter-chip${searchSpec === s ? ' active' : ''}`}
@@ -198,9 +193,14 @@ export default function DirectoryPage({
             Loading advocates <span className="loading-dots"><span/><span/><span/></span>
           </div>
         ) : lawyers.length > 0 ? (
-          <div className="lawyers-grid">
+          <div className="dir-lawyers-list">
             {lawyers.map(lawyer => (
-              <LawyerCard key={lawyer.id} lawyer={lawyer} onClick={() => onSelectLawyer(lawyer)} />
+              <LawyerCard
+                key={lawyer.id}
+                lawyer={lawyer}
+                variant="horizontal"
+                onClick={() => onSelectLawyer(lawyer)}
+              />
             ))}
           </div>
         ) : (

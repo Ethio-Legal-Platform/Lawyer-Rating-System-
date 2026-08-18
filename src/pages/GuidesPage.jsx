@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LEGAL_GUIDES } from '../data/legalGuides';
 
 export default function GuidesPage({ guides = LEGAL_GUIDES, onSelectGuide }) {
   const [guideCat, setGuideCat] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
     'All',
@@ -16,60 +17,125 @@ export default function GuidesPage({ guides = LEGAL_GUIDES, onSelectGuide }) {
     'Civil Law'
   ];
 
-  const filteredGuides = guides.filter(g => guideCat === 'All' || g.cat === guideCat);
+  const filteredGuides = useMemo(() => {
+    return guides.filter(g => {
+      const matchCat = guideCat === 'All' || g.cat === guideCat;
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch =
+        !q ||
+        g.title.toLowerCase().includes(q) ||
+        g.subtitle.toLowerCase().includes(q) ||
+        g.cat.toLowerCase().includes(q) ||
+        g.author.toLowerCase().includes(q) ||
+        (g.proclamations && g.proclamations.some(p => p.toLowerCase().includes(q)));
+      return matchCat && matchSearch;
+    });
+  }, [guides, guideCat, searchQuery]);
 
   return (
-    <section className="avvo-section avvo-section-gray" style={{ minHeight: '60vh' }}>
+    <section className="guides-page-section">
       <div className="container">
-        <h1 className="avvo-section-title">Legal Guides & Resources</h1>
-        <p className="avvo-section-sub">
-          Plain-language explanations of Ethiopian laws, proclamations, and procedures written by verified advocates.
-        </p>
+        {/* Header Hero */}
+        <div className="guides-hero-block">
+          <span className="section-label">Ethiopian Legal Knowledge Base</span>
+          <h1 className="guides-page-title">Legal Guides & Citizen Resources</h1>
+          <p className="guides-page-sub">
+            Plain-language statutory guides, constitutional explanations, and procedural handbooks authored by licensed Ethiopian advocates.
+          </p>
 
-        {/* Category Filter Chips */}
-        <div className="filter-chips" style={{ marginBottom: '2.8rem' }}>
-          {categories.map(cat => (
-            <button
-              key={cat}
-              className={`filter-chip${guideCat === cat ? ' active' : ''}`}
-              onClick={() => setGuideCat(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+          {/* Search Bar */}
+          <div className="guides-search-wrap">
+            <input
+              type="text"
+              className="guides-search-input"
+              placeholder="Search guides by legal topic, proclamation number, or keyword (e.g. arrest rights, severance, divorce, lease)..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                className="guides-search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Category Filter Chips */}
+          <div className="guides-filter-chips">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={`guide-filter-chip${guideCat === cat ? ' active' : ''}`}
+                onClick={() => setGuideCat(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="guides-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2.4rem' }}>
-          {filteredGuides.map(g => (
-            <div
-              key={g.id}
-              className="guide-card"
-              onClick={() => onSelectGuide(g)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => { if (e.key === 'Enter') onSelectGuide(g); }}
-            >
-              <div className="guide-card-color" style={{ background: g.color }} />
-              <div className="guide-card-body">
-                <div className="guide-cat">{g.cat}</div>
-                <div className="guide-title">{g.title}</div>
-                <p style={{ fontSize: '1.35rem', color: 'var(--gray-700)', lineHeight: 1.5, marginBottom: '1.2rem' }}>
-                  {g.subtitle}
-                </p>
-                <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)', borderTop: '1px solid var(--border)', paddingTop: '0.8rem', marginBottom: '1.2rem' }}>
-                  <div>Author: {g.author}</div>
-                  <div>Date: {g.updated} · Read time: {g.read}</div>
+        {/* Guides Grid */}
+        {filteredGuides.length > 0 ? (
+          <div className="guides-grid">
+            {filteredGuides.map(g => (
+              <div
+                key={g.id}
+                className="guide-card"
+                onClick={() => onSelectGuide(g)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter') onSelectGuide(g); }}
+              >
+                <div className="guide-card-top-bar">
+                  <span className="guide-cat-badge">{g.cat}</span>
+                  <span className="guide-read-chip">⏱ {g.read}</span>
                 </div>
-                <button
-                  className="btn btn-primary btn-sm btn-full"
-                  style={{ background: g.color || 'var(--orange)' }}
-                >
-                  Read Full Guide &rarr;
-                </button>
+
+                <h3 className="guide-card-title">{g.title}</h3>
+                <p className="guide-card-subtitle">{g.subtitle}</p>
+
+                {/* Proclamations Preview */}
+                {g.proclamations && g.proclamations.length > 0 && (
+                  <div className="guide-card-proclamations">
+                    <span className="guide-proclamation-label">Key Law:</span>
+                    <span className="guide-proclamation-tag">{g.proclamations[0]}</span>
+                    {g.proclamations.length > 1 && (
+                      <span className="guide-proclamation-more">+{g.proclamations.length - 1} more</span>
+                    )}
+                  </div>
+                )}
+
+                {/* Card Footer */}
+                <div className="guide-card-footer">
+                  <div className="guide-card-meta">
+                    <div className="guide-card-author">{g.author}</div>
+                    <div className="guide-card-date">{g.updated}</div>
+                  </div>
+                  <button className="btn btn-gold btn-sm guide-read-btn">
+                    Read Guide &rarr;
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="guides-empty-state">
+            <h3>No Legal Guides Found</h3>
+            <p>No guides match your query "{searchQuery}". Try searching with different keywords or choosing another category.</p>
+            <button
+              className="btn btn-gold btn-sm"
+              onClick={() => {
+                setSearchQuery('');
+                setGuideCat('All');
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -10,5 +10,13 @@
   { "licenseNumber": "LAW-1009", "fullName": "Abrham Wolde Selassie",   "status": "ACTIVE", "issueDate": "2013-07-25", "expiryDate": "2028-07-25", "specialization": "Criminal" },
   { "licenseNumber": "LAW-1010", "fullName": "Fikirte Demissie Assefa", "status": "ACTIVE", "issueDate": "2021-02-14", "expiryDate": "2036-02-14", "specialization": "Corporate" },
   { "licenseNumber": "LAW-1011", "fullName": "Solomon Desta Tsegaye",   "status": "ACTIVE", "issueDate": "2015-10-03", "expiryDate": "2030-10-03", "specialization": "Civil" },
-  { "licenseNumber": "LAW-1012", "fullName": "Rahel Mekonnen Girma",    "status": "ACTIVE", "issueDate": "2018-12-20", "expiryDate": "2033-12-20", "specialization": "Family" }
+  { "licenseNumber": "LAW-1012", "fullName": "Rahel Mekonnen Girma",    "status": "ACTIVE", "issueDate": "2018-12-20", "expiryDate": "2033-12-20", "specialization": "Family" },
+  { "licenseNumber": "LAW-1013", "fullName": "Amanuel Getachew Belay",  "status": "ACTIVE", "issueDate": "2015-02-11", "expiryDate": "2030-02-11", "specialization": "Labour" },
+  { "licenseNumber": "LAW-1014", "fullName": "Bethlehem Sisay Kassa",   "status": "ACTIVE", "issueDate": "2013-09-19", "expiryDate": "2028-09-19", "specialization": "Land" },
+  { "licenseNumber": "LAW-1015", "fullName": "Ephrem Hailu Berhe",      "status": "ACTIVE", "issueDate": "2017-06-25", "expiryDate": "2032-06-25", "specialization": "Tax" },
+  { "licenseNumber": "LAW-1016", "fullName": "Meron Worku Asfaw",       "status": "ACTIVE", "issueDate": "2014-04-14", "expiryDate": "2029-04-14", "specialization": "Banking" },
+  { "licenseNumber": "LAW-1017", "fullName": "Natnael Fikru Zeleke",    "status": "ACTIVE", "issueDate": "2019-11-05", "expiryDate": "2034-11-05", "specialization": "Intellectual Property" },
+  { "licenseNumber": "LAW-1018", "fullName": "Sosina Tamrat Desta",     "status": "ACTIVE", "issueDate": "2016-10-18", "expiryDate": "2031-10-18", "specialization": "Immigration" },
+  { "licenseNumber": "LAW-1019", "fullName": "Kassahun Melaku Tefera",  "status": "ACTIVE", "issueDate": "2015-08-30", "expiryDate": "2030-08-30", "specialization": "Labour" },
+  { "licenseNumber": "LAW-1020", "fullName": "Hirut Gebremedhin Tadesse","status": "ACTIVE", "issueDate": "2011-03-12", "expiryDate": "2026-03-12", "specialization": "Land" }
 ]

@@ -19,12 +19,14 @@ router.get('/leaderboard', (req, res) => {
 
 // ── GET /api/lawyers/search ────────────────────────────────────────────────
 // Optional query params:
+//   ?name=Kebede
 //   ?specialization=Criminal
 //   ?city=Addis%20Ababa
 //   ?search=Kebede  or  ?q=Family
 // Results sorted by ELO descending.
 router.get('/search', (req, res) => {
   const specQuery   = (req.query.specialization || '').toLowerCase().trim();
+  const nameQuery   = (req.query.name           || '').toLowerCase().trim();
   const cityQuery   = (req.query.city           || '').toLowerCase().trim();
   const searchQuery = (req.query.search || req.query.q || '').toLowerCase().trim();
 
@@ -43,10 +45,16 @@ router.get('/search', (req, res) => {
     const uBio  = (u.bio            || '').toLowerCase();
     const uLic  = (u.licenseNumber  || '').toLowerCase();
 
-    // Check specialization matching (bidirectional: "Criminal" matches "Criminal Defense" and vice versa)
+    // Check advocate name query explicitly
+    if (nameQuery) {
+      if (!uName.includes(nameQuery)) return false;
+    }
+
+    // Check practice area OR advocate name matching
     if (specQuery) {
-      const match = uSpec.includes(specQuery) || specQuery.includes(uSpec);
-      if (!match) return false;
+      const matchSpec = uSpec.includes(specQuery) || specQuery.includes(uSpec);
+      const matchName = uName.includes(specQuery);
+      if (!matchSpec && !matchName) return false;
     }
 
     // Check city matching

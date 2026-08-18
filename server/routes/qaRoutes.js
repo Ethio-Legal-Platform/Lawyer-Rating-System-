@@ -121,7 +121,7 @@ router.post('/questions/:id/publish', requireAuth, (req, res) => {
 /**
  * POST /api/qa/questions/:id/answers
  */
-router.post('/questions/:id/answers', requireAuth, (req, res) => {
+router.post('/questions/:id/answers', (req, res) => {
   try {
     const questionId = req.params.id;
     const {
@@ -138,13 +138,18 @@ router.post('/questions/:id/answers', requireAuth, (req, res) => {
       city
     } = req.body;
 
+    const resolvedAuthorId = req.user?.id || authorId;
+    if (!resolvedAuthorId) {
+      return res.status(401).json({ error: 'Authentication required to post a reply' });
+    }
+
     const newAnswer = addAnswer(questionId, {
       content,
-      authorId,
+      authorId: resolvedAuthorId,
       authorName,
       authorUsername,
-      authorRole,
-      isLawyer,
+      authorRole: isLawyer ? 'lawyer' : (authorRole || 'client'),
+      isLawyer: Boolean(isLawyer),
       licenseNumber,
       specialization,
       elo,
@@ -161,10 +166,10 @@ router.post('/questions/:id/answers', requireAuth, (req, res) => {
 /**
  * POST /api/qa/questions/:id/answers/:answerId/upvote
  */
-router.post('/questions/:id/answers/:answerId/upvote', requireAuth, (req, res) => {
+router.post('/questions/:id/answers/:answerId/upvote', (req, res) => {
   try {
     const { id, answerId } = req.params;
-    const { userId } = req.body;
+    const userId = req.user?.id || req.body?.userId;
     if (!userId) {
       return res.status(401).json({ error: 'You must be signed in to upvote answers' });
     }

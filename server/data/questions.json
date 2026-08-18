@@ -8,18 +8,56 @@
     "authorName": "Kalalew Tere",
     "authorRole": "client",
     "authorId": "client-1786541946657",
-    "isPrivate": true,
+    "isPrivate": false,
     "targetLawyerId": null,
     "targetLawyerName": null,
-    "status": "private_pending",
+    "status": "public",
     "createdAt": "2026-08-17T07:02:01.756Z",
-    "publishedAt": null,
-    "answers": []
+    "publishedAt": "2026-08-17T07:02:01.756Z",
+    "answers": [
+      {
+        "id": "ans-warrant-1",
+        "authorId": "lawyer-1001",
+        "authorName": "Kebede Haile Mariam",
+        "authorUsername": "kebede_haile",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": "LAW-1001",
+        "specialization": "Criminal",
+        "elo": 1280,
+        "city": "Addis Ababa",
+        "content": "Under Article 49 and 51 of the Ethiopian Criminal Procedure Code (CrPC), arrest without warrant is an exception permitted only for flagrant offenses (እጅ ከፍንጅ) or where the suspect is reasonably suspected of a grave offense punishable by rigorous imprisonment exceeding 3 years and is likely to abscond. Under FDRE Constitution Article 19, the suspect must be informed immediately in a language they understand of the reasons for arrest and must be brought before a court within 48 hours. Evidence obtained as direct fruit of unlawful arbitrary arrest can be challenged and suppressed under constitutional due process standards.",
+        "createdAt": "2026-08-17T08:15:00Z",
+        "upvotes": 18,
+        "upvotedBy": [
+          "client-101",
+          "client-102"
+        ]
+      },
+      {
+        "id": "ans-warrant-2",
+        "authorId": "lawyer-1006",
+        "authorName": "Selam Tadesse Negash",
+        "authorUsername": "selam_tadesse",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": "LAW-1006",
+        "specialization": "Criminal",
+        "elo": 1225,
+        "city": "Addis Ababa",
+        "content": "If police hold an individual past the 48-hour constitutional deadline without securing a formal remand order (የጊዜ ቀጠሮ) from a bench judge, the family or legal counsel should immediately petition the Federal High Court for a writ of Habeas Corpus to compel the station commander to produce the detained person and show lawful cause.",
+        "createdAt": "2026-08-17T09:30:00Z",
+        "upvotes": 11,
+        "upvotedBy": [
+          "client-104"
+        ]
+      }
+    ]
   },
   {
     "id": "q-1786946118208",
-    "title": "Private Inquiry Test: Commercial lease breach in Addis",
-    "description": "My landlord in Bole Addis Ababa locked the premises without court notice.",
+    "title": "Commercial Lease Lockout by Landlord Without Court Order in Addis Ababa",
+    "description": "My landlord in Bole, Addis Ababa locked the business premises without prior court notice following a 2-week rent dispute.",
     "category": "Corporate",
     "city": "Addis Ababa",
     "authorName": "Kalalew Tere",
@@ -34,19 +72,18 @@
     "answers": [
       {
         "id": "ans-1786946118323",
-        "authorId": "lawyer-1001",
-        "authorName": "Kebede Haile Mariam",
-        "authorUsername": "kebede_law",
+        "authorId": "lawyer-1002",
+        "authorName": "Tigist Alemu Bekele",
+        "authorUsername": "tigist_alemu",
         "authorRole": "lawyer",
         "isLawyer": true,
-        "licenseNumber": "LAW-1001",
-        "specialization": "Criminal",
-        "elo": 1290,
-        "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+        "licenseNumber": "LAW-1002",
+        "specialization": "Corporate",
+        "elo": 1310,
         "city": "Addis Ababa",
-        "content": "Under Ethiopian Commercial Code and Civil Code Art 2945, lockouts without court eviction orders are unlawful.",
+        "content": "Under Article 2945 and 2946 of the Ethiopian Civil Code and Commercial Code principles, landlords cannot exercise extrajudicial self-help evictions or padlock doors without a valid, enforceable court execution decree. You are entitled to petition the Federal First Instance Court for an emergency possessory restoration order (የይዞታ መመለሻ አቤቱታ) and claim consequential damages for business interruption.",
         "createdAt": "2026-08-17T05:55:18.323Z",
-        "upvotes": 1,
+        "upvotes": 15,
         "upvotedBy": [
           "client-105"
         ]
@@ -65,6 +102,23 @@
     "createdAt": "2026-02-14T09:30:00Z",
     "answers": [
       {
+        "id": "ans-1787079436029",
+        "authorId": "lawyer-1001",
+        "authorName": "Kebede Haile Mariam",
+        "authorUsername": "kebede_haile",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": null,
+        "specialization": "Criminal",
+        "elo": 1280,
+        "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+        "city": "Addis Ababa",
+        "content": "Under Article 19(3) FDRE Constitution, court appearance within 48 hours is mandatory.",
+        "createdAt": "2026-08-18T18:57:16.029Z",
+        "upvotes": 0,
+        "upvotedBy": []
+      },
+      {
         "id": "ans-1",
         "authorId": "lawyer-1001",
         "authorName": "Kebede Haile Mariam",
@@ -74,28 +128,14 @@
         "licenseNumber": "LAW-1001",
         "specialization": "Criminal",
         "elo": 1280,
-        "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
         "city": "Addis Ababa",
-        "content": "No, this is a clear violation of constitutional rights. Under Article 19(3) of the FDRE Constitution, every arrested person MUST be brought before a court of law within 48 hours of arrest (excluding reasonable transit time). Courts operate duty judges on weekends for remand hearings (የጊዜ ቀጠሮ). You should immediately engage an advocate to file a writ of Habeas Corpus (የአካል ነፃነት አቤቱታ) demanding his immediate release or court appearance.",
+        "content": "No, this is a clear violation of constitutional rights. Under Article 19(3) of the FDRE Constitution, every arrested person MUST be brought before a court of law within 48 hours of arrest. Duty judges operate over the weekend for remand hearings. You should immediately retain an advocate to demand immediate appearance or release.",
         "createdAt": "2026-02-14T11:15:00Z",
-        "upvotes": 14,
-        "upvotedBy": []
-      },
-      {
-        "id": "ans-2",
-        "authorId": "client-102",
-        "authorName": "Yared Bekele",
-        "authorUsername": "yared_b",
-        "authorRole": "client",
-        "isLawyer": false,
-        "licenseNumber": null,
-        "specialization": null,
-        "elo": null,
-        "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
-        "city": "Addis Ababa",
-        "content": "We had a similar situation in Kirkos sub-city last year. Once our lawyer presented the petition on Monday morning, the judge ordered the station commander to explain the detention.",
-        "createdAt": "2026-02-14T14:20:00Z",
-        "upvotes": 3
+        "upvotes": 24,
+        "upvotedBy": [
+          "client-101",
+          "client-103"
+        ]
       }
     ]
   },
@@ -120,11 +160,14 @@
         "licenseNumber": "LAW-1004",
         "specialization": "Family",
         "elo": 1210,
-        "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
         "city": "Hawassa",
-        "content": "Yes, absolutely. Under Article 62 and 63 of the Revised Family Code (Proclamation No. 213/2000), any building or immovable improvement constructed during the subsistence of marriage is legally presumed to be common marital property (የጋራ ንብረት), regardless of whose name appears on the municipal lease title deed. The court will order an independent certified engineering valuation, and you will be awarded 50% of the net equity or an order for public auction division.",
+        "content": "Yes, absolutely. Under Article 62 and 63 of the Revised Family Code (Proclamation No. 213/2000), any building or immovable improvement constructed during the subsistence of marriage is legally presumed to be common marital property (የጋራ ንብረት), regardless of whose name appears on the lease certificate. The court will order an independent certified engineering valuation for equal equity division.",
         "createdAt": "2026-02-15T10:45:00Z",
-        "upvotes": 19
+        "upvotes": 29,
+        "upvotedBy": [
+          "client-101",
+          "client-104"
+        ]
       },
       {
         "id": "ans-4",
@@ -136,31 +179,13 @@
         "licenseNumber": "LAW-1012",
         "specialization": "Family",
         "elo": 1160,
-        "profilePic": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=200",
         "city": "Dessie",
         "content": "Make sure you immediately file for an injunction order (የእግድ ትእዛዝ) at the Federal First Instance or High Court to prevent any unauthorized sale, transfer, or bank mortgage on the property while the divorce is pending.",
         "createdAt": "2026-02-15T12:30:00Z",
-        "upvotes": 12,
+        "upvotes": 17,
         "upvotedBy": [
           "client-1786541946657"
         ]
-      },
-      {
-        "id": "ans-1786944202554",
-        "authorId": "client-1786541946657",
-        "authorName": "Kalalew Tere",
-        "authorUsername": "kalalew",
-        "authorRole": "client",
-        "isLawyer": false,
-        "licenseNumber": null,
-        "specialization": null,
-        "elo": null,
-        "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
-        "city": "Ethiopia",
-        "content": "nice one",
-        "createdAt": "2026-08-17T05:23:22.554Z",
-        "upvotes": 0,
-        "upvotedBy": []
       }
     ]
   },
@@ -185,11 +210,32 @@
         "licenseNumber": "LAW-1002",
         "specialization": "Corporate",
         "elo": 1310,
-        "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
         "city": "Addis Ababa",
         "content": "Yes, under the revised Commercial Code of Ethiopia (Proclamation No. 1243/2021, Article 534), a single shareholder can form an OPC with limited liability. However, as a foreign national, your entity must also comply with the Investment Proclamation No. 1180/2020 minimum capital requirements (typically $200,000 USD for 100% foreign ownership, or $150,000 USD if in joint venture with a domestic investor).",
         "createdAt": "2026-02-16T09:00:00Z",
-        "upvotes": 24
+        "upvotes": 31,
+        "upvotedBy": [
+          "client-101",
+          "client-105"
+        ]
+      },
+      {
+        "id": "ans-opc-2",
+        "authorId": "lawyer-1010",
+        "authorName": "Fikirte Demissie Assefa",
+        "authorUsername": "fikirte_demissie",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": "LAW-1010",
+        "specialization": "Corporate",
+        "elo": 1340,
+        "city": "Addis Ababa",
+        "content": "In addition, if your technology consultancy qualifies under the Ethiopian Investment Commission (EIC) special tech incentive schedule, you can register through the EIC one-stop service portal with streamlined foreign currency repatriation rights.",
+        "createdAt": "2026-02-16T10:15:00Z",
+        "upvotes": 19,
+        "upvotedBy": [
+          "client-104"
+        ]
       }
     ]
   },
@@ -206,19 +252,86 @@
     "answers": [
       {
         "id": "ans-6",
-        "authorId": "lawyer-1003",
-        "authorName": "Dawit Girma Tadesse",
-        "authorUsername": "dawit_girma",
+        "authorId": "lawyer-1013",
+        "authorName": "Amanuel Getachew Belay",
+        "authorUsername": "amanuel_getachew",
         "authorRole": "lawyer",
         "isLawyer": true,
-        "licenseNumber": "LAW-1003",
-        "specialization": "Civil",
-        "elo": 1195,
-        "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
-        "city": "Hawassa",
+        "licenseNumber": "LAW-1013",
+        "specialization": "Labour",
+        "elo": 1240,
+        "city": "Addis Ababa",
         "content": "Under Article 11 of Labour Proclamation No. 1156/2019, the maximum probation period in Ethiopia is strictly 60 working days. Because you worked past 60 days without written termination, you automatically attained permanent employee status. A verbal dismissal without written notice and lawful grounds is an unlawful termination (ያለአግባብ ስንብት). You are legally entitled to: 1) Full unpaid wages; 2) Severance pay; 3) Compensation for unlawful dismissal equal to up to 3 months' salary.",
         "createdAt": "2026-02-16T13:10:00Z",
-        "upvotes": 20
+        "upvotes": 26,
+        "upvotedBy": [
+          "client-101",
+          "client-102"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "q-105",
+    "title": "How is municipal expropriation compensation calculated for private residential property?",
+    "description": "The City Administration has notified our neighborhood of urban redevelopment expropriation for a road corridor. How is replacement cost and displacement compensation determined under current proclamations?",
+    "category": "Land",
+    "city": "Bahir Dar",
+    "authorName": "Dawit Tesfaye",
+    "authorRole": "client",
+    "authorId": "client-106",
+    "createdAt": "2026-02-17T08:30:00Z",
+    "answers": [
+      {
+        "id": "ans-land-1",
+        "authorId": "lawyer-1014",
+        "authorName": "Bethlehem Sisay Kassa",
+        "authorUsername": "bethlehem_sisay",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": "LAW-1014",
+        "specialization": "Land",
+        "elo": 1290,
+        "city": "Bahir Dar",
+        "content": "Under Expropriation of Landholdings for Public Purpose Proclamation No. 1161/2019, compensation comprises three separate statutory components: 1) Full replacement cost of all buildings, structures, and trees at prevailing market material/labor rates without depreciation deduction; 2) Displacement assistance equal to 1 year of equivalent rent; 3) Provision of a substitute residential land plot or condominium housing allocation.",
+        "createdAt": "2026-02-17T10:00:00Z",
+        "upvotes": 22,
+        "upvotedBy": [
+          "client-101",
+          "client-105"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "q-106",
+    "title": "What is the legal foreclosure procedure for mortgaged collateral by private commercial banks?",
+    "description": "Our trading enterprise obtained a business loan secured by warehouse property. We experienced an export delay of 45 days. Can the lending bank auction the property immediately without going to court?",
+    "category": "Banking",
+    "city": "Addis Ababa",
+    "authorName": "Solomon Haile",
+    "authorRole": "client",
+    "authorId": "client-107",
+    "createdAt": "2026-02-17T12:00:00Z",
+    "answers": [
+      {
+        "id": "ans-bank-1",
+        "authorId": "lawyer-1016",
+        "authorName": "Meron Worku Asfaw",
+        "authorUsername": "meron_worku",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": "LAW-1016",
+        "specialization": "Banking",
+        "elo": 1305,
+        "city": "Addis Ababa",
+        "content": "Under Property Mortgaged or Pledged with Banks Proclamation No. 97/1998 (as amended), commercial banks in Ethiopia possess statutory extrajudicial foreclosure powers (የባንክ ቀጥተኛ የሀራጅ መብት). However, the bank must strictly serve a written default warning notice giving at least 30 consecutive days to settle arrears, followed by certified public newspaper auction notices. If the bank fails to adhere to statutory appraisal and notice periods, you can seek injunctive relief from the Federal High Court.",
+        "createdAt": "2026-02-17T14:15:00Z",
+        "upvotes": 25,
+        "upvotedBy": [
+          "client-103",
+          "client-104"
+        ]
       }
     ]
   }
