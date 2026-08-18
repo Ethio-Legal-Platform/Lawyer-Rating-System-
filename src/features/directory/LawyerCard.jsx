@@ -5,20 +5,19 @@ import { eloToRating, ratingColor } from '../../utils/ratingUtils';
 export default function LawyerCard({ lawyer, onClick }) {
   const avvoRating = eloToRating(lawyer.elo);
   const ratingClass = ratingColor(avvoRating);
-  const topAward = lawyer.awards && lawyer.awards.length > 0 ? lawyer.awards[0] : null;
 
   return (
     <div
-      className="lawyer-card"
+      className="lawyer-card lawyer-card-compact"
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={e => {
         if (e.key === 'Enter' || e.key === ' ') onClick();
       }}
-      aria-label={`View profile of ${lawyer.name}`}
+      aria-label={`View full details of ${lawyer.name}`}
     >
-      <div className="lawyer-card-inner">
+      <div className="lawyer-card-compact-header">
         <div className="lawyer-card-photo-wrap">
           <img
             src={lawyer.profilePic}
@@ -31,71 +30,32 @@ export default function LawyerCard({ lawyer, onClick }) {
           <div className={`avvo-rating-badge ${ratingClass}`}>{avvoRating}</div>
         </div>
 
-        <div className="lawyer-card-body">
-          <div className="lawyer-card-header">
+        <div className="lawyer-card-compact-info">
+          <div className="lawyer-card-name-row">
             <h3 className="lawyer-card-name">{lawyer.name}</h3>
-            <span className="verified-badge">MoJ Verified</span>
+            <span className="verified-badge">Verified</span>
           </div>
 
           <div className="lawyer-card-spec">
-            {lawyer.specialization} Law · {lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} yrs exp.` : 'Licensed Advocate'}
+            {lawyer.specialization} Law · {lawyer.city || 'Addis Ababa'}
           </div>
 
-          <div className="lawyer-card-meta">
-            <span>Location: {lawyer.city || 'Addis Ababa'}</span>
-            <span>License: {lawyer.licenseNumber}</span>
-            <span style={{ color: '#008cc9', fontWeight: 600 }}>{lawyer.casesCount} Decided Cases</span>
-            {lawyer.interactionScore > 0 && (
-              <span style={{ color: '#f59e0b', fontWeight: 700 }}>
-                {lawyer.interactionScore} Activity Points
-              </span>
-            )}
-          </div>
-
-          {topAward && (
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                background: '#fef3c7',
-                border: '1px solid #fde68a',
-                borderRadius: 4,
-                padding: '0.2rem 0.6rem',
-                fontSize: '1.2rem',
-                color: '#92400e',
-                fontWeight: 700,
-                marginTop: '0.4rem'
-              }}
-            >
-              <span>{topAward.title}</span>
-            </div>
-          )}
-
-          <div className="lawyer-card-rating">
+          <div className="lawyer-card-rating-mini">
             <StarRow rating={lawyer.rating} />
             <span className="rating-num">{(Number(lawyer.rating) || 0).toFixed(1)}</span>
-            <span className="rating-desc">({lawyer.casesCount} court reviews)</span>
+            <span className="rating-cases">({lawyer.casesCount || 0} cases)</span>
           </div>
-
-          {lawyer.bio && <p className="lawyer-card-bio">{lawyer.bio}</p>}
         </div>
+      </div>
 
-        <div className="lawyer-card-action">
-          <div className="lawyer-elo-badge">
-            <span className="lawyer-elo-num">{lawyer.elo}</span>
-            <span className="lawyer-elo-label">ELO Score</span>
-          </div>
-          <button
-            className="btn btn-orange btn-sm"
-            onClick={e => {
-              e.stopPropagation();
-              onClick();
-            }}
-          >
-            View Profile
-          </button>
+      <div className="lawyer-card-compact-footer">
+        <div className="lawyer-elo-mini">
+          <span className="lawyer-elo-label">ELO</span>
+          <span className="lawyer-elo-val">{lawyer.elo}</span>
         </div>
+        <span className="lawyer-card-expand-btn">
+          View Details &rarr;
+        </span>
       </div>
     </div>
   );
