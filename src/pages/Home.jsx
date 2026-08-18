@@ -29,7 +29,7 @@ export default function Home({
     <>
       {/* Hero */}
       <section className="avvo-hero">
-        <div className="avvo-hero-tag">🇪🇹 Official Ministry of Justice Registry</div>
+        <div className="avvo-hero-tag">Official Ministry of Justice Registry</div>
         <h1>Legal. <em>Easier.</em></h1>
         <p className="avvo-hero-sub">
           Find MoJ-verified Ethiopian lawyers by practice area and city. Compare live ELO ratings, read profiles, and connect instantly.
@@ -38,7 +38,6 @@ export default function Home({
         {/* Dual search bar */}
         <div className="avvo-search-box">
           <div className="avvo-search-field">
-            <span className="avvo-search-icon">⚖</span>
             <input
               className="avvo-search-input"
               type="text"
@@ -53,7 +52,6 @@ export default function Home({
             </datalist>
           </div>
           <div className="avvo-search-field">
-            <span className="avvo-search-icon">📍</span>
             <input
               className="avvo-search-input"
               type="text"
@@ -101,7 +99,6 @@ export default function Home({
                 tabIndex={0}
                 onKeyDown={e => { if (e.key === 'Enter') handlePracticeCard(area); }}
               >
-                <span className="practice-card-icon">{area.icon}</span>
                 <span className="practice-card-label">{area.label}</span>
               </div>
             ))}
@@ -137,7 +134,7 @@ export default function Home({
             ['12', 'MoJ-Verified Advocates'],
             ['10+', 'Court Cases Rated'],
             ['10', 'Cities Covered'],
-            ['1–10', 'Transparent ELO Rating'],
+            ['1-10', 'Transparent ELO Rating'],
           ].map(([num, label]) => (
             <div key={label} className="trust-stat">
               <span className="trust-stat-num">{num}</span>
@@ -155,7 +152,7 @@ export default function Home({
               <h2 className="avvo-section-title" style={{ marginBottom: '0.3rem' }}>Top-Rated Advocates</h2>
               <p className="avvo-section-sub" style={{ marginBottom: 0 }}>Sorted by ELO performance rating.</p>
             </div>
-            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('directory')}>View All →</button>
+            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('directory')}>View All &rarr;</button>
           </div>
           {loading ? (
             <div className="loading-state">
@@ -177,7 +174,7 @@ export default function Home({
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 2.8rem' }}>
               <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f55d25', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                ⭐ 2026 Community Recognition
+                2026 Community Recognition
               </span>
               <h2 className="avvo-section-title" style={{ marginTop: '0.4rem', marginBottom: '0.6rem' }}>
                 Most Interactive Advocates of the Year
@@ -190,7 +187,7 @@ export default function Home({
             <div className="leaderboard-grid">
               {leaderboard.map((lawyer, idx) => {
                 const topAw = lawyer.awards && lawyer.awards.length > 0 ? lawyer.awards[0] : null;
-                const crownLabel = idx === 0 ? '🏆 Rank #1 Advocate' : idx === 1 ? '⭐ Rank #2 Advocate' : '🌟 Rank #3 Advocate';
+                const crownLabel = idx === 0 ? 'Rank #1 Advocate' : idx === 1 ? 'Rank #2 Advocate' : 'Rank #3 Advocate';
                 return (
                   <div
                     key={lawyer.id}
@@ -220,7 +217,7 @@ export default function Home({
                       {lawyer.name}
                     </h3>
                     <div style={{ fontSize: '1.35rem', color: 'var(--blue)', fontWeight: 600, marginBottom: '0.6rem' }}>
-                      {lawyer.specialization} Law · 📍 {lawyer.city}
+                      {lawyer.specialization} Law · {lawyer.city}
                     </div>
                     {topAw && (
                       <div style={{ fontSize: '1.2rem', color: '#92400e', background: '#fef3c7', padding: '0.3rem 0.8rem', borderRadius: 99, display: 'inline-block', fontWeight: 700, marginBottom: '1.2rem' }}>
@@ -233,12 +230,12 @@ export default function Home({
                         <div style={{ fontSize: '1.15rem', color: 'var(--gray-500)', textTransform: 'uppercase' }}>Activity Points</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#52a304' }}>▲ {lawyer.helpfulVotesReceived || 0}</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#52a304' }}>{lawyer.helpfulVotesReceived || 0}</div>
                         <div style={{ fontSize: '1.15rem', color: 'var(--gray-500)', textTransform: 'uppercase' }}>Helpful Votes</div>
                       </div>
                     </div>
                     <button className="btn btn-primary btn-sm btn-full">
-                      View Advocate Profile →
+                      View Advocate Profile &rarr;
                     </button>
                   </div>
                 );
@@ -256,7 +253,7 @@ export default function Home({
               <h2 className="avvo-section-title" style={{ marginBottom: '0.3rem' }}>Legal Guides & Articles</h2>
               <p className="avvo-section-sub" style={{ marginBottom: 0 }}>Plain-language explanations of Ethiopian laws and procedures.</p>
             </div>
-            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('guides')}>All Guides →</button>
+            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('guides')}>All Guides &rarr;</button>
           </div>
           <div className="guides-grid">
             {LEGAL_GUIDES.slice(0, 3).map(g => (
@@ -269,8 +266,8 @@ export default function Home({
                     {g.subtitle}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-                    <span className="guide-read">📖 {g.read}</span>
-                    <span style={{ fontSize: '1.3rem', color: 'var(--blue)', fontWeight: 700 }}>Read Article →</span>
+                    <span className="guide-read">Read: {g.read}</span>
+                    <span style={{ fontSize: '1.3rem', color: 'var(--blue)', fontWeight: 700 }}>Read Article &rarr;</span>
                   </div>
                 </div>
               </div>

@@ -1595,8 +1595,7 @@ img { max-width: 100%; vertical-align: middle; }
   gap: 0.6rem;
 }
 .guide-proclamations-list li::before {
-  content: "📜";
-  font-size: 1.2rem;
+  content: "";
 }
 
 .guide-article-section {

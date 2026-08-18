@@ -22,11 +22,11 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
           <h2 className="guide-reader-title">{guide.title}</h2>
           <p className="guide-reader-subtitle">{guide.subtitle}</p>
           <div className="guide-reader-meta">
-            <span>✍️ {guide.author}</span>
-            <span>📅 {guide.updated}</span>
-            <span>⏱️ {guide.read}</span>
+            <span>Author: {guide.author}</span>
+            <span>Date: {guide.updated}</span>
+            <span>Read time: {guide.read}</span>
           </div>
-          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
         {/* Body */}
@@ -58,7 +58,7 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
               <p>{sec.content}</p>
               {sec.alert && (
                 <div className="guide-alert-box">
-                  ⚠️ <strong>Important Note:</strong> {sec.alert.text}
+                  <strong>Important Note:</strong> {sec.alert.text}
                 </div>
               )}
             </div>
@@ -68,12 +68,11 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
           {guide.keyTakeaways && (
             <div className="guide-takeaways-box">
               <div className="guide-takeaways-title">
-                <span>✅ Key Takeaways & Checklist</span>
+                <span>Key Takeaways & Checklist</span>
               </div>
               <ul className="guide-takeaways-list">
                 {guide.keyTakeaways.map((item, idx) => (
                   <li key={idx}>
-                    <span className="check">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -107,7 +106,7 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
                 if (onConsultAdvocate) onConsultAdvocate(guide.cat);
               }}
             >
-              Find {guide.cat} Advocates →
+              Find {guide.cat} Advocates &rarr;
             </button>
           </div>
         </div>

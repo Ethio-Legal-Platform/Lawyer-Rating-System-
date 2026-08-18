@@ -4,14 +4,14 @@ export const ETHIOPIAN_CITIES = [
 ];
 
 export const PRACTICE_AREAS = [
-  { icon: '⚖️', label: 'Criminal',        spec: 'Criminal' },
-  { icon: '🏢', label: 'Corporate',       spec: 'Corporate' },
-  { icon: '👨‍👩‍👧', label: 'Family',          spec: 'Family' },
-  { icon: '🏠', label: 'Civil',           spec: 'Civil' },
-  { icon: '💼', label: 'Employment',      spec: '' },
-  { icon: '🌍', label: 'Immigration',     spec: '' },
-  { icon: '🏥', label: 'Medical',         spec: '' },
-  { icon: '🚗', label: 'Personal Injury', spec: '' },
+  { icon: '', label: 'Criminal',        spec: 'Criminal' },
+  { icon: '', label: 'Corporate',       spec: 'Corporate' },
+  { icon: '', label: 'Family',          spec: 'Family' },
+  { icon: '', label: 'Civil',           spec: 'Civil' },
+  { icon: '', label: 'Employment',      spec: '' },
+  { icon: '', label: 'Immigration',     spec: '' },
+  { icon: '', label: 'Medical',         spec: '' },
+  { icon: '', label: 'Personal Injury', spec: '' },
 ];
 
 export const QA_SAMPLE_DATA = [

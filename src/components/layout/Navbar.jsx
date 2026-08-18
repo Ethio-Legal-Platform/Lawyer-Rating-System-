@@ -9,7 +9,7 @@ export default function Navbar({ user, page, onNavigate, onSignIn, onSignOut }) 
           onClick={() => onNavigate('home')}
           style={{ background: 'none', border: 'none', cursor: 'pointer' }}
         >
-          <span className="avvo-logo-icon">⚖</span>
+          <span className="avvo-logo-icon" style={{ fontWeight: 900 }}>LEX</span>
           <span>LEX-RATING</span>
         </button>
 

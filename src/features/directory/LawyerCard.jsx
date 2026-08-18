@@ -34,7 +34,7 @@ export default function LawyerCard({ lawyer, onClick }) {
         <div className="lawyer-card-body">
           <div className="lawyer-card-header">
             <h3 className="lawyer-card-name">{lawyer.name}</h3>
-            <span className="verified-badge">✓ MoJ Verified</span>
+            <span className="verified-badge">MoJ Verified</span>
           </div>
 
           <div className="lawyer-card-spec">
@@ -42,12 +42,12 @@ export default function LawyerCard({ lawyer, onClick }) {
           </div>
 
           <div className="lawyer-card-meta">
-            <span>📍 {lawyer.city || 'Addis Ababa'}</span>
-            <span>🔖 {lawyer.licenseNumber}</span>
+            <span>Location: {lawyer.city || 'Addis Ababa'}</span>
+            <span>License: {lawyer.licenseNumber}</span>
             <span style={{ color: '#008cc9', fontWeight: 600 }}>{lawyer.casesCount} Decided Cases</span>
             {lawyer.interactionScore > 0 && (
-              <span style={{ color: '#f59e0b', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                ⭐ {lawyer.interactionScore} Activity
+              <span style={{ color: '#f59e0b', fontWeight: 700 }}>
+                {lawyer.interactionScore} Activity Points
               </span>
             )}
           </div>
@@ -68,7 +68,6 @@ export default function LawyerCard({ lawyer, onClick }) {
                 marginTop: '0.4rem'
               }}
             >
-              <span>{topAward.icon}</span>
               <span>{topAward.title}</span>
             </div>
           )}

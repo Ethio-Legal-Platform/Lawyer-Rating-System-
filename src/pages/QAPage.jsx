@@ -33,7 +33,7 @@ export default function QAPage({
               else onOpenAskModal();
             }}
           >
-            Ask a Legal Question ＋
+            Ask a Legal Question +
           </button>
         </div>
 
@@ -44,7 +44,7 @@ export default function QAPage({
             style={{ borderRadius: '6px 6px 0 0', padding: '1rem 2rem', fontSize: '1.4rem', fontWeight: 700 }}
             onClick={() => onSetQaTab('public')}
           >
-            🌐 Public Q&A Forum
+            Public Q&A Forum
           </button>
           <button
             className={`btn btn-sm ${qaTab === 'private' ? 'btn-primary' : 'btn-ghost'}`}
@@ -57,7 +57,7 @@ export default function QAPage({
               }
             }}
           >
-            🔒 My Private Inquiries {user && privateInquiries.length > 0 ? `(${privateInquiries.length})` : ''}
+            My Private Inquiries {user && privateInquiries.length > 0 ? `(${privateInquiries.length})` : ''}
           </button>
         </div>
 
@@ -67,7 +67,6 @@ export default function QAPage({
             <div className="dir-search-wrap" style={{ marginBottom: '2.4rem' }}>
               <div className="dir-search-row">
                 <div className="dir-search-field" style={{ flex: 3 }}>
-                  <span className="dir-search-icon">🔍</span>
                   <input
                     type="text"
                     placeholder="Search legal questions, terms, or topics (e.g. bail, divorce, lease, employment)…"
@@ -76,7 +75,7 @@ export default function QAPage({
                   />
                 </div>
                 {qaSearchTerm && (
-                  <button className="btn btn-ghost btn-sm" onClick={() => onSetQaSearchTerm('')}>Clear ✕</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => onSetQaSearchTerm('')}>Clear</button>
                 )}
               </div>
 
@@ -115,11 +114,11 @@ export default function QAPage({
                         <span className="qa-tag">{q.category} Law</span>
                         {hasLawyer ? (
                           <span style={{ fontSize: '1.15rem', color: '#c2410c', background: '#fff4f0', border: '1px solid #ffd0b0', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 700 }}>
-                            ⚖️ Advocate Verified
+                            Advocate Verified
                           </span>
                         ) : (
                           <span style={{ fontSize: '1.15rem', color: '#555', background: '#f3f4f6', padding: '0.2rem 0.6rem', borderRadius: 99 }}>
-                            💬 Community
+                            Community
                           </span>
                         )}
                       </div>
@@ -128,8 +127,8 @@ export default function QAPage({
                         {q.description}
                       </p>
                       <div className="qa-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '0.8rem' }}>
-                        <span className="qa-answers">✓ {(q.answers || []).length} responses</span>
-                        <span>📍 {q.city || 'Ethiopia'}</span>
+                        <span className="qa-answers">{(q.answers || []).length} responses</span>
+                        <span>Location: {q.city || 'Ethiopia'}</span>
                       </div>
                     </div>
                   );
@@ -137,7 +136,6 @@ export default function QAPage({
               </div>
             ) : (
               <div className="empty-state">
-                <span className="empty-icon">💬</span>
                 <p className="empty-title">No questions found</p>
                 <p className="empty-sub">Be the first to ask a legal question in this category or search term.</p>
                 <button
@@ -158,7 +156,7 @@ export default function QAPage({
           <div>
             <div style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 8, padding: '1.6rem 2rem', marginBottom: '2rem' }}>
               <div style={{ fontWeight: 800, fontSize: '1.5rem', color: '#0369a1', marginBottom: '0.4rem' }}>
-                🔒 Private Inquiries & Consultations
+                Private Inquiries & Consultations
               </div>
               <div style={{ fontSize: '1.35rem', color: '#0284c7', lineHeight: 1.5 }}>
                 {user?.role === 'lawyer'
@@ -186,14 +184,14 @@ export default function QAPage({
                       onKeyDown={e => { if (e.key === 'Enter') onSelectQuestion(q.id); }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', gap: '0.6rem' }}>
-                        <span className="qa-tag" style={{ background: '#e0f2fe', color: '#0369a1' }}>🔒 {q.category} Law</span>
+                        <span className="qa-tag" style={{ background: '#e0f2fe', color: '#0369a1' }}>{q.category} Law</span>
                         {hasLawyer ? (
                           <span style={{ fontSize: '1.15rem', color: '#166534', background: '#dcfce7', border: '1px solid #86efac', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 700 }}>
-                            ✓ Advocate Responded
+                            Advocate Responded
                           </span>
                         ) : (
                           <span style={{ fontSize: '1.15rem', color: '#b45309', background: '#fef3c7', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 600 }}>
-                            ⏳ Pending Response
+                            Pending Response
                           </span>
                         )}
                       </div>
@@ -202,8 +200,8 @@ export default function QAPage({
                         {q.description}
                       </p>
                       <div className="qa-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '0.8rem' }}>
-                        <span className="qa-answers">💬 {(q.answers || []).length} responses</span>
-                        <span style={{ color: '#0284c7', fontWeight: 600 }}>Click to Review & Publish →</span>
+                        <span className="qa-answers">{(q.answers || []).length} responses</span>
+                        <span style={{ color: '#0284c7', fontWeight: 600 }}>Click to Review & Publish &rarr;</span>
                       </div>
                     </div>
                   );
@@ -211,7 +209,6 @@ export default function QAPage({
               </div>
             ) : (
               <div className="empty-state">
-                <span className="empty-icon">🔒</span>
                 <p className="empty-title">No private inquiries found</p>
                 <p className="empty-sub">
                   {user?.role === 'lawyer'

@@ -57,14 +57,14 @@ export default function GuidesPage({ guides = LEGAL_GUIDES, onSelectGuide }) {
                   {g.subtitle}
                 </p>
                 <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)', borderTop: '1px solid var(--border)', paddingTop: '0.8rem', marginBottom: '1.2rem' }}>
-                  <div>✍️ {g.author}</div>
-                  <div>📅 {g.updated} · ⏱️ {g.read}</div>
+                  <div>Author: {g.author}</div>
+                  <div>Date: {g.updated} · Read time: {g.read}</div>
                 </div>
                 <button
                   className="btn btn-primary btn-sm btn-full"
                   style={{ background: g.color || 'var(--orange)' }}
                 >
-                  Read Full Guide →
+                  Read Full Guide &rarr;
                 </button>
               </div>
             </div>

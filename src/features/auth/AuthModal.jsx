@@ -120,7 +120,7 @@ export default function AuthModal({ onClose, onLogin }) {
           <div className="auth-modal-sub">
             {step === 'otp' ? `Code sent to ${otpEmail}` : tab === 'login' ? 'Access your legal directory account' : 'Join Ethiopia\'s official legal directory'}
           </div>
-          <button className="auth-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="auth-modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
         {step === 'form' && (
@@ -135,8 +135,8 @@ export default function AuthModal({ onClose, onLogin }) {
         )}
 
         <div className="auth-body">
-          {error   && <div className="alert alert-error">⚠ {error}</div>}
-          {success && <div className="alert alert-success">✓ {success}</div>}
+          {error   && <div className="alert alert-error">{error}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
 
           {/* OTP */}
           {step === 'otp' && (
@@ -148,7 +148,7 @@ export default function AuthModal({ onClose, onLogin }) {
                   type="text"
                   inputMode="numeric"
                   maxLength={6}
-                  placeholder="••••••"
+                  placeholder="------"
                   value={otpCode}
                   onChange={e => setOtpCode(e.target.value.replace(/\D/g, ''))}
                   required
@@ -164,7 +164,7 @@ export default function AuthModal({ onClose, onLogin }) {
                   {resending ? 'Sending…' : 'Resend Code'}
                 </button>
                 <button type="button" className="btn btn-ghost" style={{ flex: 1 }} onClick={() => { setStep('form'); setOtpCode(''); clear(); }}>
-                  ← Back
+                  Back
                 </button>
               </div>
             </form>
@@ -262,7 +262,7 @@ export default function AuthModal({ onClose, onLogin }) {
 
               {regForm.role === 'lawyer' && (
                 <div className="license-box">
-                  <div className="license-box-title">🔒 MoJ License Verification Required</div>
+                  <div className="license-box-title">MoJ License Verification Required</div>
                   <div className="form-group">
                     <label className="form-label">License Number *</label>
                     <input
@@ -321,7 +321,7 @@ export default function AuthModal({ onClose, onLogin }) {
                     <input
                       className="form-input"
                       type="text"
-                      placeholder="e.g. LLB – Addis Ababa University (2015)"
+                      placeholder="e.g. LLB - Addis Ababa University (2015)"
                       value={regForm.education}
                       onChange={e => f('education', e.target.value)}
                     />

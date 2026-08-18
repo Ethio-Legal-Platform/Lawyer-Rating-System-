@@ -54,13 +54,13 @@ export default function DirectoryPage({
               if (onSearch) onSearch('', searchCity);
             }}
           >
-            <span className="sidebar-spec-icon">★</span> All Practice Areas
+            All Practice Areas
           </li>
           {[
-            { spec: 'Criminal', icon: '⚖️' },
-            { spec: 'Corporate', icon: '🏢' },
-            { spec: 'Family', icon: '👨‍👩‍👧' },
-            { spec: 'Civil', icon: '📜' },
+            { spec: 'Criminal' },
+            { spec: 'Corporate' },
+            { spec: 'Family' },
+            { spec: 'Civil' },
           ].map(item => (
             <li
               key={item.spec}
@@ -70,7 +70,7 @@ export default function DirectoryPage({
                 if (onSearch) onSearch(item.spec, searchCity);
               }}
             >
-              <span className="sidebar-spec-icon">{item.icon}</span> {item.spec}
+              {item.spec}
             </li>
           ))}
         </ul>
@@ -115,7 +115,6 @@ export default function DirectoryPage({
         <div className="dir-search-wrap">
           <div className="dir-search-row">
             <div className="dir-search-field" style={{ flex: 2 }}>
-              <span className="dir-search-icon">⚖</span>
               <input
                 type="text"
                 placeholder="Practice area or advocate name…"
@@ -135,7 +134,6 @@ export default function DirectoryPage({
               </datalist>
             </div>
             <div className="dir-search-field" style={{ flex: 2 }}>
-              <span className="dir-search-icon">📍</span>
               <input
                 type="text"
                 placeholder="City…"
@@ -156,7 +154,7 @@ export default function DirectoryPage({
             </div>
             {hasFilter && (
               <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
-                Clear ✕
+                Clear
               </button>
             )}
           </div>
@@ -190,7 +188,7 @@ export default function DirectoryPage({
           </p>
           {hasFilter && (
             <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
-              Clear all filters ✕
+              Clear all filters
             </button>
           )}
         </div>
@@ -207,7 +205,6 @@ export default function DirectoryPage({
           </div>
         ) : (
           <div className="empty-state">
-            <span className="empty-icon">⚖</span>
             <p className="empty-title">No advocates found</p>
             <p className="empty-sub">Try broadening your search or clearing filters.</p>
             <button className="btn btn-primary" onClick={clearFilters}>Clear Filters</button>

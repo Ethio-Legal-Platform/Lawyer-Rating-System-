@@ -36,10 +36,10 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               {lawyer.specialization} Law · {lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} years exp.` : 'Verified Advocate'}
             </div>
             <div className="lawyer-modal-tags">
-              <span className="lawyer-modal-tag">📍 {lawyer.city || 'Ethiopia'}</span>
-              <span className="lawyer-modal-tag">🔖 {lawyer.licenseNumber}</span>
+              <span className="lawyer-modal-tag">Location: {lawyer.city || 'Ethiopia'}</span>
+              <span className="lawyer-modal-tag">License: {lawyer.licenseNumber}</span>
               <span className="lawyer-modal-tag" style={{ background: '#f55d25', border: 'none', fontWeight: 700 }}>
-                ⚡ ELO {lawyer.elo}
+                ELO {lawyer.elo}
               </span>
               <span
                 className="lawyer-modal-tag"
@@ -48,11 +48,11 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                   border: 'none'
                 }}
               >
-                ★ {avvoRating} / 10
+                Rating: {avvoRating} / 10
               </span>
             </div>
           </div>
-          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
         {/* Tabs */}
@@ -63,7 +63,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               className={`lawyer-modal-tab${tab === t ? ' active' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'overview' ? 'Overview' : t === 'awards' ? '💬 Community Activity' : 'Background'}
+              {t === 'overview' ? 'Overview' : t === 'awards' ? 'Community Activity' : 'Background'}
             </button>
           ))}
         </div>
@@ -117,7 +117,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                 <div className="modal-section">
                   <div className="modal-section-title">Contact</div>
                   <p className="modal-section-text" style={{ fontWeight: 700 }}>
-                    📞 <a href={`tel:${lawyer.phone}`}>{lawyer.phone}</a>
+                    Phone: <a href={`tel:${lawyer.phone}`}>{lawyer.phone}</a>
                   </p>
                 </div>
               )}
@@ -133,7 +133,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                   }
                 }}
               >
-                📨 Send a Message / Inquiry
+                Send a Message / Inquiry
               </button>
             </>
           )}
@@ -147,7 +147,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                   <span className="modal-stat-label">Activity Points</span>
                 </div>
                 <div className="modal-stat-box" style={{ borderTop: '3px solid #52a304' }}>
-                  <span className="modal-stat-num green">▲ {lawyer.helpfulVotesReceived || 0}</span>
+                  <span className="modal-stat-num green">{lawyer.helpfulVotesReceived || 0}</span>
                   <span className="modal-stat-label">Helpful Votes</span>
                 </div>
                 <div className="modal-stat-box" style={{ borderTop: '3px solid #8b5cf6' }}>
@@ -159,14 +159,13 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               </div>
 
               <div className="modal-section-title" style={{ marginBottom: '1.2rem' }}>
-                ⭐ Community Recognition & Highlights
+                Community Recognition & Highlights
               </div>
 
               {lawyer.awards && lawyer.awards.length > 0 ? (
                 <div>
                   {lawyer.awards.map((aw, idx) => (
                     <div key={idx} className="award-plaque gold">
-                      <div className="award-plaque-icon">{aw.icon || '⭐'}</div>
                       <div style={{ flex: 1 }}>
                         <span className="award-tier-tag" style={{ background: '#fef3c7', color: '#92400e' }}>
                           {aw.tier || 'Verified'}
@@ -188,12 +187,11 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                     color: 'var(--gray-500)'
                   }}
                 >
-                  <span style={{ fontSize: '2.8rem', display: 'block', marginBottom: '0.6rem' }}>🎖️</span>
                   <p style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--gray-700)', marginBottom: '0.4rem' }}>
                     Active Legal Contributor
                   </p>
                   <p style={{ fontSize: '1.35rem' }}>
-                    Answer citizens legal questions in the Q&A forum and handle cases to build verified community standing.
+                    Answer citizen legal questions in the Q&A forum and handle cases to build verified community standing.
                   </p>
                 </div>
               )}
@@ -209,7 +207,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                 }}
               >
                 <div style={{ fontSize: '1.3rem', color: '#166534', fontWeight: 600 }}>
-                  ⚖️ Community Impact Program · Recognition granted based on verified public legal answers, citizen helpfulness votes, and courtroom litigation volume.
+                  Community Impact Program · Recognition granted based on verified public legal answers, citizen helpfulness votes, and courtroom litigation volume.
                 </div>
               </div>
             </>
@@ -219,20 +217,20 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
             <>
               {lawyer.education && (
                 <div className="modal-section">
-                  <div className="modal-section-title">🎓 Education</div>
+                  <div className="modal-section-title">Education</div>
                   <p className="modal-section-text">{lawyer.education}</p>
                 </div>
               )}
               {lawyer.languages && lawyer.languages.length > 0 && (
                 <div className="modal-section">
-                  <div className="modal-section-title">🗣 Languages</div>
+                  <div className="modal-section-title">Languages</div>
                   <div className="lang-pills">
                     {lawyer.languages.map(l => <span key={l} className="lang-pill">{l}</span>)}
                   </div>
                 </div>
               )}
               <div className="modal-section">
-                <div className="modal-section-title">📋 License & Credentials</div>
+                <div className="modal-section-title">License & Credentials</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem', fontSize: '1.35rem', color: '#555' }}>
                   {[
                     ['License Number', lawyer.licenseNumber],
@@ -253,7 +251,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               </div>
               <div className="modal-section" style={{ background: '#fffbf5', border: '1px solid #ffd09b', borderRadius: 6, padding: '1.2rem' }}>
                 <div style={{ fontSize: '1.3rem', color: '#92400e', fontWeight: 600 }}>
-                  ✅ MoJ Verified · All credentials verified by Ministry of Justice, Ethiopia
+                  MoJ Verified · All credentials verified by Ministry of Justice, Ethiopia
                 </div>
               </div>
             </>

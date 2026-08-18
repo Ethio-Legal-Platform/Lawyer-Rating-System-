@@ -69,11 +69,11 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
           <div className="auth-modal-sub">
             Connect with Ministry of Justice verified advocates in Ethiopia
           </div>
-          <button className="auth-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="auth-modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
         <div className="auth-body">
-          {error && <div className="alert alert-error">⚠ {error}</div>}
+          {error && <div className="alert alert-error">{error}</div>}
 
           <form onSubmit={handleSubmit}>
             {/* Privacy Mode Selector */}
@@ -89,7 +89,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                     style={{ accentColor: '#f55d25', marginTop: '0.3rem' }}
                   />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--gray-900)' }}>🌐 Public Legal Q&A</div>
+                    <div style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--gray-900)' }}>Public Legal Q&A</div>
                     <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)' }}>
                       Visible on the community forum so verified advocates and litigants can discuss publicly.
                     </div>
@@ -105,7 +105,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                   />
                   <div>
                     <div style={{ fontWeight: 700, fontSize: '1.4rem', color: '#008cc9' }}>
-                      🔒 Private Inquiry (Nearby Advocate First)
+                      Private Inquiry (Nearby Advocate First)
                     </div>
                     <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)' }}>
                       Sent privately to verified advocates in {city}. You can review their answer and publish to the public forum with 1 click anytime!
@@ -170,7 +170,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                 onChange={e => setAuthorName(e.target.value)}
               />
               <p className="form-helper">
-                {isPrivate ? '🔒 Private inquiry visible only to nearby verified advocates.' : '🌐 Public question visible to the legal community.'}
+                {isPrivate ? 'Private inquiry visible only to nearby verified advocates.' : 'Public question visible to the legal community.'}
               </p>
             </div>
 

@@ -121,22 +121,22 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
             <div className="qa-tag">{question.category} Law</div>
             {question.isPrivate ? (
               <span style={{ fontSize: '1.2rem', background: '#e0f2fe', color: '#0369a1', padding: '0.2rem 0.8rem', borderRadius: 99, fontWeight: 700 }}>
-                🔒 Private Consultation
+                Private Consultation
               </span>
             ) : (
               <span style={{ fontSize: '1.2rem', background: '#f0fdf4', color: '#166534', padding: '0.2rem 0.8rem', borderRadius: 99, fontWeight: 700 }}>
-                🌐 Public Forum
+                Public Forum
               </span>
             )}
           </div>
           <h2 className="qa-thread-title">{question.title}</h2>
           <div className="qa-thread-meta">
-            <span>📍 {question.city || 'Ethiopia'}</span>
-            <span>👤 Asked by {question.authorName || 'Litigant'}</span>
-            <span>📅 {new Date(question.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-            <span>💬 {(question.answers || []).length} Responses</span>
+            <span>Location: {question.city || 'Ethiopia'}</span>
+            <span>Asked by {question.authorName || 'Litigant'}</span>
+            <span>Date: {new Date(question.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            <span>Responses: {(question.answers || []).length}</span>
           </div>
-          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="lawyer-modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
         {/* Body */}
@@ -167,7 +167,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
             >
               <div>
                 <div style={{ fontWeight: 800, fontSize: '1.5rem', color: '#166534', marginBottom: '0.2rem' }}>
-                  📢 Share this Legal Guidance with the Public?
+                  Share this Legal Guidance with the Public?
                 </div>
                 <div style={{ fontSize: '1.3rem', color: '#15803d' }}>
                   Once you agree, this question and the advocate's response will be published to the public Q&A forum for other citizens to benefit.
@@ -179,7 +179,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                 onClick={handlePublish}
                 disabled={publishing}
               >
-                {publishing ? 'Publishing…' : 'Publish to Public Forum 🌐'}
+                {publishing ? 'Publishing…' : 'Publish to Public Forum'}
               </button>
             </div>
           )}
@@ -194,7 +194,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
             </div>
             {lawyerAnswers.length > 0 && (
               <span className="qa-advocate-badge-count">
-                ⚖️ {lawyerAnswers.length} Verified Advocate Answer{lawyerAnswers.length > 1 ? 's' : ''}
+                {lawyerAnswers.length} Verified Advocate Answer{lawyerAnswers.length > 1 ? 's' : ''}
               </span>
             )}
           </div>
@@ -206,7 +206,6 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
               <div key={ans.id} className="qa-lawyer-card">
                 <div className="qa-lawyer-banner">
                   <div className="qa-lawyer-banner-tag">
-                    <span>⚖️</span>
                     <span>VERIFIED ADVOCATE ANSWER</span>
                   </div>
                   <span>MoJ Licensed Practitioner</span>
@@ -225,9 +224,9 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                       <div className="qa-lawyer-name">{ans.authorName}</div>
                       <div className="qa-lawyer-meta-tags">
                         {ans.specialization && <span className="qa-tag-license">{ans.specialization} Advocate</span>}
-                        {ans.licenseNumber && <span className="qa-tag-license">🔖 {ans.licenseNumber}</span>}
-                        {ans.elo && <span className="qa-tag-elo">⚡ ELO {ans.elo}</span>}
-                        {ans.city && <span style={{ fontSize: '1.2rem', color: 'var(--gray-500)' }}>📍 {ans.city}</span>}
+                        {ans.licenseNumber && <span className="qa-tag-license">License: {ans.licenseNumber}</span>}
+                        {ans.elo && <span className="qa-tag-elo">ELO: {ans.elo}</span>}
+                        {ans.city && <span style={{ fontSize: '1.2rem', color: 'var(--gray-500)' }}>Location: {ans.city}</span>}
                       </div>
                     </div>
                   </div>
@@ -240,7 +239,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                       onClick={() => handleUpvote(ans.id)}
                       title={currentUser ? (hasUpvoted ? 'Click to remove upvote' : 'Mark as helpful') : 'Sign in to mark as helpful'}
                     >
-                      ▲ {hasUpvoted ? 'Helpful ✓' : 'Helpful'} ({ans.upvotes || 0})
+                      {hasUpvoted ? 'Helpful (Selected)' : 'Helpful'} ({ans.upvotes || 0})
                     </button>
                   </div>
                 </div>
@@ -264,7 +263,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                   />
                   <div>
                     <div className="qa-client-name">{ans.authorName}</div>
-                    <div className="qa-client-role">👤 Litigant / Community Contributor</div>
+                    <div className="qa-client-role">Litigant / Community Contributor</div>
                   </div>
                 </div>
                 <div className="qa-client-content">{ans.content}</div>
@@ -276,7 +275,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                     onClick={() => handleUpvote(ans.id)}
                     title={currentUser ? (hasUpvoted ? 'Click to remove upvote' : 'Mark as helpful') : 'Sign in to mark as helpful'}
                   >
-                    ▲ {hasUpvoted ? 'Helpful ✓' : 'Helpful'} ({ans.upvotes || 0})
+                    {hasUpvoted ? 'Helpful (Selected)' : 'Helpful'} ({ans.upvotes || 0})
                   </button>
                 </div>
               </div>
@@ -286,7 +285,6 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
           {/* No answers yet */}
           {(question.answers || []).length === 0 && (
             <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 8, padding: '2.4rem', textAlign: 'center', color: 'var(--gray-500)' }}>
-              <span style={{ fontSize: '2.8rem', display: 'block', marginBottom: '0.6rem' }}>⚖️</span>
               <p style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--gray-700)', marginBottom: '0.4rem' }}>No responses yet</p>
               <p style={{ fontSize: '1.4rem' }}>
                 {question.isPrivate
@@ -301,8 +299,8 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
             <div className="qa-reply-box">
               <div className="qa-reply-title">
                 {currentUser.role === 'lawyer'
-                  ? `⚖️ Post Verified Advocate Answer as ${currentUser.name}`
-                  : `💬 Post a Reply as ${currentUser.name}`}
+                  ? `Post Verified Advocate Answer as ${currentUser.name}`
+                  : `Post a Reply as ${currentUser.name}`}
               </div>
               <div className="qa-reply-sub">
                 {currentUser.role === 'lawyer'
@@ -325,7 +323,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
                   <span style={{ fontSize: '1.25rem', color: 'var(--gray-500)' }}>
-                    {currentUser.role === 'lawyer' ? '🛡️ Verified Advocate Response' : '👥 Community Post'}
+                    {currentUser.role === 'lawyer' ? 'Verified Advocate Response' : 'Community Post'}
                   </span>
                   <button
                     type="submit"
@@ -333,14 +331,13 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                     disabled={submitting || !replyText.trim()}
                     style={{ background: currentUser.role === 'lawyer' ? '#1c3024' : 'var(--orange)' }}
                   >
-                    {submitting ? 'Posting…' : currentUser.role === 'lawyer' ? 'Post Advocate Answer ⚖️' : 'Post Reply'}
+                    {submitting ? 'Posting…' : currentUser.role === 'lawyer' ? 'Post Advocate Answer' : 'Post Reply'}
                   </button>
                 </div>
               </form>
             </div>
           ) : (
             <div className="qa-reply-box" style={{ textAlign: 'center', padding: '3.2rem 2rem' }}>
-              <span style={{ fontSize: '3rem', display: 'block', marginBottom: '0.8rem' }}>🔒</span>
               <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.6rem' }}>
                 Sign In to Answer or Comment
               </h3>
@@ -348,7 +345,7 @@ export default function QuestionThreadModal({ questionId, currentUser, onClose, 
                 Registered litigants and licensed advocates can answer or comment on questions. Unregistered visitors can freely browse and read all discussions.
               </p>
               <button className="btn btn-primary btn-lg" onClick={onOpenAuth}>
-                Sign In / Register to Participate →
+                Sign In / Register to Participate &rarr;
               </button>
             </div>
           )}
