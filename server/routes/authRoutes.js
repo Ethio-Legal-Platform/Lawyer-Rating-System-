@@ -1,16 +1,19 @@
 import { Router } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { readJSON, writeJSON } from '../lib/db.js';
 import { USERS_PATH, MOJ_LICENSES_PATH } from '../config/paths.js';
 import { sendBrevoEmail } from '../services/emailService.js';
 
 const router = Router();
+const SALT_ROUNDS = 10;
 
 // In-memory store for pending (unverified) registrations
 // { [email]: { code: string, userData: object } }
 const pendingRegistrations = {};
 
 // ── POST /api/auth/register ────────────────────────────────────────────────
-// Validates MoJ license for lawyers, generates OTP, sends verification email.
+// Validates MoJ license for lawyers, hashes password, generates OTP, sends verification email.
 router.post('/register', async (req, res) => {
   const {
     name, username, password, email, role,
@@ -35,7 +38,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'License number and specialization are required for lawyers' });
     }
 
-    const mojLicenses  = readJSON(MOJ_LICENSES_PATH);
+    const mojLicenses   = readJSON(MOJ_LICENSES_PATH);
     const licenseRecord = mojLicenses.find(l => l.licenseNumber === licenseNumber);
 
     if (!licenseRecord) {
@@ -51,13 +54,15 @@ router.post('/register', async (req, res) => {
     }
   }
 
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
   const code = Math.floor(100000 + Math.random() * 900000).toString();
 
   pendingRegistrations[email] = {
     code,
     userData: {
       id: `${role}-${Date.now()}`,
-      name, username, password, email, role,
+      name, username, email, role,
+      password: hashedPassword,
       profilePic: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
       licenseNumber:   role === 'lawyer' ? licenseNumber  : null,
       specialization:  role === 'lawyer' ? specialization : null,
@@ -101,26 +106,64 @@ router.post('/register-verify', (req, res) => {
   res.json({ message: 'Account verified and registered successfully. You can now login.' });
 });
 
+// ── POST /api/auth/resend-otp ─────────────────────────────────────────────
+// Regenerates and resends OTP for a pending registration.
+router.post('/resend-otp', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+  const record = pendingRegistrations[email];
+  if (!record) return res.status(404).json({ error: 'No pending registration found for this email' });
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  pendingRegistrations[email].code = code;
+  await sendBrevoEmail(email, code);
+  res.json({ message: 'A new verification code has been sent to your email.' });
+});
+
 // ── POST /api/auth/login ───────────────────────────────────────────────────
-// Authenticates a user by username/email + password.
-router.post('/login', (req, res) => {
+// Authenticates a user by username/email + password using bcrypt and returns a JWT token.
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password are required' });
   }
 
+  const cleanInput = String(username).trim().toLowerCase();
+  const cleanPassword = String(password).trim();
+
   const users = readJSON(USERS_PATH);
   const user  = users.find(
-    u => (u.username === username || u.email === username) && u.password === password
+    u => (u.username && u.username.toLowerCase().trim() === cleanInput) ||
+         (u.email && u.email.toLowerCase().trim() === cleanInput)
   );
 
   if (!user) {
     return res.status(401).json({ error: 'Invalid username or password' });
   }
 
+  let passwordMatch = false;
+  if (user.password) {
+    if (user.password.startsWith('$2')) {
+      passwordMatch = await bcrypt.compare(password, user.password) ||
+                      await bcrypt.compare(cleanPassword, user.password);
+    } else {
+      passwordMatch = (user.password === password) || (user.password === cleanPassword);
+    }
+  }
+
+  if (!passwordMatch) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  const token = jwt.sign(
+    { id: user.id, role: user.role, licenseNumber: user.licenseNumber || null },
+    process.env.JWT_SECRET || 'dev_secret_key_123456789_lex_rating',
+    { expiresIn: '7d' }
+  );
+
   res.json({
     message: 'Login successful',
+    token,
     user: {
       id:         user.id,
       name:       user.name,

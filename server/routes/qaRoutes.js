@@ -8,6 +8,7 @@ import {
   addAnswer,
   upvoteAnswer
 } from '../services/qaService.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -65,7 +66,7 @@ router.get('/questions/:id', (req, res) => {
 /**
  * POST /api/qa/questions
  */
-router.post('/questions', (req, res) => {
+router.post('/questions', requireAuth, (req, res) => {
   try {
     const {
       title,
@@ -103,7 +104,7 @@ router.post('/questions', (req, res) => {
  * POST /api/qa/questions/:id/publish
  * Litigant approves pushing private consultation to public Q&A
  */
-router.post('/questions/:id/publish', (req, res) => {
+router.post('/questions/:id/publish', requireAuth, (req, res) => {
   try {
     const { id } = req.params;
     const { userId } = req.body;
@@ -120,7 +121,7 @@ router.post('/questions/:id/publish', (req, res) => {
 /**
  * POST /api/qa/questions/:id/answers
  */
-router.post('/questions/:id/answers', (req, res) => {
+router.post('/questions/:id/answers', requireAuth, (req, res) => {
   try {
     const questionId = req.params.id;
     const {
@@ -160,7 +161,7 @@ router.post('/questions/:id/answers', (req, res) => {
 /**
  * POST /api/qa/questions/:id/answers/:answerId/upvote
  */
-router.post('/questions/:id/answers/:answerId/upvote', (req, res) => {
+router.post('/questions/:id/answers/:answerId/upvote', requireAuth, (req, res) => {
   try {
     const { id, answerId } = req.params;
     const { userId } = req.body;

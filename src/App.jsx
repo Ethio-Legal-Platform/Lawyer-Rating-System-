@@ -1,8 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import { LEGAL_GUIDES } from './data/legalGuides';
+import { getStoredUser, storeUser, clearStoredUser, getToken, storeToken, clearToken } from './utils/storage';
 
 const API_BASE = 'http://localhost:5000/api';
+
+async function authFetch(url, options = {}) {
+  const token = getToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {})
+  };
+  return fetch(url, { ...options, headers });
+}
 
 const ETHIOPIAN_CITIES = [
   'Addis Ababa','Dire Dawa','Hawassa','Bahir Dar',
@@ -176,7 +187,7 @@ function QuestionThreadModal({ questionId, currentUser, onClose, onRefreshList, 
 
   const loadQuestion = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE}/qa/questions/${questionId}`);
+      const res = await authFetch(`${API_BASE}/qa/questions/${questionId}`);
       const data = await res.json();
       if (res.ok) setQuestion(data);
     } catch (e) {
@@ -202,7 +213,7 @@ function QuestionThreadModal({ questionId, currentUser, onClose, onRefreshList, 
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/qa/questions/${questionId}/answers/${answerId}/upvote`, {
+      const res = await authFetch(`${API_BASE}/qa/questions/${questionId}/answers/${answerId}/upvote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: currentUser.id })
@@ -220,7 +231,7 @@ function QuestionThreadModal({ questionId, currentUser, onClose, onRefreshList, 
     if (!currentUser || currentUser.id !== question?.authorId) return;
     setPublishing(true);
     try {
-      const res = await fetch(`${API_BASE}/qa/questions/${questionId}/publish`, {
+      const res = await authFetch(`${API_BASE}/qa/questions/${questionId}/publish`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: currentUser.id })
@@ -261,7 +272,7 @@ function QuestionThreadModal({ questionId, currentUser, onClose, onRefreshList, 
         city: currentUser.city || 'Ethiopia'
       };
 
-      const res = await fetch(`${API_BASE}/qa/questions/${questionId}/answers`, {
+      const res = await authFetch(`${API_BASE}/qa/questions/${questionId}/answers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -566,7 +577,7 @@ function AskQuestionModal({ currentUser, onClose, onQuestionCreated }) {
         isPrivate: Boolean(isPrivate)
       };
 
-      const res = await fetch(`${API_BASE}/qa/questions`, {
+      const res = await authFetch(`${API_BASE}/qa/questions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -948,6 +959,7 @@ function AuthModal({ onClose, onLogin }) {
   const [tab, setTab]           = useState('login');
   const [step, setStep]         = useState('form');
   const [loading, setLoading]   = useState(false);
+  const [resending, setResending] = useState(false);
   const [error, setError]       = useState('');
   const [success, setSuccess]   = useState('');
   const [loginForm, setLoginForm] = useState({ username:'', password:'' });
@@ -966,8 +978,13 @@ function AuthModal({ onClose, onLogin }) {
     try {
       const res  = await fetch(`${API_BASE}/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(loginForm) });
       const data = await res.json();
-      if (res.ok) { setSuccess(`Welcome back, ${data.user.name}!`); setTimeout(() => { onLogin(data.user); onClose(); }, 700); }
-      else setError(data.error || 'Login failed. Check your credentials.');
+      if (res.ok) {
+        setSuccess(`Welcome back, ${data.user.name}!`);
+        if (data.token) storeToken(data.token);
+        setTimeout(() => { onLogin(data.user, data.token); onClose(); }, 700);
+      } else {
+        setError(data.error || 'Login failed. Check your credentials.');
+      }
     } catch { setError('Cannot reach server on port 5000.'); } finally { setLoading(false); }
   };
 
@@ -980,6 +997,27 @@ function AuthModal({ onClose, onLogin }) {
       if (res.ok) { setOtpEmail(regForm.email); setStep('otp'); setSuccess('Verification code sent to your email.'); }
       else setError(data.error || 'Registration failed.');
     } catch { setError('Cannot reach server.'); } finally { setLoading(false); }
+  };
+
+  const handleResendOtp = async () => {
+    clear(); setResending(true);
+    try {
+      const res = await fetch(`${API_BASE}/auth/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: otpEmail })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccess('A new verification code has been sent to your email.');
+      } else {
+        setError(data.error || 'Failed to resend verification code.');
+      }
+    } catch {
+      setError('Cannot reach server.');
+    } finally {
+      setResending(false);
+    }
   };
 
   const handleVerify = async e => {
@@ -1028,7 +1066,12 @@ function AuthModal({ onClose, onLogin }) {
               <button type="submit" className="btn btn-orange btn-full" disabled={loading || otpCode.length !== 6}>
                 {loading ? <span className="loading-spinner" /> : 'Verify & Activate Account'}
               </button>
-              <button type="button" className="btn btn-ghost btn-full" style={{ marginTop:'0.8rem' }} onClick={() => { setStep('form'); setOtpCode(''); clear(); }}>← Back</button>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.8rem' }}>
+                <button type="button" className="btn btn-ghost" style={{ flex: 1 }} onClick={handleResendOtp} disabled={resending}>
+                  {resending ? 'Sending…' : 'Resend Code'}
+                </button>
+                <button type="button" className="btn btn-ghost" style={{ flex: 1 }} onClick={() => { setStep('form'); setOtpCode(''); clear(); }}>← Back</button>
+              </div>
             </form>
           )}
 
@@ -1142,7 +1185,7 @@ function AuthModal({ onClose, onLogin }) {
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function App() {
-  const [user, setUser]                 = useState(null);
+  const [user, setUser]                 = useState(getStoredUser);
   const [showAuth, setShowAuth]         = useState(false);
   const [page, setPage]                 = useState('home'); // 'home'|'directory'|'guides'|'about'|'qa'
   const [selectedLawyer, setSelectedLawyer] = useState(null);
@@ -1173,7 +1216,7 @@ export default function App() {
 
   const fetchLeaderboard = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE}/lawyers/leaderboard`);
+      const res = await authFetch(`${API_BASE}/lawyers/leaderboard`);
       const data = await res.json();
       if (Array.isArray(data)) setLeaderboard(data.slice(0, 3));
     } catch (e) {
@@ -1193,7 +1236,7 @@ export default function App() {
       params.append('role', user.role || 'client');
       if (user.city) params.append('city', user.city);
       if (user.specialization) params.append('specialization', user.specialization);
-      const res = await fetch(`${API_BASE}/qa/inquiries?${params}`);
+      const res = await authFetch(`${API_BASE}/qa/inquiries?${params}`);
       const data = await res.json();
       if (Array.isArray(data)) setPrivateInquiries(data);
     } catch (e) {
@@ -1209,7 +1252,7 @@ export default function App() {
       const params = new URLSearchParams();
       if (spec) params.append('specialization', spec);
       if (city) params.append('city', city);
-      const res  = await fetch(`${API_BASE}/lawyers/search?${params}`);
+      const res  = await authFetch(`${API_BASE}/lawyers/search?${params}`);
       const data = await res.json();
       if (Array.isArray(data)) setLawyers(data);
     } catch { setLawyers([]); } finally { setLoading(false); }
@@ -1221,7 +1264,7 @@ export default function App() {
       const params = new URLSearchParams();
       if (cat && cat !== 'All') params.append('category', cat);
       if (search) params.append('search', search);
-      const res = await fetch(`${API_BASE}/qa/questions?${params}`);
+      const res = await authFetch(`${API_BASE}/qa/questions?${params}`);
       const data = await res.json();
       if (Array.isArray(data)) setQuestions(data);
     } catch (e) {
@@ -1257,7 +1300,16 @@ export default function App() {
     fetchLawyers(spec, searchCity);
     setPage('directory');
   };
-  const logout = () => { setUser(null); };
+  const handleLogin = (nextUser, token) => {
+    if (token) storeToken(token);
+    storeUser(nextUser);
+    setUser(nextUser);
+  };
+  const logout = () => {
+    clearToken();
+    clearStoredUser();
+    setUser(null);
+  };
 
   const hasFilter = searchSpec || searchCity;
 
@@ -1326,7 +1378,7 @@ export default function App() {
           }}
         />
       )}
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} onLogin={u => setUser(u)} />}
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} onLogin={handleLogin} />}
 
       {/* ══════════════════════════════════════════ HOME ══════════════════════════ */}
       {page === 'home' && (

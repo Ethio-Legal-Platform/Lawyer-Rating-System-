@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { readJSON, writeJSON } from '../lib/db.js';
 import { USERS_PATH, COURT_CASES_PATH } from '../config/paths.js';
 import { calculateLawyerRatings } from '../services/ratingService.js';
+import { requireAuth, requireRole } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.get('/cases', (req, res) => {
 
 // ── POST /api/court/cases ──────────────────────────────────────────────────
 // Registers a new court case and automatically updates real-time ratings.
-router.post('/cases', (req, res) => {
+router.post('/cases', requireAuth, requireRole('judge', 'admin'), (req, res) => {
   const {
     caseTitle, caseType,
     judgeId, judgeName,
