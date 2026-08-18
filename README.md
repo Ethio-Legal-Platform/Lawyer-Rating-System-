@@ -8,10 +8,10 @@
 
 | # | Team Member | Student ID | Primary Engineering Role | Assigned Branch | Primary Modules & Files |
 |:---:|:---|:---:|:---|:---:|:---|
-| 1 | **Kalalew** | `CTC-4154-26` | **Backend Developer 1** | `backend/auth-court` | **Authentication, Court System & ELO Engine**<br>• `server/routes/authRoutes.js`<br>• `server/routes/courtRoutes.js`<br>• `server/routes/lawyerRoutes.js`<br>• `server/services/ratingService.js`<br>• `server/services/emailService.js`<br>• `server/middleware/auth.js`<br>• Models: `User.js`, `CourtCase.js` |
+| 1 | **Kalalew** | `CTC-4154-26` | **Backend Developer 1** | `backend/auth-court` | **Authentication, Court System & ELO Rating Engine**<br>• `server/routes/authRoutes.js`<br>• `server/routes/courtRoutes.js`<br>• `server/routes/lawyerRoutes.js`<br>• `server/services/ratingService.js`<br>• `server/services/emailService.js`<br>• `server/middleware/auth.js`<br>• Models: `User.js`, `CourtCase.js` |
 | 2 | **Maraky** | `CTC-2122-26` | **Backend Developer 2** | `backend/qa-moj` | **MongoDB Core, Legal Q&A, MoJ Gateway & Analytics**<br>• `server/config/db.js` (MongoDB Setup)<br>• `server/routes/qaRoutes.js`<br>• `server/routes/mojRoutes.js`<br>• `server/services/qaService.js`<br>• `server/services/interactionService.js`<br>• Models: `Question.js`, `MojLicense.js` |
-| 3 | **Lemi** | `CTC-1272-26` | **Frontend Developer** | `frontend-structure` | **UI/UX, Navigation & Lawyer Directory**<br>• Components, Layout, Search & Filtering |
-| 4 | **Liel** | `CTC-882-26` | **Frontend Developer** | `frontend-structure` | **Legal Guides, Case Views & Styles**<br>• Guide Reader Modal, Modals & Responsive CSS |
+| 3 | **Lemi** | `CTC-1272-26` | **Frontend Developer 1** | `frontend/directory-views` | **Navigation, Auth & Lawyer Directory System**<br>• `src/components/layout/Navbar.jsx`<br>• `src/components/layout/Footer.jsx`<br>• `src/components/common/` (ModalBackdrop, StarRow, EloBar)<br>• `src/features/auth/AuthModal.jsx`<br>• `src/features/directory/` (LawyerCard, LawyerModal)<br>• `src/pages/Home.jsx`<br>• `src/pages/DirectoryPage.jsx`<br>• `src/utils/` (storage.js, ratingUtils.js) |
+| 4 | **Liel** | `CTC-882-26` | **Frontend Developer 2** | `frontend/qa-guides` | **Legal Q&A, Legal Guides & About Platform**<br>• `src/features/qa/QuestionThreadModal.jsx`<br>• `src/features/qa/AskQuestionModal.jsx`<br>• `src/features/guides/` (GuideCard, GuideModal)<br>• `src/pages/QAPage.jsx`<br>• `src/pages/GuidesPage.jsx`<br>• `src/pages/AboutPage.jsx`<br>• `src/data/legalGuides.js`<br>• `src/services/api.js` (Q&A & Inquiries Client) |
 
 **🎓 Academic Supervision:** Developed under the guidance of INSA faculty and repository instructors.
 
@@ -36,11 +36,13 @@ The **EthioLaw Legal Rating & Judicial Matchmaking System (LEX-RATING)** is an i
 
 ```mermaid
 graph TB
-    subgraph Client_Layer["🖥️ Presentation Layer (React + Vite SPA)"]
-        UI_Client["Litigant / Public Portal"]
-        UI_Lawyer["Advocate Dashboard"]
-        UI_Judge["Judicial Court Bench"]
-        UI_MoJ["MoJ License Admin"]
+    subgraph Client_Layer["🖥️ Modular Presentation Layer (React + Vite SPA)"]
+        UI_Nav["Navbar & Layout (Lemi)"]
+        UI_Directory["Lawyer Directory & Profile Modals (Lemi)"]
+        UI_QA["Legal Q&A & Consultation Forum (Liel)"]
+        UI_Guides["Legal Guides & Statute Reader (Liel)"]
+        UI_About["About Platform & ELO Deep-Dive (Liel)"]
+        UI_Auth["JWT & MoJ Registration Modal (Lemi)"]
     end
 
     subgraph API_Gateway["⚡ Express.js REST API Gateway (server.js:5000)"]
@@ -93,7 +95,9 @@ graph TB
 
 ---
 
-## 🛠️ Backend Task Division & Engineering Architecture
+## 🛠️ Complete Engineering Task Division & Architecture
+
+### Backend Engineering
 
 ```
                              LEX-RATING BACKEND
@@ -111,7 +115,7 @@ graph TB
   • Brevo Email Service & OTP Dispatch            • Seed & Data Migration Script
 ```
 
-### 1. Backend Dev 1 (Kalalew) — `backend/auth-court`
+#### 1. Backend Dev 1 (Kalalew) — `backend/auth-court`
 * **Domain**: Authentication, Court System, Lawyer Search & ELO Rating Engine.
 * **Files Assigned**:
   * `server/routes/authRoutes.js`
@@ -130,7 +134,7 @@ graph TB
   * Role-based access control on `POST /api/court/cases` (restricted to `judge` and `admin`).
   * Dynamic ELO rating recalculation and case win/loss record aggregation in `ratingService.js`.
 
-### 2. Backend Dev 2 (Maraky) — `backend/qa-moj`
+#### 2. Backend Dev 2 (Maraky) — `backend/qa-moj`
 * **Domain**: MongoDB Database Configuration, Legal Q&A, Inquiries, MoJ Gateway & Analytics.
 * **Files Assigned**:
   * `server/config/db.js`
@@ -149,6 +153,68 @@ graph TB
   * Protect Q&A write endpoints with `requireAuth` middleware.
   * MoJ license validation queries in `mojRoutes.js`.
   * Advocate interaction scores and leaderboard rankings in `interactionService.js`.
+
+---
+
+### Frontend Engineering
+
+```
+                            LEX-RATING FRONTEND
+                                      │
+              ┌───────────────────────┴───────────────────────┐
+              ▼                                               ▼
+   Frontend Dev 1 (Lemi)                           Frontend Dev 2 (Liel)
+  [frontend/directory-views]                      [frontend/qa-guides]
+  ─────────────────────────────────               ─────────────────────────────────
+  • Layout (Navbar, Footer)                       • Legal Q&A Page & Category Chips
+  • Common UI (ModalBackdrop, StarRow, EloBar)    • Question Thread Modal & Replies
+  • Auth Modal (Login, MoJ Register, OTP)         • Ask Question / Private Inquiry Modal
+  • Advocate Card & Full Profile Modal            • Legal Guides Catalog & Category Filters
+  • Home Page (Hero, Search, Leaderboard)         • Legal Guide Reader & Statute Citations
+  • Directory Page & Sidebar Filtering            • About Page (Avvo/LEX-RATING Platform)
+```
+
+#### 1. Frontend Dev 1 (Lemi) — `frontend/directory-views`
+* **Domain**: Layout, Common Design System, Advocate Directory & User Authentication.
+* **Files Assigned**:
+  * `src/components/layout/Navbar.jsx`
+  * `src/components/layout/Footer.jsx`
+  * `src/components/common/ModalBackdrop.jsx`
+  * `src/components/common/StarRow.jsx`
+  * `src/components/common/EloBar.jsx`
+  * `src/features/auth/AuthModal.jsx`
+  * `src/features/directory/LawyerCard.jsx`
+  * `src/features/directory/LawyerModal.jsx`
+  * `src/pages/Home.jsx`
+  * `src/pages/DirectoryPage.jsx`
+  * `src/utils/storage.js`
+  * `src/utils/ratingUtils.js`
+* **Key Tasks**:
+  * Build responsive navigation bar, authentication actions, and user role profile display.
+  * Implement search hero banner with dual practice-area and city datalists.
+  * Develop the lawyer directory with multi-keyword search, sidebar filters, and empty states.
+  * Build advocate profile modal displaying live ELO performance, decided cases, client ratings, and background credentials.
+  * Create authentication modal supporting client login, advocate registration with MoJ license verification, and 6-digit OTP verification.
+
+#### 2. Frontend Dev 2 (Liel) — `frontend/qa-guides`
+* **Domain**: Legal Q&A Community Forum, Private Inquiries, Legal Guides Reader & About Platform.
+* **Files Assigned**:
+  * `src/features/qa/QuestionThreadModal.jsx`
+  * `src/features/qa/AskQuestionModal.jsx`
+  * `src/features/guides/GuideCard.jsx`
+  * `src/features/guides/GuideModal.jsx`
+  * `src/pages/QAPage.jsx`
+  * `src/pages/GuidesPage.jsx`
+  * `src/pages/AboutPage.jsx`
+  * `src/data/legalGuides.js`
+  * `src/services/api.js` (Q&A and Inquiries API integration)
+* **Key Tasks**:
+  * Build Legal Q&A forum supporting public discussions, category filters, and search.
+  * Implement "My Private Inquiries" tab allowing litigants to manage private lawyer consultations.
+  * Create interactive `QuestionThreadModal` with verified advocate badge responses, community replies, answer posting, and upvote toggling.
+  * Implement "Publish to Public Forum" one-click action for private inquiry authors.
+  * Build `GuideModal` reader presenting executive summaries, Ethiopian proclamations cited, checklists, and FAQs.
+  * Implement the comprehensive About page detailing platform metrics, 4 pillars, and ELO mathematical calculations.
 
 ---
 
@@ -372,11 +438,14 @@ npm start
 ## 🌿 Collaborative Git Branching Plan
 
 ```bash
+# Production release branch
+main
+
 # Feature development branches
-main                 # Production-ready, stable releases
-├── backend/auth-court   # Backend Dev 1 (Kalalew): Auth, Court APIs, Rating Engine
-├── backend/qa-moj       # Backend Dev 2 (Maraky): Q&A, MoJ Gateway, MongoDB Architecture
-└── frontend-structure   # Frontend Devs (Lemi & Liel): UI/UX, Components, Styles
+├── backend/auth-court      # Backend Dev 1 (Kalalew): Auth, Court APIs, Rating Engine
+├── backend/qa-moj          # Backend Dev 2 (Maraky): Q&A, MoJ Gateway, MongoDB Architecture
+├── frontend/directory-views # Frontend Dev 1 (Lemi): Layout, Auth Modal, Lawyer Directory
+└── frontend/qa-guides      # Frontend Dev 2 (Liel): Q&A Forum, Legal Guides, About Page
 ```
 
 ### Standard Workflow:
@@ -386,14 +455,14 @@ git checkout main
 git pull origin main
 
 # 2. Checkout your assigned branch
-git checkout backend/your-branch-name
+git checkout your-assigned-branch
 
 # 3. Stage and commit your changes
-git add server/routes/yourRoute.js server/services/yourService.js
+git add src/yourFeature/yourFile.jsx
 git commit -m "feat(module): descriptive commit message"
 
 # 4. Push to remote
-git push origin backend/your-branch-name
+git push origin your-assigned-branch
 ```
 
 ---
