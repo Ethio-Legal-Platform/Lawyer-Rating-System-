@@ -3,7 +3,7 @@
     "id": "lawyer-1001",
     "name": "Kebede Haile Mariam",
     "username": "kebede_haile",
-    "password": "password123",
+    "password": "$2b$10$JmVHqQFgYw0U7dZARYM3tedTmMXxwslYPdY/plq.MXeWzrRDpFKqS",
     "email": "kebede.haile@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -14,7 +14,11 @@
     "bio": "Senior criminal defense attorney with over 15 years of experience before the Federal High Court and Supreme Court. Specializes in white-collar crime, homicide defense, and appeal proceedings.",
     "yearsExperience": 15,
     "education": "LLB – Addis Ababa University (2008), LLM Criminal Law – Haramaya University (2012)",
-    "languages": ["Amharic", "English", "Oromiffa"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Oromiffa"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
     "elo": 1280
   },
@@ -22,7 +26,7 @@
     "id": "lawyer-1002",
     "name": "Tigist Alemu Bekele",
     "username": "tigist_alemu",
-    "password": "password123",
+    "password": "$2b$10$h5dfgwHiVofMiP8DRwT1Zef3IV5dbK35/SDSMLA7wM9b97mbYNUu2",
     "email": "tigist.alemu@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -33,7 +37,11 @@
     "bio": "Leading corporate and commercial law practitioner advising multinational companies, government enterprises, and NGOs on mergers, acquisitions, regulatory compliance, and contract disputes.",
     "yearsExperience": 12,
     "education": "LLB – Addis Ababa University (2010), LLM Commercial Law – University of London (2014)",
-    "languages": ["Amharic", "English", "French"],
+    "languages": [
+      "Amharic",
+      "English",
+      "French"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
     "elo": 1310
   },
@@ -41,7 +49,7 @@
     "id": "lawyer-1003",
     "name": "Dawit Girma Tadesse",
     "username": "dawit_girma",
-    "password": "password123",
+    "password": "$2b$10$mOCAqC6eKfcLNAfAuVNyte.6XBCTvmu.RMQLbxpIKU75.4jV38cxi",
     "email": "dawit.girma@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -52,7 +60,11 @@
     "bio": "Civil litigation expert based in Hawassa handling property rights, land disputes, tort claims, and administrative law matters across Southern Ethiopia courts.",
     "yearsExperience": 10,
     "education": "LLB – Hawassa University (2012), LLM Civil Procedure – Addis Ababa University (2016)",
-    "languages": ["Amharic", "English", "Sidamigna"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Sidamigna"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
     "elo": 1195
   },
@@ -60,7 +72,7 @@
     "id": "lawyer-1004",
     "name": "Mekdes Tesfaye Wolde",
     "username": "mekdes_tesfaye",
-    "password": "password123",
+    "password": "$2b$10$.vQChXHQ/tbDlDnoZjaWZO5HdVK7wNUMTsB0MbwgvX6O322TVsBYe",
     "email": "mekdes.tesfaye@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -71,7 +83,12 @@
     "bio": "Compassionate family law specialist with vast experience in contested divorce, marital asset division, child custody battles, and probate succession.",
     "yearsExperience": 9,
     "education": "LLB – Dire Dawa University (2014), LLM Family Law – Bahir Dar University (2018)",
-    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
+    "languages": [
+      "Amharic",
+      "Oromiffa",
+      "Somali",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
     "elo": 1210
   },
@@ -79,7 +96,7 @@
     "id": "lawyer-1005",
     "name": "Yohannes Bekele Asrat",
     "username": "yohannes_bekele",
-    "password": "password123",
+    "password": "$2b$10$vsKXPa2ilfQ9xH8FlPNsHePqNZNZDAeXzGqlXVSY3Avb6IJTIH.km",
     "email": "yohannes.bekele@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -90,7 +107,10 @@
     "bio": "Senior advocate at Amhara Regional Supreme Court. Specializes in complex land lease disputes, contract enforcement, and construction litigation.",
     "yearsExperience": 14,
     "education": "LLB – Bahir Dar University (2008), LLM Business Law – Addis Ababa University (2013)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
     "elo": 1150
   },
@@ -98,7 +118,7 @@
     "id": "lawyer-1006",
     "name": "Selam Tadesse Negash",
     "username": "selam_tadesse",
-    "password": "password123",
+    "password": "$2b$10$7qiJ6u5lxawA0Np/oncwpOWD6xWM4/NuvyAgsz9uyb6.p9vxpVAuO",
     "email": "selam.tadesse@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -109,7 +129,11 @@
     "bio": "Trial lawyer based in Mekelle handling major criminal proceedings, constitutional challenges, and appellate reviews before the Federal Supreme Court Cassation Bench.",
     "yearsExperience": 11,
     "education": "LLB – Mekelle University (2011), LLM International Human Rights – University of Pretoria (2015)",
-    "languages": ["Tigrigna", "Amharic", "English"],
+    "languages": [
+      "Tigrigna",
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
     "elo": 1240
   },
@@ -117,7 +141,7 @@
     "id": "lawyer-1007",
     "name": "Biruk Mengesha Haile",
     "username": "biruk_mengesha",
-    "password": "password123",
+    "password": "$2b$10$EIBHv/odl1Z2u1t9Xicr.eiZT1DVd6XHEGnOF1dFkdHmlQ5c1os0q",
     "email": "biruk.mengesha@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -128,7 +152,11 @@
     "bio": "Commercial attorney advising manufacturing hubs, agro-industries, and logistics enterprises in the Adama-Bishoftu industrial corridor on tax, labor, and investment permits.",
     "yearsExperience": 8,
     "education": "LLB – Jimma University (2015), LLM Commercial Law – Addis Ababa University (2019)",
-    "languages": ["Amharic", "Oromiffa", "English"],
+    "languages": [
+      "Amharic",
+      "Oromiffa",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
     "elo": 1130
   },
@@ -136,7 +164,7 @@
     "id": "lawyer-1008",
     "name": "Hiwot Negash Tesfaye",
     "username": "hiwot_negash",
-    "password": "password123",
+    "password": "$2b$10$IdIQ9Jp9RGYan0IRKtCb5e7qQSsX/FxukfYArkTLB5GcaA8u3/6h.",
     "email": "hiwot.negash@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -147,7 +175,11 @@
     "bio": "Advocate specializing in women and children's welfare, domestic disputes, inheritance settlements, and family mediation throughout Jimma and Oromia Region.",
     "yearsExperience": 7,
     "education": "LLB – Jimma University (2016)",
-    "languages": ["Oromiffa", "Amharic", "English"],
+    "languages": [
+      "Oromiffa",
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
     "elo": 1180
   },
@@ -155,7 +187,7 @@
     "id": "lawyer-1009",
     "name": "Abrham Wolde Selassie",
     "username": "abrham_wolde",
-    "password": "password123",
+    "password": "$2b$10$7NtfGB7ao2ooJFQ9kD0uEu7f9DYO722P6ndULBRqxvsfymFPksVO2",
     "email": "abrham.wolde@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -166,7 +198,10 @@
     "bio": "Prominent criminal law defender in Gondar and North Gondar High Court. Renowned for meticulous forensic analysis and constitutional rights defense.",
     "yearsExperience": 16,
     "education": "LLB – Addis Ababa University (2007), LLM Criminal Justice – University of Gondar (2011)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
     "elo": 1260
   },
@@ -174,7 +209,7 @@
     "id": "lawyer-1010",
     "name": "Fikirte Demissie Assefa",
     "username": "fikirte_demissie",
-    "password": "password123",
+    "password": "$2b$10$ql4ZRaRYigWOic3er8G/keqlj.cbOIdgsykU6D3E42iL8bZmOJlv6",
     "email": "fikirte.demissie@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -185,7 +220,10 @@
     "bio": "Top-ranked corporate and securities lawyer representing fintech startups, investment funds, and large enterprises. Expert in IPO preparation, joint ventures, and competition law.",
     "yearsExperience": 13,
     "education": "LLB – Addis Ababa University (2009), LLM Securities Law – Georgetown University (2013)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=200",
     "elo": 1340
   },
@@ -193,7 +231,7 @@
     "id": "lawyer-1011",
     "name": "Solomon Desta Tsegaye",
     "username": "solomon_desta",
-    "password": "password123",
+    "password": "$2b$10$OlodGNcDy9vgLn7LojHvoeiOWMfO.UMfgc3enD4J31NEe.51IcWGa",
     "email": "solomon.desta@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -204,7 +242,12 @@
     "bio": "Civil law specialist in Harari Regional Courts with expertise in land tenure, customary rights, inter-regional trade disputes, and enforcement of foreign judgments.",
     "yearsExperience": 12,
     "education": "LLB – Haramaya University (2010), LLM – Ethiopian Civil Service University (2014)",
-    "languages": ["Amharic", "Harari", "Somali", "English"],
+    "languages": [
+      "Amharic",
+      "Harari",
+      "Somali",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=200",
     "elo": 1140
   },
@@ -212,7 +255,7 @@
     "id": "lawyer-1012",
     "name": "Rahel Mekonnen Girma",
     "username": "rahel_mekonnen",
-    "password": "password123",
+    "password": "$2b$10$jGk/KnIwdAwJDmAQzGiBFOEdOZaUFfqiKZkwfnNPDS2uosX73KTzm",
     "email": "rahel.mekonnen@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -223,7 +266,10 @@
     "bio": "Family law advocate with focus on women's rights and gender-based violence cases. Founding member of the Ethiopian Women Lawyers Association (EWLA) Dessie chapter.",
     "yearsExperience": 10,
     "education": "LLB – Wollo University (2012), LLM Gender and Law – Addis Ababa University (2016)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "profilePic": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=200",
     "elo": 1160
   },
@@ -231,7 +277,7 @@
     "id": "client-101",
     "name": "Eleni Teshome",
     "username": "eleni_t",
-    "password": "password123",
+    "password": "$2b$10$eL/SlfWI/xq7h3AtMIPRIevapx1TfG5Aj91HQblhDsRWJTKFGCaIu",
     "email": "eleni.teshome@example.et",
     "role": "client",
     "verified": true,
@@ -242,7 +288,7 @@
     "id": "client-102",
     "name": "Yared Bekele",
     "username": "yared_b",
-    "password": "password123",
+    "password": "$2b$10$QRaDCrDJij4bbwknoTLkpekFC.4TCB57MwBPs.BDEsjl9palV2v72",
     "email": "yared.bekele@example.et",
     "role": "client",
     "verified": true,
@@ -253,7 +299,7 @@
     "id": "client-103",
     "name": "Meseret Alemu",
     "username": "meseret_a",
-    "password": "password123",
+    "password": "$2b$10$hzBJ1YiaLysLxleRpo.seupw1E18h6GZf1Mq1UqOl8aed1Fyrpy2q",
     "email": "meseret.alemu@example.et",
     "role": "client",
     "verified": true,
@@ -264,7 +310,7 @@
     "id": "client-104",
     "name": "Marcus Vance",
     "username": "marcus_v",
-    "password": "password123",
+    "password": "$2b$10$/o.5/5/OOPxCfyeJ0S7toOAOdOnotm0DZhJvq.TYwA1M8FEYpkDW2",
     "email": "marcus.vance@example.et",
     "role": "client",
     "verified": true,
@@ -275,7 +321,7 @@
     "id": "client-105",
     "name": "Samuel Kassa",
     "username": "samuel_k",
-    "password": "password123",
+    "password": "$2b$10$yuN4I7Atb0zYqSGTbdB4pueHVFMMuUPDX/3NSlMny2iXgyZq40lNy",
     "email": "samuel.kassa@example.et",
     "role": "client",
     "verified": true,
@@ -286,7 +332,7 @@
     "id": "client-1786541946657",
     "name": "Kalalew Tere",
     "username": "kalalew",
-    "password": "password123",
+    "password": "$2b$10$cv49yVfmIam8lDsokVLYGeeM2n8/8G98BSGrCqLyI4px1yNLBxrT.",
     "email": "qalalewtere@gmail.com",
     "role": "client",
     "verified": true,
