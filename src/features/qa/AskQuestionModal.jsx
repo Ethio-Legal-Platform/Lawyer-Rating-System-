@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ModalBackdrop from '../../components/common/ModalBackdrop';
 import { api } from '../../services/api';
-import { ETHIOPIAN_CITIES } from '../../data/constants';
+import { ETHIOPIAN_CITIES, SPECIALIZATION_LIST } from '../../data/constants';
 
 export default function AskQuestionModal({ currentUser, onClose, onQuestionCreated, initialLawyer = null }) {
   const [title, setTitle] = useState(initialLawyer ? `Legal Inquiry for ${initialLawyer.name}` : '');
@@ -61,7 +61,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="auth-modal" style={{ maxWidth: 620 }} role="dialog" aria-modal="true">
+      <div className="auth-modal" style={{ maxWidth: 640 }} role="dialog" aria-modal="true">
         <div className="auth-modal-header">
           <div className="auth-modal-title">
             {initialLawyer ? `Inquiry for ${initialLawyer.name}` : 'Ask a Legal Question'}
@@ -69,46 +69,49 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
           <div className="auth-modal-sub">
             Connect with Ministry of Justice verified advocates in Ethiopia
           </div>
-          <button className="auth-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
-        <div className="auth-body">
-          {error && <div className="alert alert-error">⚠ {error}</div>}
+        <div className="auth-body" style={{ padding: '2.8rem' }}>
+          {error && <div className="alert alert-error" style={{ marginBottom: '1.6rem' }}>{error}</div>}
 
           <form onSubmit={handleSubmit}>
             {/* Privacy Mode Selector */}
-            <div className="form-group" style={{ background: '#f8fafc', border: '1px solid var(--border)', borderRadius: 8, padding: '1.4rem', marginBottom: '1.6rem' }}>
-              <label className="form-label" style={{ marginBottom: '0.8rem', fontWeight: 800 }}>Inquiry Privacy Mode</label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', cursor: 'pointer' }}>
+            <div className="form-group" style={{ background: '#0e131b', border: '1px solid var(--border)', borderRadius: 8, padding: '1.6rem', marginBottom: '2rem' }}>
+              <label className="form-label" style={{ marginBottom: '1rem', fontWeight: 800, color: 'var(--gold)' }}>
+                Inquiry Visibility Mode
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '1.2rem', cursor: 'pointer' }}>
                   <input
                     type="radio"
                     name="privacy"
                     checked={!isPrivate}
                     onChange={() => setIsPrivate(false)}
-                    style={{ accentColor: '#f55d25', marginTop: '0.3rem' }}
+                    style={{ accentColor: '#fdb813', marginTop: '0.3rem' }}
                   />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--gray-900)' }}>🌐 Public Legal Q&A</div>
-                    <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)' }}>
+                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: 'var(--text-white)' }}>Public Legal Q&A</div>
+                    <div style={{ fontSize: '1.3rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
                       Visible on the community forum so verified advocates and litigants can discuss publicly.
                     </div>
                   </div>
                 </label>
-                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', cursor: 'pointer' }}>
+
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '1.2rem', cursor: 'pointer' }}>
                   <input
                     type="radio"
                     name="privacy"
                     checked={isPrivate}
                     onChange={() => setIsPrivate(true)}
-                    style={{ accentColor: '#f55d25', marginTop: '0.3rem' }}
+                    style={{ accentColor: '#fdb813', marginTop: '0.3rem' }}
                   />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1.4rem', color: '#008cc9' }}>
-                      🔒 Private Inquiry (Nearby Advocate First)
+                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: 'var(--blue)' }}>
+                      Private Consultation (Direct to Advocates)
                     </div>
-                    <div style={{ fontSize: '1.25rem', color: 'var(--gray-500)' }}>
-                      Sent privately to verified advocates in {city}. You can review their answer and publish to the public forum with 1 click anytime!
+                    <div style={{ fontSize: '1.3rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                      Sent privately to verified advocates in {city}. You can review responses and publish anytime!
                     </div>
                   </div>
                 </label>
@@ -120,7 +123,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               <input
                 type="text"
                 className="form-input"
-                placeholder="e.g. Can my landlord increase rent without notice?"
+                placeholder="e.g. Can my landlord increase rent without notice under federal law?"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 required
@@ -128,18 +131,18 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.4rem' }}>
               <div className="form-group">
                 <label className="form-label">Legal Category *</label>
                 <select className="form-select" value={category} onChange={e => setCategory(e.target.value)}>
-                  {['Criminal', 'Corporate', 'Family', 'Civil', 'Labour', 'Immigration', 'Land'].map(c => (
+                  {SPECIALIZATION_LIST.map(c => (
                     <option key={c} value={c}>{c} Law</option>
                   ))}
                 </select>
               </div>
 
               <div className="form-group">
-                <label className="form-label">City *</label>
+                <label className="form-label">City Jurisdiction *</label>
                 <select className="form-select" value={city} onChange={e => setCity(e.target.value)}>
                   {ETHIOPIAN_CITIES.map(c => (
                     <option key={c} value={c}>{c}</option>
@@ -152,8 +155,8 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               <label className="form-label">Detailed Facts & Situation *</label>
               <textarea
                 className="form-textarea"
-                style={{ height: '12rem' }}
-                placeholder="Describe your situation in detail. What happened, what documents do you have, and what specific advice do you need?"
+                rows={5}
+                placeholder="Describe your situation in detail: What occurred, what contracts/documents exist, and what legal clarification do you require?"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 required
@@ -170,15 +173,15 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                 onChange={e => setAuthorName(e.target.value)}
               />
               <p className="form-helper">
-                {isPrivate ? '🔒 Private inquiry visible only to nearby verified advocates.' : '🌐 Public question visible to the legal community.'}
+                {isPrivate ? 'Private consultation sent directly to verified advocates.' : 'Public inquiry visible on the community legal forum.'}
               </p>
             </div>
 
-            <button type="submit" className="btn btn-orange btn-full" disabled={loading}>
+            <button type="submit" className="btn btn-gold" style={{ width: '100%', marginTop: '1rem', padding: '1.3rem' }} disabled={loading}>
               {loading
-                ? <span className="loading-spinner" />
+                ? 'Submitting…'
                 : isPrivate
-                  ? 'Send Private Inquiry to Nearby Advocates'
+                  ? 'Send Private Inquiry to Advocates'
                   : 'Submit Question to Public Forum'}
             </button>
           </form>

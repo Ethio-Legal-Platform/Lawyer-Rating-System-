@@ -17,38 +17,38 @@ export default function QAPage({
   onOpenAuth
 }) {
   return (
-    <section className="avvo-section avvo-section-gray" style={{ minHeight: '60vh' }}>
+    <div className="qa-page-wrap">
       <div className="container">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.6rem', marginBottom: '2rem' }}>
+        {/* Page Header */}
+        <div className="qa-page-header">
           <div>
-            <h1 className="avvo-section-title" style={{ marginBottom: '0.4rem' }}>Legal Q&A & Consultations</h1>
-            <p className="avvo-section-sub" style={{ marginBottom: 0 }}>
-              Ask questions publicly or privately to nearby Ethiopian advocates.
+            <span className="xtra-section-tag">Public & Private Legal Forum</span>
+            <h1 className="qa-page-title">Legal Q&A & Consultations</h1>
+            <p className="qa-page-sub">
+              Ask legal questions publicly or submit private inquiries to nearby Ministry of Justice-verified advocates.
             </p>
           </div>
           <button
-            className="btn btn-primary btn-lg"
+            className="btn btn-gold btn-lg"
             onClick={() => {
               if (!user) onOpenAuth();
               else onOpenAskModal();
             }}
           >
-            Ask a Legal Question ＋
+            Ask a Legal Question +
           </button>
         </div>
 
         {/* Q&A Tab Switcher: Public Forum vs My Private Inquiries */}
-        <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--border)', marginBottom: '2.4rem' }}>
+        <div className="qa-tab-bar">
           <button
-            className={`btn btn-sm ${qaTab === 'public' ? 'btn-primary' : 'btn-ghost'}`}
-            style={{ borderRadius: '6px 6px 0 0', padding: '1rem 2rem', fontSize: '1.4rem', fontWeight: 700 }}
+            className={`qa-tab-btn${qaTab === 'public' ? ' active' : ''}`}
             onClick={() => onSetQaTab('public')}
           >
-            🌐 Public Q&A Forum
+            Public Q&A Forum
           </button>
           <button
-            className={`btn btn-sm ${qaTab === 'private' ? 'btn-primary' : 'btn-ghost'}`}
-            style={{ borderRadius: '6px 6px 0 0', padding: '1rem 2rem', fontSize: '1.4rem', fontWeight: 700 }}
+            className={`qa-tab-btn${qaTab === 'private' ? ' active' : ''}`}
             onClick={() => {
               if (!user) {
                 onOpenAuth();
@@ -57,31 +57,30 @@ export default function QAPage({
               }
             }}
           >
-            🔒 My Private Inquiries {user && privateInquiries.length > 0 ? `(${privateInquiries.length})` : ''}
+            My Private Inquiries {user && privateInquiries.length > 0 ? `(${privateInquiries.length})` : ''}
           </button>
         </div>
 
         {qaTab === 'public' && (
           <>
-            {/* Q&A Search & Category Filter Bar */}
-            <div className="dir-search-wrap" style={{ marginBottom: '2.4rem' }}>
+            {/* Search & Category Filter Bar */}
+            <div className="dir-search-wrap">
               <div className="dir-search-row">
                 <div className="dir-search-field" style={{ flex: 3 }}>
-                  <span className="dir-search-icon">🔍</span>
                   <input
                     type="text"
-                    placeholder="Search legal questions, terms, or topics (e.g. bail, divorce, lease, employment)…"
+                    placeholder="Search questions by topic, statute, or legal keyword (e.g. bail, divorce, land lease, salary)…"
                     value={qaSearchTerm}
                     onChange={e => onSetQaSearchTerm(e.target.value)}
                   />
                 </div>
                 {qaSearchTerm && (
-                  <button className="btn btn-ghost btn-sm" onClick={() => onSetQaSearchTerm('')}>Clear ✕</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => onSetQaSearchTerm('')}>Clear</button>
                 )}
               </div>
 
               <div className="filter-chips">
-                {['All', 'Criminal', 'Family', 'Corporate', 'Civil', 'Labour', 'Immigration', 'Land'].map(cat => (
+                {['All', 'Criminal', 'Family', 'Corporate', 'Civil', 'Labour', 'Land', 'Tax', 'Banking', 'Immigration'].map(cat => (
                   <button
                     key={cat}
                     className={`filter-chip${qaCatFilter === cat ? ' active' : ''}`}
@@ -93,43 +92,66 @@ export default function QAPage({
               </div>
             </div>
 
-            {/* Questions Grid */}
+            {/* Questions List */}
             {loadingQuestions ? (
               <div className="loading-state">
-                Loading questions <span className="loading-dots"><span/><span/><span/></span>
+                <div className="loading-dots"><span/><span/><span/></div>
+                <p style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>Loading legal questions…</p>
               </div>
             ) : questions.length > 0 ? (
-              <div className="qa-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+              <div className="qa-cards-list">
                 {questions.map(q => {
-                  const hasLawyer = (q.answers || []).some(a => a.isLawyer);
+                  const lawyerAns = (q.answers || []).find(a => a.isLawyer);
                   return (
                     <div
                       key={q.id}
-                      className="qa-card"
+                      className="qa-post-card"
                       onClick={() => onSelectQuestion(q.id)}
                       role="button"
                       tabIndex={0}
                       onKeyDown={e => { if (e.key === 'Enter') onSelectQuestion(q.id); }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', gap: '0.6rem' }}>
-                        <span className="qa-tag">{q.category} Law</span>
-                        {hasLawyer ? (
-                          <span style={{ fontSize: '1.15rem', color: '#c2410c', background: '#fff4f0', border: '1px solid #ffd0b0', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 700 }}>
-                            ⚖️ Advocate Verified
+                      <div className="qa-post-header">
+                        <span className="qa-tag gold">{q.category} Law</span>
+                        {lawyerAns ? (
+                          <span className="qa-badge-verified">
+                            Advocate Response Available
                           </span>
                         ) : (
-                          <span style={{ fontSize: '1.15rem', color: '#555', background: '#f3f4f6', padding: '0.2rem 0.6rem', borderRadius: 99 }}>
-                            💬 Community
+                          <span className="qa-badge-community">
+                            Open Discussion
                           </span>
                         )}
                       </div>
-                      <p className="qa-question">{q.title}</p>
-                      <p style={{ fontSize: '1.35rem', color: 'var(--gray-700)', lineHeight: 1.45, marginBottom: '1.2rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {q.description}
-                      </p>
-                      <div className="qa-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '0.8rem' }}>
-                        <span className="qa-answers">✓ {(q.answers || []).length} responses</span>
-                        <span>📍 {q.city || 'Ethiopia'}</span>
+
+                      <h3 className="qa-post-title">{q.title}</h3>
+                      <p className="qa-post-desc">{q.description}</p>
+
+                      {/* Advocate Response Preview Box */}
+                      {lawyerAns && (
+                        <div className="qa-card-response-preview">
+                          <div className="qa-preview-header">
+                            <span className="qa-preview-badge">Verified Advocate Response</span>
+                            <span className="qa-preview-author">
+                              <strong>{lawyerAns.authorName}</strong> {lawyerAns.authorUsername ? `(@${lawyerAns.authorUsername})` : ''}
+                              {lawyerAns.elo ? ` · ELO ${lawyerAns.elo}` : ''}
+                              {lawyerAns.specialization ? ` · ${lawyerAns.specialization} Law` : ''}
+                            </span>
+                          </div>
+                          <p className="qa-preview-text">
+                            “{lawyerAns.content}”
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="qa-post-footer">
+                        <span className="qa-responses-count">
+                          <strong>{(q.answers || []).length}</strong> {(q.answers || []).length === 1 ? 'response' : 'responses'}
+                        </span>
+                        <span className="qa-post-meta">
+                          Location: {q.city || 'Ethiopia'} · {new Date(q.createdAt).toLocaleDateString()}
+                        </span>
+                        <span className="qa-post-action">View Full Legal Analysis &rarr;</span>
                       </div>
                     </div>
                   );
@@ -137,17 +159,16 @@ export default function QAPage({
               </div>
             ) : (
               <div className="empty-state">
-                <span className="empty-icon">💬</span>
                 <p className="empty-title">No questions found</p>
-                <p className="empty-sub">Be the first to ask a legal question in this category or search term.</p>
+                <p className="empty-sub">Be the first to ask a question in this practice area or search query.</p>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-gold"
                   onClick={() => {
                     if (!user) onOpenAuth();
                     else onOpenAskModal();
                   }}
                 >
-                  Ask a Free Question
+                  Ask a Question Now
                 </button>
               </div>
             )}
@@ -156,76 +177,46 @@ export default function QAPage({
 
         {qaTab === 'private' && (
           <div>
-            <div style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 8, padding: '1.6rem 2rem', marginBottom: '2rem' }}>
-              <div style={{ fontWeight: 800, fontSize: '1.5rem', color: '#0369a1', marginBottom: '0.4rem' }}>
-                🔒 Private Inquiries & Consultations
-              </div>
-              <div style={{ fontSize: '1.35rem', color: '#0284c7', lineHeight: 1.5 }}>
-                {user?.role === 'lawyer'
-                  ? `Incoming private inquiries from citizens in ${user.city || 'Ethiopia'} seeking legal consultation. You can provide verified private guidance.`
-                  : 'Your private inquiries sent to nearby advocates. Review their verified answers and click "Publish to Public Forum" inside any thread to share with the community whenever you wish!'}
-              </div>
-            </div>
-
             {loadingInquiries ? (
               <div className="loading-state">
-                Loading your inquiries <span className="loading-dots"><span/><span/><span/></span>
+                <div className="loading-dots"><span/><span/><span/></div>
+                <p style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>Loading private inquiries…</p>
               </div>
             ) : privateInquiries.length > 0 ? (
-              <div className="qa-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
-                {privateInquiries.map(q => {
-                  const hasLawyer = (q.answers || []).some(a => a.isLawyer);
-                  return (
-                    <div
-                      key={q.id}
-                      className="qa-card"
-                      onClick={() => onSelectQuestion(q.id)}
-                      style={{ borderLeft: '4px solid #0284c7' }}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={e => { if (e.key === 'Enter') onSelectQuestion(q.id); }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', gap: '0.6rem' }}>
-                        <span className="qa-tag" style={{ background: '#e0f2fe', color: '#0369a1' }}>🔒 {q.category} Law</span>
-                        {hasLawyer ? (
-                          <span style={{ fontSize: '1.15rem', color: '#166534', background: '#dcfce7', border: '1px solid #86efac', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 700 }}>
-                            ✓ Advocate Responded
-                          </span>
-                        ) : (
-                          <span style={{ fontSize: '1.15rem', color: '#b45309', background: '#fef3c7', padding: '0.2rem 0.6rem', borderRadius: 99, fontWeight: 600 }}>
-                            ⏳ Pending Response
-                          </span>
-                        )}
-                      </div>
-                      <p className="qa-question">{q.title}</p>
-                      <p style={{ fontSize: '1.35rem', color: 'var(--gray-700)', lineHeight: 1.45, marginBottom: '1.2rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {q.description}
-                      </p>
-                      <div className="qa-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '0.8rem' }}>
-                        <span className="qa-answers">💬 {(q.answers || []).length} responses</span>
-                        <span style={{ color: '#0284c7', fontWeight: 600 }}>Click to Review & Publish →</span>
-                      </div>
+              <div className="qa-cards-list">
+                {privateInquiries.map(q => (
+                  <div
+                    key={q.id}
+                    className="qa-post-card private-card"
+                    onClick={() => onSelectQuestion(q.id)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="qa-post-header">
+                      <span className="qa-tag gold">{q.category} Law</span>
+                      <span className="qa-pill-private">Private Consultation</span>
                     </div>
-                  );
-                })}
+                    <h3 className="qa-post-title">{q.title}</h3>
+                    <p className="qa-post-desc">{q.description}</p>
+                    <div className="qa-post-footer">
+                      <span className="qa-responses-count">
+                        <strong>{(q.answers || []).length}</strong> Advocate Responses
+                      </span>
+                      <span>Target: {q.targetLawyerName || 'Nearby Advocates'}</span>
+                      <span className="qa-post-action">Open Consultation &rarr;</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="empty-state">
-                <span className="empty-icon">🔒</span>
-                <p className="empty-title">No private inquiries found</p>
-                <p className="empty-sub">
-                  {user?.role === 'lawyer'
-                    ? 'No private inquiries currently pending for your practice area in your city.'
-                    : 'You have not submitted any private inquiries. Start a private consultation with a nearby advocate!'}
-                </p>
-                <button className="btn btn-primary" onClick={onOpenAskModal}>
-                  Send a Private Legal Inquiry
-                </button>
+                <p className="empty-title">No private inquiries</p>
+                <p className="empty-sub">Send a direct confidential inquiry to any advocate from their profile.</p>
               </div>
             )}
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }

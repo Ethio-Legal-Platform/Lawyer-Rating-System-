@@ -18,10 +18,11 @@ async function authFetch(path, options = {}) {
 
 export const api = {
   // Lawyers & Directory
-  searchLawyers: async (specialization = '', city = '') => {
+  searchLawyers: async (specialization = '', city = '', search = '') => {
     const params = new URLSearchParams();
     if (specialization) params.append('specialization', specialization);
     if (city) params.append('city', city);
+    if (search) params.append('search', search);
     const res = await authFetch(`/lawyers/search?${params}`);
     return res.json();
   },

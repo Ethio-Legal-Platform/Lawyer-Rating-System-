@@ -13,7 +13,7 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
         </p>
         <div className="about-hero-actions">
           <button className="btn btn-primary btn-lg" onClick={() => onNavigate('directory')}>
-            Find a Lawyer →
+            Find a Lawyer &rarr;
           </button>
           <button
             className="btn btn-secondary btn-lg"
@@ -183,7 +183,7 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
             Each lawyer is evaluated using the same objective criteria—experience, education, professional achievements, peer endorsements, and disciplinary history. Every factor that influences the score is visible on the attorney's profile, and ratings automatically update as new data arrives.
           </p>
           <div className="about-rating-highlight">
-            🛡️ <strong>The rating can't be bought:</strong> No manual overrides, no exceptions, and no commercial relationship can change an attorney's score.
+            <strong>The rating cannot be bought:</strong> No manual overrides, no exceptions, and no commercial relationship can change an attorney's score.
           </div>
         </div>
       </div>

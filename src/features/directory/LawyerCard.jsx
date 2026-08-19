@@ -1,24 +1,20 @@
 import React from 'react';
 import StarRow from '../../components/common/StarRow';
-import { eloToRating, ratingColor } from '../../utils/ratingUtils';
 
-export default function LawyerCard({ lawyer, onClick }) {
-  const avvoRating = eloToRating(lawyer.elo);
-  const ratingClass = ratingColor(avvoRating);
-  const topAward = lawyer.awards && lawyer.awards.length > 0 ? lawyer.awards[0] : null;
-
+export default function LawyerCard({ lawyer, onClick, variant = 'standard' }) {
   return (
     <div
-      className="lawyer-card"
+      className={`lawyer-card ${variant === 'horizontal' ? 'lawyer-card-horizontal' : ''}`}
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={e => {
         if (e.key === 'Enter' || e.key === ' ') onClick();
       }}
-      aria-label={`View profile of ${lawyer.name}`}
+      aria-label={`View profile and details of ${lawyer.name}`}
     >
-      <div className="lawyer-card-inner">
+      <div className="lawyer-card-main">
+        {/* Avatar */}
         <div className="lawyer-card-photo-wrap">
           <img
             src={lawyer.profilePic}
@@ -28,75 +24,53 @@ export default function LawyerCard({ lawyer, onClick }) {
               e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200';
             }}
           />
-          <div className={`avvo-rating-badge ${ratingClass}`}>{avvoRating}</div>
         </div>
 
+        {/* Info Column */}
         <div className="lawyer-card-body">
           <div className="lawyer-card-header">
             <h3 className="lawyer-card-name">{lawyer.name}</h3>
-            <span className="verified-badge">✓ MoJ Verified</span>
           </div>
 
           <div className="lawyer-card-spec">
-            {lawyer.specialization} Law · {lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} yrs exp.` : 'Licensed Advocate'}
+            {lawyer.specialization} Law Advocate
           </div>
 
           <div className="lawyer-card-meta">
-            <span>📍 {lawyer.city || 'Addis Ababa'}</span>
-            <span>🔖 {lawyer.licenseNumber}</span>
-            <span style={{ color: '#008cc9', fontWeight: 600 }}>{lawyer.casesCount} Decided Cases</span>
-            {lawyer.interactionScore > 0 && (
-              <span style={{ color: '#f59e0b', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                ⭐ {lawyer.interactionScore} Activity
-              </span>
-            )}
+            <span>Location: {lawyer.city || 'Addis Ababa'}</span>
+            <span>·</span>
+            <span>Licensed for {lawyer.yearsExperience || 1} years</span>
           </div>
 
-          {topAward && (
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                background: '#fef3c7',
-                border: '1px solid #fde68a',
-                borderRadius: 4,
-                padding: '0.2rem 0.6rem',
-                fontSize: '1.2rem',
-                color: '#92400e',
-                fontWeight: 700,
-                marginTop: '0.4rem'
-              }}
-            >
-              <span>{topAward.icon}</span>
-              <span>{topAward.title}</span>
-            </div>
+          {variant === 'horizontal' && lawyer.bio && (
+            <p className="lawyer-card-bio-snippet">
+              {lawyer.bio}
+            </p>
           )}
 
           <div className="lawyer-card-rating">
             <StarRow rating={lawyer.rating} />
             <span className="rating-num">{(Number(lawyer.rating) || 0).toFixed(1)}</span>
-            <span className="rating-desc">({lawyer.casesCount} court reviews)</span>
+            <span className="rating-desc">({lawyer.casesCount || 0} court cases)</span>
           </div>
-
-          {lawyer.bio && <p className="lawyer-card-bio">{lawyer.bio}</p>}
         </div>
+      </div>
 
-        <div className="lawyer-card-action">
-          <div className="lawyer-elo-badge">
-            <span className="lawyer-elo-num">{lawyer.elo}</span>
-            <span className="lawyer-elo-label">ELO Score</span>
-          </div>
-          <button
-            className="btn btn-orange btn-sm"
-            onClick={e => {
-              e.stopPropagation();
-              onClick();
-            }}
-          >
-            View Profile
-          </button>
+      {/* Card Action / Score Panel */}
+      <div className="lawyer-card-footer">
+        <div className="lawyer-elo-badge">
+          <span className="lawyer-elo-num">{lawyer.elo}</span>
+          <span className="lawyer-elo-label">ELO Score</span>
         </div>
+        <button
+          className="btn btn-orange btn-sm"
+          onClick={e => {
+            e.stopPropagation();
+            onClick();
+          }}
+        >
+          View Profile &rarr;
+        </button>
       </div>
     </div>
   );

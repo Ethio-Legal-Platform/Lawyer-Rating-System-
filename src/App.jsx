@@ -27,11 +27,10 @@ export default function App() {
   // State: Navigation & Authentication
   const [user, setUser] = useState(getStoredUser);
   const [page, setPage] = useState('home');
-  const [showAuth, setShowAuth] = useState(false);
+  const [authConfig, setAuthConfig] = useState({ open: false, tab: 'login', role: 'client' });
 
   // State: Directory & Lawyers
   const [lawyers, setLawyers] = useState([]);
-  const [leaderboard, setLeaderboard] = useState([]);
   const [loadingLawyers, setLoadingLawyers] = useState(true);
   const [searchSpec, setSearchSpec] = useState('');
   const [searchCity, setSearchCity] = useState('');
@@ -52,7 +51,7 @@ export default function App() {
   const [showAskModal, setShowAskModal] = useState(false);
   const [consultLawyer, setConsultLawyer] = useState(null);
 
-  // Data Fetching: Lawyers & Leaderboard
+  // Data Fetching: Lawyers
   const fetchLawyers = useCallback(async (spec = searchSpec, city = searchCity) => {
     setLoadingLawyers(true);
     try {
@@ -64,15 +63,6 @@ export default function App() {
       setLoadingLawyers(false);
     }
   }, [searchSpec, searchCity]);
-
-  const fetchLeaderboard = useCallback(async () => {
-    try {
-      const data = await api.getLeaderboard();
-      setLeaderboard(Array.isArray(data) ? data : []);
-    } catch {
-      setLeaderboard([]);
-    }
-  }, []);
 
   // Data Fetching: Q&A Questions
   const fetchQuestions = useCallback(async () => {
@@ -107,8 +97,7 @@ export default function App() {
   // Initial Effects
   useEffect(() => {
     fetchLawyers(searchSpec, searchCity);
-    fetchLeaderboard();
-  }, [fetchLawyers, fetchLeaderboard, searchSpec, searchCity]);
+  }, [fetchLawyers, searchSpec, searchCity]);
 
   useEffect(() => {
     if (page === 'qa' || page === 'home') {
@@ -153,6 +142,18 @@ export default function App() {
     setPage('directory');
   };
 
+  const handleOpenAuth = (opts = {}) => {
+    if (typeof opts === 'object' && opts !== null) {
+      setAuthConfig({
+        open: true,
+        tab: opts.tab || 'login',
+        role: opts.role || 'client',
+      });
+    } else {
+      setAuthConfig({ open: true, tab: 'login', role: 'client' });
+    }
+  };
+
   return (
     <div className="avvo-root">
       {/* Navigation Header */}
@@ -160,18 +161,14 @@ export default function App() {
         user={user}
         page={page}
         onNavigate={setPage}
-        onSignIn={() => setShowAuth(true)}
+        onSignIn={handleOpenAuth}
         onSignOut={handleLogout}
       />
 
       {/* Pages */}
       {page === 'home' && (
         <Home
-          lawyers={lawyers}
-          leaderboard={leaderboard}
-          loading={loadingLawyers}
           onSearch={handleSearch}
-          onSelectLawyer={setSelectedLawyer}
           onSelectGuide={setSelectedGuide}
           onNavigate={setPage}
         />
@@ -215,7 +212,7 @@ export default function App() {
         <AboutPage
           onNavigate={setPage}
           onSearch={handleSearch}
-          onOpenAuth={() => setShowAuth(true)}
+          onOpenAuth={handleOpenAuth}
         />
       )}
 
@@ -223,7 +220,7 @@ export default function App() {
       <Footer
         onNavigate={setPage}
         onSearchSpec={(spec) => handleSearch(spec, '')}
-        onOpenAuth={() => setShowAuth(true)}
+        onOpenAuth={handleOpenAuth}
       />
 
       {/* Active Modals */}
@@ -246,13 +243,18 @@ export default function App() {
       {selectedQuestionId && (
         <QuestionThreadModal
           questionId={selectedQuestionId}
+          initialQuestion={
+            questions.find(q => q.id === selectedQuestionId) ||
+            privateInquiries.find(q => q.id === selectedQuestionId) ||
+            null
+          }
           currentUser={user}
           onClose={() => setSelectedQuestionId(null)}
           onRefreshList={() => {
             fetchQuestions();
             if (user) fetchPrivateInquiries();
           }}
-          onOpenAuth={() => setShowAuth(true)}
+          onOpenAuth={handleOpenAuth}
         />
       )}
 
@@ -271,9 +273,11 @@ export default function App() {
         />
       )}
 
-      {showAuth && (
+      {authConfig.open && (
         <AuthModal
-          onClose={() => setShowAuth(false)}
+          initialTab={authConfig.tab}
+          initialRole={authConfig.role}
+          onClose={() => setAuthConfig({ open: false, tab: 'login', role: 'client' })}
           onLogin={handleLogin}
         />
       )}

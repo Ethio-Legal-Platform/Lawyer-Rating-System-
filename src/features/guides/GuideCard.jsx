@@ -18,8 +18,8 @@ export default function GuideCard({ guide, onClick }) {
       <h3 className="guide-card-title">{guide.title}</h3>
       <p className="guide-card-summary">{guide.summary}</p>
       <div className="guide-card-footer">
-        <span>⏱️ {guide.read}</span>
-        <span className="guide-card-link">Read Full Guide →</span>
+        <span>Read time: {guide.read}</span>
+        <span className="guide-card-link">Read Full Guide &rarr;</span>
       </div>
     </div>
   );

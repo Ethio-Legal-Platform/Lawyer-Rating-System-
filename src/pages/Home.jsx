@@ -1,19 +1,49 @@
 import React, { useState } from 'react';
-import LawyerCard from '../features/directory/LawyerCard';
-import { ETHIOPIAN_CITIES, PRACTICE_AREAS } from '../data/constants';
+import { ETHIOPIAN_CITIES, PRACTICE_AREAS, SPECIALIZATION_LIST } from '../data/constants';
 import { LEGAL_GUIDES } from '../data/legalGuides';
 
 export default function Home({
-  lawyers = [],
-  leaderboard = [],
-  loading = false,
   onSearch,
-  onSelectLawyer,
   onSelectGuide,
   onNavigate
 }) {
   const [specInput, setSpecInput] = useState('');
   const [cityInput, setCityInput] = useState('');
+  const [activeFaq, setActiveFaq] = useState(0);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const advocateQuotes = [
+    {
+      id: 1,
+      image: '/images/advocate-quote-1.jpg',
+      quote: "The true measure of the legal profession is not the eloquence of argument, but the steadfast courage to stand between the citizen and injustice.",
+      author: "Advocate Tigist Alemu Bekele",
+      title: "Commercial & Civil Rights Counsel",
+      location: "Addis Ababa, Ethiopia",
+      stat: "12+ Years at Federal Bar",
+      accent: "Constitutional & Civil Justice"
+    },
+    {
+      id: 2,
+      image: '/images/advocate-quote-2.jpg',
+      quote: "In the courtroom, every precedent cited and every statutory article defended is a brick laid in the enduring foundation of the rule of law.",
+      author: "Advocate Kebede Haile Mariam",
+      title: "Senior Criminal Defense & Cassation Litigator",
+      location: "Federal Supreme Court, Addis Ababa",
+      stat: "15+ Years Trial Experience",
+      accent: "Criminal Procedure & Due Process"
+    },
+    {
+      id: 3,
+      image: '/images/advocate-quote-3.jpg',
+      quote: "Advocacy is the voice of those whose rights would otherwise be silenced. To practice law is to hold a sacred trust for equity, inclusion, and human dignity.",
+      author: "Advocate Yetnebersh Nigussie",
+      title: "Human Rights, Inclusion & Equal Justice Advocate",
+      location: "Ethiopia & International Jurisdictions",
+      stat: "Distinguished Public Interest Counsel",
+      accent: "Human Dignity & Accessibility"
+    }
+  ];
 
   const doSearch = () => {
     if (onSearch) onSearch(specInput, cityInput);
@@ -25,259 +55,448 @@ export default function Home({
     if (onNavigate) onNavigate('directory');
   };
 
+  const faqs = [
+    {
+      q: 'How is an advocate’s ELO performance rating calculated in Ethiopia?',
+      a: 'The ELO rating engine starts all licensed advocates at 1000 base points. Every verified court case recorded by Federal High Court and Supreme Court judges dynamically updates ratings based on case complexity, opposing advocate strength, and final verdict outcome.'
+    },
+    {
+      q: 'Is Ministry of Justice (MoJ) license verification live and mandatory?',
+      a: 'Yes. Only advocates holding active, unexpired licenses from the Federal Ministry of Justice of Ethiopia can register and appear on the directory. Registrations are automatically verified against the MoJ national database.'
+    },
+    {
+      q: 'Can citizens ask legal questions and consult lawyers for free?',
+      a: 'Yes! Litigants and businesses can post questions anonymously in the Legal Q&A Forum. Verified advocates provide initial legal insights, and users can upvote helpful advice or reach out directly for private consultations.'
+    },
+    {
+      q: 'How are judicial court cases submitted and authenticated?',
+      a: 'Court cases are entered directly by authorized judicial officers and court registrars using encrypted MoJ credentials. Every record includes docket numbers, presiding bench, counsel on record, and certified outcome.'
+    },
+    {
+      q: 'Which regions and court jurisdictions are covered?',
+      a: 'LEX-RATING covers Federal First Instance, Federal High Court, and Federal Supreme Court benches across Addis Ababa, Dire Dawa, Hawassa, Bahir Dar, Mekelle, Gondar, Jimma, Adama, Dessie, and Harar.'
+    }
+  ];
+
   return (
-    <>
-      {/* Hero */}
-      <section className="avvo-hero">
-        <div className="avvo-hero-tag">🇪🇹 Official Ministry of Justice Registry</div>
-        <h1>Legal. <em>Easier.</em></h1>
-        <p className="avvo-hero-sub">
-          Find MoJ-verified Ethiopian lawyers by practice area and city. Compare live ELO ratings, read profiles, and connect instantly.
-        </p>
+    <div className="xtra-home-page">
+      {/* ─── Hero Section (XTRA Dark Gradient & Gold Theme) ────────────── */}
+      <section className="xtra-hero">
+        <div className="xtra-hero-glow" />
+        <div className="container xtra-hero-container">
+          {/* Main Headline */}
+          <h1 className="xtra-hero-title">
+            Empowering Justice with <br />
+            <span className="xtra-gold-gradient">Verified Advocate Ratings</span> & Insights
+          </h1>
 
-        {/* Dual search bar */}
-        <div className="avvo-search-box">
-          <div className="avvo-search-field">
-            <span className="avvo-search-icon">⚖</span>
-            <input
-              className="avvo-search-input"
-              type="text"
-              list="home-spec-list"
-              placeholder="Practice area (Criminal, Family…)"
-              value={specInput}
-              onChange={e => setSpecInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
-            />
-            <datalist id="home-spec-list">
-              {['Criminal', 'Corporate', 'Family', 'Civil'].map(s => <option key={s} value={s} />)}
-            </datalist>
-          </div>
-          <div className="avvo-search-field">
-            <span className="avvo-search-icon">📍</span>
-            <input
-              className="avvo-search-input"
-              type="text"
-              list="home-city-list"
-              placeholder="City (Addis Ababa, Hawassa…)"
-              value={cityInput}
-              onChange={e => setCityInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
-            />
-            <datalist id="home-city-list">
-              {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
-            </datalist>
-          </div>
-          <button className="avvo-search-btn" onClick={doSearch}>Find Lawyers</button>
-        </div>
+          {/* Subtitle */}
+          <p className="xtra-hero-subtitle">
+            Find Ministry of Justice-verified Ethiopian lawyers across 10 regions. 
+            Evaluate transparent courtroom ELO ratings, read legal guides, and connect directly.
+          </p>
 
-        {/* Hero stats */}
-        <div className="avvo-hero-stats">
-          {[
-            [`${lawyers.length}+`, 'Verified Advocates'],
-            ['10', 'Ethiopian Cities'],
-            ['4', 'Practice Areas'],
-            ['ELO', 'Live Performance Ratings'],
-          ].map(([num, label]) => (
-            <div key={label} className="avvo-hero-stat">
-              <span className="avvo-hero-stat-num">{num}</span>
-              <span className="avvo-hero-stat-label">{label}</span>
+          {/* Action CTAs */}
+          <div className="xtra-hero-actions">
+            <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
+              Find Top Advocates &rarr;
+            </button>
+            <button className="btn btn-dark-outline btn-lg" onClick={() => setShowVideoModal(true)}>
+              <span className="play-icon-circle">&#9658;</span> Watch System Tour
+            </button>
+          </div>
+
+          {/* Dual Search Bar */}
+          <div className="xtra-search-card">
+            <div className="xtra-search-field">
+              <span className="xtra-field-label">Practice Area / Advocate Name</span>
+              <input
+                className="xtra-search-input"
+                type="text"
+                list="home-spec-list"
+                placeholder="e.g. Criminal, Corporate, Kebede…"
+                value={specInput}
+                onChange={e => setSpecInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
+              />
+              <datalist id="home-spec-list">
+                {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
+              </datalist>
             </div>
-          ))}
+
+            <div className="xtra-search-divider" />
+
+            <div className="xtra-search-field">
+              <span className="xtra-field-label">City / Jurisdiction</span>
+              <input
+                className="xtra-search-input"
+                type="text"
+                list="home-city-list"
+                placeholder="e.g. Addis Ababa, Hawassa…"
+                value={cityInput}
+                onChange={e => setCityInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
+              />
+              <datalist id="home-city-list">
+                {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
+              </datalist>
+            </div>
+
+            <button className="btn btn-gold xtra-search-submit" onClick={doSearch}>
+              Search Lawyers
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Practice Area Grid */}
-      <section className="avvo-section avvo-section-white">
+      {/* ─── Client Metrics & Trust Bar ─────────────────────────────────── */}
+      <section className="xtra-metrics-section">
         <div className="container">
-          <h2 className="avvo-section-title">Browse by Practice Area</h2>
-          <p className="avvo-section-sub">Find verified lawyers specializing in your legal need.</p>
-          <div className="practice-grid">
+          <div className="xtra-metrics-grid">
+            {[
+              ['20+', 'MoJ-Verified Advocates', 'Active practicing advocates on the national registry'],
+              ['16+', 'Decided Court Cases', 'Judicially validated trial records across federal courts'],
+              ['10', 'Regional Benches', 'Courts covered across Addis Ababa & regional states'],
+              ['1-10', 'Performance Scale', 'Transparent ELO algorithmic advocate ranking score'],
+            ].map(([num, title, desc]) => (
+              <div key={title} className="xtra-metric-item">
+                <div className="xtra-metric-num">{num}</div>
+                <div className="xtra-metric-title">{title}</div>
+                <div className="xtra-metric-desc">{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Quote 1: "The Real Ones" (Full Screen Strip) ──────────────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[0].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[0].accent}</span>
+            </div>
+          </div>
+
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Voices of the Bar</span>
+              <h2 className="xtra-quote-inline-title">The Real Ones</h2>
+              <p className="xtra-quote-inline-sub">
+                Advocates with steadfast dedication to client rights, constitutional justice, and courtroom integrity.
+              </p>
+            </div>
+
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[0].quote}
+            </blockquote>
+
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[0].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[0].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[0].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[0].stat}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Practice Areas (Pre-Built Demo Style Grid) ────────────────── */}
+      <section className="xtra-section">
+        <div className="container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">Explore Legal Specialties</span>
+            <h2 className="xtra-section-title">Specialized Legal Practice Areas</h2>
+            <p className="xtra-section-sub">
+              Browse top-rated advocates by specific category for your civil, criminal, or corporate matters.
+            </p>
+          </div>
+
+          <div className="xtra-practice-grid">
             {PRACTICE_AREAS.map(area => (
               <div
                 key={area.label}
-                className="practice-card"
+                className="xtra-practice-card"
                 onClick={() => handlePracticeCard(area)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={e => { if (e.key === 'Enter') handlePracticeCard(area); }}
               >
-                <span className="practice-card-icon">{area.icon}</span>
-                <span className="practice-card-label">{area.label}</span>
+                <div className="xtra-practice-icon-box">
+                  <span className="xtra-practice-dot" />
+                </div>
+                <h3 className="xtra-practice-title">{area.label}</h3>
+                <span className="xtra-practice-arrow">&rarr;</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="avvo-section avvo-section-gray">
-        <div className="container">
-          <h2 className="avvo-section-title" style={{ textAlign: 'center' }}>How LEX-RATING Works</h2>
-          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>Three simple steps to finding your advocate.</p>
-          <div className="how-strip">
-            {[
-              { num: '1', title: 'Search', desc: 'Enter your legal issue and city. Filter by specialization to narrow results instantly.' },
-              { num: '2', title: 'Compare', desc: 'Review live ELO performance ratings, case win rates, education, and client reviews.' },
-              { num: '3', title: 'Connect', desc: 'Message or call the lawyer directly. All advocates are MoJ-verified and licensed.' },
-            ].map(s => (
-              <div key={s.num} className="how-step">
-                <div className="how-step-num">{s.num}</div>
-                <div className="how-step-title">{s.title}</div>
-                <p className="how-step-desc">{s.desc}</p>
-              </div>
-            ))}
+      {/* ─── Quote 2: "The Old Gems" (Full Screen Strip) ─────────────────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip reverse">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[1].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[1].accent}</span>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Trust Bar */}
-      <div className="trust-bar">
-        <div className="trust-bar-inner">
-          {[
-            ['12', 'MoJ-Verified Advocates'],
-            ['10+', 'Court Cases Rated'],
-            ['10', 'Cities Covered'],
-            ['1–10', 'Transparent ELO Rating'],
-          ].map(([num, label]) => (
-            <div key={label} className="trust-stat">
-              <span className="trust-stat-num">{num}</span>
-              <span className="trust-stat-label">{label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Featured Lawyers */}
-      <section className="avvo-section avvo-section-white">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.4rem' }}>
-            <div>
-              <h2 className="avvo-section-title" style={{ marginBottom: '0.3rem' }}>Top-Rated Advocates</h2>
-              <p className="avvo-section-sub" style={{ marginBottom: 0 }}>Sorted by ELO performance rating.</p>
-            </div>
-            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('directory')}>View All →</button>
-          </div>
-          {loading ? (
-            <div className="loading-state">
-              Loading advocates <span className="loading-dots"><span/><span/><span/></span>
-            </div>
-          ) : (
-            <div className="lawyers-grid">
-              {lawyers.slice(0, 6).map(lawyer => (
-                <LawyerCard key={lawyer.id} lawyer={lawyer} onClick={() => onSelectLawyer(lawyer)} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Most Interactive Advocates Podium */}
-      {leaderboard.length > 0 && (
-        <section className="avvo-section avvo-section-white" style={{ borderTop: '1px solid var(--border)', background: '#fafbfc' }}>
-          <div className="container">
-            <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 2.8rem' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f55d25', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                ⭐ 2026 Community Recognition
-              </span>
-              <h2 className="avvo-section-title" style={{ marginTop: '0.4rem', marginBottom: '0.6rem' }}>
-                Most Interactive Advocates of the Year
-              </h2>
-              <p className="avvo-section-sub" style={{ marginBottom: 0 }}>
-                Honoring the most engaged advocates answering citizen legal questions, providing verified guidance, and receiving top community helpfulness ratings.
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Mastery & Tradition</span>
+              <h2 className="xtra-quote-inline-title">The Old Gems</h2>
+              <p className="xtra-quote-inline-sub">
+                Veteran litigators who have shaped precedent across the Federal Supreme Court and Cassation Bench.
               </p>
             </div>
 
-            <div className="leaderboard-grid">
-              {leaderboard.map((lawyer, idx) => {
-                const topAw = lawyer.awards && lawyer.awards.length > 0 ? lawyer.awards[0] : null;
-                const crownLabel = idx === 0 ? '🏆 Rank #1 Advocate' : idx === 1 ? '⭐ Rank #2 Advocate' : '🌟 Rank #3 Advocate';
-                return (
-                  <div
-                    key={lawyer.id}
-                    className={`leaderboard-card rank-${idx + 1}`}
-                    onClick={() => {
-                      const fullLawyer = lawyers.find(l => l.id === lawyer.id) || lawyer;
-                      onSelectLawyer(fullLawyer);
-                    }}
-                  >
-                    <span
-                      className="leaderboard-rank-crown"
-                      style={{
-                        background: idx === 0 ? '#f59e0b' : idx === 1 ? '#64748b' : '#ea580c'
-                      }}
-                    >
-                      {crownLabel}
-                    </span>
-                    <img
-                      src={lawyer.profilePic}
-                      alt={lawyer.name}
-                      className="leaderboard-avatar"
-                      onError={e => {
-                        e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200';
-                      }}
-                    />
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.3rem' }}>
-                      {lawyer.name}
-                    </h3>
-                    <div style={{ fontSize: '1.35rem', color: 'var(--blue)', fontWeight: 600, marginBottom: '0.6rem' }}>
-                      {lawyer.specialization} Law · 📍 {lawyer.city}
-                    </div>
-                    {topAw && (
-                      <div style={{ fontSize: '1.2rem', color: '#92400e', background: '#fef3c7', padding: '0.3rem 0.8rem', borderRadius: 99, display: 'inline-block', fontWeight: 700, marginBottom: '1.2rem' }}>
-                        {topAw.title}
-                      </div>
-                    )}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem', background: '#f8fafc', padding: '1rem', borderRadius: 8, marginBottom: '1.4rem', textAlign: 'center' }}>
-                      <div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--blue)' }}>{lawyer.interactionScore || 0}</div>
-                        <div style={{ fontSize: '1.15rem', color: 'var(--gray-500)', textTransform: 'uppercase' }}>Activity Points</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#52a304' }}>▲ {lawyer.helpfulVotesReceived || 0}</div>
-                        <div style={{ fontSize: '1.15rem', color: 'var(--gray-500)', textTransform: 'uppercase' }}>Helpful Votes</div>
-                      </div>
-                    </div>
-                    <button className="btn btn-primary btn-sm btn-full">
-                      View Advocate Profile →
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[1].quote}
+            </blockquote>
 
-      {/* Legal Guides */}
-      <section className="avvo-section avvo-section-white">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '0.4rem' }}>
-            <div>
-              <h2 className="avvo-section-title" style={{ marginBottom: '0.3rem' }}>Legal Guides & Articles</h2>
-              <p className="avvo-section-sub" style={{ marginBottom: 0 }}>Plain-language explanations of Ethiopian laws and procedures.</p>
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[1].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[1].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[1].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[1].stat}</span>
+              </div>
             </div>
-            <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('guides')}>All Guides →</button>
           </div>
-          <div className="guides-grid">
+        </div>
+      </section>
+
+      {/* ─── Core Platform Highlights (High-Contrast Tech Grid) ─────────── */}
+      <section className="xtra-section xtra-section-darker">
+        <div className="container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">B2G Architecture</span>
+            <h2 className="xtra-section-title">Why Ethiopia Trusts LEX-RATING</h2>
+            <p className="xtra-section-sub">
+              Bridging the gap between citizens, advocates, and the judicial court system.
+            </p>
+          </div>
+
+          <div className="xtra-features-grid">
+            <div className="xtra-feature-card">
+              <div className="xtra-feature-number">01</div>
+              <h3 className="xtra-feature-title">Verified MoJ Credentials</h3>
+              <p className="xtra-feature-text">
+                Every advocate profile is cross-checked with the Federal Ministry of Justice roll of advocates. No unverified legal practitioners.
+              </p>
+            </div>
+
+            <div className="xtra-feature-card gold-border">
+              <div className="xtra-feature-number gold">02</div>
+              <h3 className="xtra-feature-title">Courtroom ELO Ratings</h3>
+              <p className="xtra-feature-text">
+                Live mathematical ELO calculations based on win/loss records, opponent strength, case complexity, and certified judicial scores.
+              </p>
+            </div>
+
+            <div className="xtra-feature-card">
+              <div className="xtra-feature-number">03</div>
+              <h3 className="xtra-feature-title">Free Citizen Q&A Forum</h3>
+              <p className="xtra-feature-text">
+                Litigants can ask legal questions and receive answers from advocates across criminal, family, land, and corporate law.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Quote 3: "The Pillars of Justice" (Full Screen Strip) ───────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[2].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[2].accent}</span>
+            </div>
+          </div>
+
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Public Interest Advocacy</span>
+              <h2 className="xtra-quote-inline-title">The Real Champions of Justice</h2>
+              <p className="xtra-quote-inline-sub">
+                Championing equal accessibility, human dignity, and pro bono community representation.
+              </p>
+            </div>
+
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[2].quote}
+            </blockquote>
+
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[2].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[2].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[2].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[2].stat}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Accordion FAQ Component (Standard High-Contrast Accordion) ──── */}
+      <section className="xtra-section">
+        <div className="container xtra-faq-container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">Frequently Asked Questions</span>
+            <h2 className="xtra-section-title">Got Questions? We’ve Got Answers</h2>
+            <p className="xtra-section-sub">
+              Learn how the LEX-RATING rating methodology and verified legal network work.
+            </p>
+          </div>
+
+          <div className="xtra-accordion">
+            {faqs.map((faq, index) => {
+              const isOpen = activeFaq === index;
+              return (
+                <div
+                  key={index}
+                  className={`xtra-accordion-item${isOpen ? ' active' : ''}`}
+                >
+                  <button
+                    className="xtra-accordion-header"
+                    onClick={() => setActiveFaq(isOpen ? -1 : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="xtra-accordion-title">{faq.q}</span>
+                    <span className="xtra-accordion-icon">{isOpen ? '−' : '+'}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="xtra-accordion-body">
+                      <p>{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Legal Guides Showcase ──────────────────────────────────────── */}
+      <section className="xtra-section xtra-section-darker">
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.6rem', marginBottom: '3.2rem' }}>
+            <div>
+              <span className="xtra-section-tag">Knowledge Base</span>
+              <h2 className="xtra-section-title" style={{ marginBottom: '0.4rem' }}>Ethiopian Legal Guides</h2>
+              <p className="xtra-section-sub" style={{ marginBottom: 0 }}>Plain-language explanations of Ethiopian proclamations and court procedures.</p>
+            </div>
+            <button className="btn btn-dark-outline btn-sm" onClick={() => onNavigate('guides')}>
+              View All Guides &rarr;
+            </button>
+          </div>
+
+          <div className="xtra-guides-grid">
             {LEGAL_GUIDES.slice(0, 3).map(g => (
-              <div key={g.id} className="guide-card" onClick={() => onSelectGuide(g)}>
-                <div className="guide-card-color" style={{ background: g.color || 'var(--orange)' }} />
-                <div className="guide-card-body">
-                  <div className="guide-cat">{g.cat}</div>
-                  <div className="guide-title">{g.title}</div>
-                  <p style={{ fontSize: '1.35rem', color: 'var(--gray-500)', lineHeight: 1.45, marginBottom: '0.8rem' }}>
-                    {g.subtitle}
-                  </p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-                    <span className="guide-read">📖 {g.read}</span>
-                    <span style={{ fontSize: '1.3rem', color: 'var(--blue)', fontWeight: 700 }}>Read Article →</span>
-                  </div>
+              <div key={g.id} className="xtra-guide-card" onClick={() => onSelectGuide(g)}>
+                <div className="xtra-guide-header">
+                  <span className="xtra-guide-tag">{g.cat}</span>
+                  <span className="xtra-guide-read">{g.read}</span>
+                </div>
+                <h3 className="xtra-guide-title">{g.title}</h3>
+                <p className="xtra-guide-sub">{g.subtitle}</p>
+                <div className="xtra-guide-footer">
+                  <span>Read Article &rarr;</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-    </>
+
+      {/* ─── Final High-Impact Gold CTA Strip ─────────────────────────────── */}
+      <section className="xtra-cta-strip">
+        <div className="container xtra-cta-inner">
+          <div className="xtra-cta-text">
+            <h2>Need Legal Counsel or Representation?</h2>
+            <p>Connect with top-rated Ethiopian advocates verified by the Ministry of Justice.</p>
+          </div>
+          <div className="xtra-cta-actions">
+            <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
+              Browse All Advocates &rarr;
+            </button>
+            <button className="btn btn-dark-outline btn-lg" onClick={() => onNavigate('qa')}>
+              Ask a Legal Question
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Video Tour Modal ────────────────────────────────────────────── */}
+      {showVideoModal && (
+        <div className="modal-backdrop" onClick={() => setShowVideoModal(false)}>
+          <div className="xtra-video-modal" onClick={e => e.stopPropagation()}>
+            <div className="xtra-video-header">
+              <h3>LEX-RATING System Tour & Judicial Workflow</h3>
+              <button className="modal-close" onClick={() => setShowVideoModal(false)}>X</button>
+            </div>
+            <div className="xtra-video-content">
+              <div className="xtra-video-preview-box">
+                <img
+                  src="/images/ethiopia-court-gavel.jpg"
+                  alt="Ethiopian Judicial System Architecture"
+                  style={{ width: '100%', maxHeight: 320, objectFit: 'cover', borderRadius: 8 }}
+                />
+                <div className="xtra-video-play-banner">
+                  <h4>Federal Ministry of Justice B2G Architecture</h4>
+                  <p>
+                    Demonstrating real-time ELO rating updates upon verdict registration, 
+                    MoJ barcode license verification, and litigant Q&A consulting.
+                  </p>
+                  <button className="btn btn-gold btn-sm" style={{ marginTop: '1.2rem' }} onClick={() => setShowVideoModal(false)}>
+                    Close Tour & Explore System
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

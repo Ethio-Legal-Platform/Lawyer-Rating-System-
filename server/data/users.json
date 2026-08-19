@@ -11,14 +11,10 @@
     "specialization": "Criminal",
     "city": "Addis Ababa",
     "phone": "+251911234501",
-    "bio": "Senior criminal defense attorney with over 15 years of experience before the Federal High Court and Supreme Court. Specializes in white-collar crime, homicide defense, and appeal proceedings.",
+    "bio": "Senior criminal defense attorney with over 15 years of experience before the Federal High Court and Supreme Court. Specializes in white-collar crime, homicide defense, constitutional bail petitions, and cassation appeal proceedings.",
     "yearsExperience": 15,
     "education": "LLB – Addis Ababa University (2008), LLM Criminal Law – Haramaya University (2012)",
-    "languages": [
-      "Amharic",
-      "English",
-      "Oromiffa"
-    ],
+    "languages": ["Amharic", "English", "Oromiffa"],
     "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
     "elo": 1280
   },
@@ -34,14 +30,10 @@
     "specialization": "Corporate",
     "city": "Addis Ababa",
     "phone": "+251911234502",
-    "bio": "Leading corporate and commercial law practitioner advising multinational companies, government enterprises, and NGOs on mergers, acquisitions, regulatory compliance, and contract disputes.",
+    "bio": "Leading corporate and commercial law practitioner advising multinational companies, state enterprises, and high-growth technology ventures on mergers, acquisitions, regulatory compliance, and cross-border commercial arbitration.",
     "yearsExperience": 12,
     "education": "LLB – Addis Ababa University (2010), LLM Commercial Law – University of London (2014)",
-    "languages": [
-      "Amharic",
-      "English",
-      "French"
-    ],
+    "languages": ["Amharic", "English", "French"],
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
     "elo": 1310
   },
@@ -57,14 +49,10 @@
     "specialization": "Civil",
     "city": "Hawassa",
     "phone": "+251911234503",
-    "bio": "Civil litigation expert based in Hawassa handling property rights, land disputes, tort claims, and administrative law matters across Southern Ethiopia courts.",
+    "bio": "Civil litigation expert based in Hawassa handling property rights, municipal land lease disputes, tort claims, and administrative law matters across Southern Ethiopia regional courts.",
     "yearsExperience": 10,
     "education": "LLB – Hawassa University (2012), LLM Civil Procedure – Addis Ababa University (2016)",
-    "languages": [
-      "Amharic",
-      "English",
-      "Sidamigna"
-    ],
+    "languages": ["Amharic", "English", "Sidamigna"],
     "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
     "elo": 1195
   },
@@ -80,15 +68,10 @@
     "specialization": "Family",
     "city": "Dire Dawa",
     "phone": "+251911234504",
-    "bio": "Compassionate family law specialist with vast experience in contested divorce, marital asset division, child custody battles, and probate succession.",
+    "bio": "Compassionate family law specialist with vast experience in contested divorce, marital asset division, child custody battles, inheritance succession, and guardianship proceedings.",
     "yearsExperience": 9,
     "education": "LLB – Dire Dawa University (2014), LLM Family Law – Bahir Dar University (2018)",
-    "languages": [
-      "Amharic",
-      "Oromiffa",
-      "Somali",
-      "English"
-    ],
+    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
     "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
     "elo": 1210
   },
@@ -104,13 +87,10 @@
     "specialization": "Civil",
     "city": "Bahir Dar",
     "phone": "+251911234505",
-    "bio": "Senior advocate at Amhara Regional Supreme Court. Specializes in complex land lease disputes, contract enforcement, and construction litigation.",
+    "bio": "Senior advocate at Amhara Regional Supreme Court. Specializes in complex land lease disputes, contract enforcement, and commercial construction litigation.",
     "yearsExperience": 14,
     "education": "LLB – Bahir Dar University (2008), LLM Business Law – Addis Ababa University (2013)",
-    "languages": [
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
     "elo": 1150
   },
@@ -124,16 +104,12 @@
     "verified": true,
     "licenseNumber": "LAW-1006",
     "specialization": "Criminal",
-    "city": "Mekelle",
+    "city": "Addis Ababa",
     "phone": "+251911234506",
     "bio": "Trial lawyer based in Mekelle handling major criminal proceedings, constitutional challenges, and appellate reviews before the Federal Supreme Court Cassation Bench.",
     "yearsExperience": 11,
     "education": "LLB – Mekelle University (2011), LLM International Human Rights – University of Pretoria (2015)",
-    "languages": [
-      "Tigrigna",
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Tigrigna", "Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
     "elo": 1240
   },
@@ -152,34 +128,26 @@
     "bio": "Commercial attorney advising manufacturing hubs, agro-industries, and logistics enterprises in the Adama-Bishoftu industrial corridor on tax, labor, and investment permits.",
     "yearsExperience": 8,
     "education": "LLB – Jimma University (2015), LLM Commercial Law – Addis Ababa University (2019)",
-    "languages": [
-      "Amharic",
-      "Oromiffa",
-      "English"
-    ],
+    "languages": ["Amharic", "Oromiffa", "English"],
     "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1130
+    "elo": 1280
   },
   {
     "id": "lawyer-1008",
     "name": "Hiwot Negash Tesfaye",
     "username": "hiwot_negash",
-    "password": "$2b$10$IdIQ9Jp9RGYan0IRKtCb5e7qQSsX/FxukfYArkTLB5GcaA8u3/6h.",
+    "password": "password123",
     "email": "hiwot.negash@lexrating.et",
     "role": "lawyer",
     "verified": true,
     "licenseNumber": "LAW-1008",
     "specialization": "Family",
-    "city": "Jimma",
+    "city": "Addis Ababa",
     "phone": "+251911234508",
     "bio": "Advocate specializing in women and children's welfare, domestic disputes, inheritance settlements, and family mediation throughout Jimma and Oromia Region.",
     "yearsExperience": 7,
     "education": "LLB – Jimma University (2016)",
-    "languages": [
-      "Oromiffa",
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Oromiffa", "Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
     "elo": 1180
   },
@@ -187,7 +155,7 @@
     "id": "lawyer-1009",
     "name": "Abrham Wolde Selassie",
     "username": "abrham_wolde",
-    "password": "$2b$10$7NtfGB7ao2ooJFQ9kD0uEu7f9DYO722P6ndULBRqxvsfymFPksVO2",
+    "password": "password123",
     "email": "abrham.wolde@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -195,15 +163,12 @@
     "specialization": "Criminal",
     "city": "Gondar",
     "phone": "+251911234509",
-    "bio": "Prominent criminal law defender in Gondar and North Gondar High Court. Renowned for meticulous forensic analysis and constitutional rights defense.",
+    "bio": "Trial lawyer seasoned in criminal appellate advocacy, military tribunal proceedings, forensic evidence challenges, and judicial review across North Gondar benches.",
     "yearsExperience": 16,
     "education": "LLB – Addis Ababa University (2007), LLM Criminal Justice – University of Gondar (2011)",
-    "languages": [
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1260
+    "elo": 1170
   },
   {
     "id": "lawyer-1010",
@@ -220,10 +185,7 @@
     "bio": "Top-ranked corporate and securities lawyer representing fintech startups, investment funds, and large enterprises. Expert in IPO preparation, joint ventures, and competition law.",
     "yearsExperience": 13,
     "education": "LLB – Addis Ababa University (2009), LLM Securities Law – Georgetown University (2013)",
-    "languages": [
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=200",
     "elo": 1340
   },
@@ -231,7 +193,7 @@
     "id": "lawyer-1011",
     "name": "Solomon Desta Tsegaye",
     "username": "solomon_desta",
-    "password": "$2b$10$OlodGNcDy9vgLn7LojHvoeiOWMfO.UMfgc3enD4J31NEe.51IcWGa",
+    "password": "password123",
     "email": "solomon.desta@lexrating.et",
     "role": "lawyer",
     "verified": true,
@@ -239,15 +201,10 @@
     "specialization": "Civil",
     "city": "Harar",
     "phone": "+251911234511",
-    "bio": "Civil law specialist in Harari Regional Courts with expertise in land tenure, customary rights, inter-regional trade disputes, and enforcement of foreign judgments.",
+    "bio": "Civil law specialist in Harari Regional Courts with expertise in land tenure, customary rights, inter-regional trade disputes, and enforcement of cross-border obligations.",
     "yearsExperience": 12,
     "education": "LLB – Haramaya University (2010), LLM – Ethiopian Civil Service University (2014)",
-    "languages": [
-      "Amharic",
-      "Harari",
-      "Somali",
-      "English"
-    ],
+    "languages": ["Amharic", "Harari", "Somali", "English"],
     "profilePic": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=200",
     "elo": 1140
   },
@@ -263,15 +220,300 @@
     "specialization": "Family",
     "city": "Dessie",
     "phone": "+251911234512",
-    "bio": "Family law advocate with focus on women's rights and gender-based violence cases. Founding member of the Ethiopian Women Lawyers Association (EWLA) Dessie chapter.",
+    "bio": "Family law advocate with focus on women's property rights, alimony recovery, and gender-based legal protections. Founding member of the EWLA Dessie chapter.",
     "yearsExperience": 10,
     "education": "LLB – Wollo University (2012), LLM Gender and Law – Addis Ababa University (2016)",
-    "languages": [
-      "Amharic",
-      "English"
-    ],
+    "languages": ["Amharic", "English"],
     "profilePic": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=200",
     "elo": 1160
+  },
+  {
+    "id": "lawyer-1013",
+    "name": "Amanuel Getachew Belay",
+    "username": "amanuel_getachew",
+    "password": "password123",
+    "email": "amanuel.getachew@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1013",
+    "specialization": "Labour",
+    "city": "Addis Ababa",
+    "phone": "+251911234513",
+    "bio": "Distinguished employment & labor relations advocate representing trade unions, corporate employers, and civil servants in collective bargaining disputes and wrongful termination arbitrations under Proclamation No. 1156/2019.",
+    "yearsExperience": 11,
+    "education": "LLB – Addis Ababa University (2011), LLM Labour & Employment Law – Hawassa University (2015)",
+    "languages": ["Amharic", "English", "Oromiffa"],
+    "officeAddress": "Gotera, Ethio-China Friendship Avenue, Worku Tower, 7th Floor, Addis Ababa",
+    "courtAdmissions": [
+      "Federal Supreme Court Cassation Bench",
+      "Federal High Court Labour Relations Bench",
+      "Labour Relations Board (Ministry of Labour and Skills)"
+    ],
+    "practiceAreasDetailed": [
+      "Unlawful Termination & Severance Compensation",
+      "Collective Bargaining Agreements & Strikes",
+      "Executive Employment Contracts & Non-Competes",
+      "Workplace Discrimination & Occupational Safety"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "International Labour and Employment Relations Association (ILERA)"
+    ],
+    "consultationFee": "Initial employment claim assessment",
+    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "elo": 1240
+  },
+  {
+    "id": "lawyer-1014",
+    "name": "Bethlehem Sisay Kassa",
+    "username": "bethlehem_sisay",
+    "password": "password123",
+    "email": "bethlehem.sisay@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1014",
+    "specialization": "Land",
+    "city": "Bahir Dar",
+    "phone": "+251911234514",
+    "bio": "Senior land tenure, agricultural leasehold, and municipal real estate litigation specialist practicing across the Amhara Regional Supreme Court and Federal Cassation Bench under Proclamation No. 1161/2019.",
+    "yearsExperience": 14,
+    "education": "LLB – Bahir Dar University (2009), LLM Land Governance – Addis Ababa University (2013)",
+    "languages": ["Amharic", "English"],
+    "officeAddress": "Bahir Dar Felege Hiwot Hospital Avenue, Nile Commercial Hub, 3rd Floor",
+    "courtAdmissions": [
+      "Amhara Regional Supreme Court",
+      "Federal Supreme Court of Ethiopia",
+      "Federal First Instance Real Estate Benches"
+    ],
+    "practiceAreasDetailed": [
+      "Urban Land Leasehold Disputes & Transfers",
+      "Municipal Expropriation & Fair Market Compensation",
+      "Commercial Agriculture & Industrial Land Leases",
+      "Possessory Title Restoration (የይዞታ መመለሻ)"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "International Land Coalition Legal Network"
+    ],
+    "consultationFee": "Comprehensive land title review & assessment",
+    "profilePic": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200",
+    "elo": 1290
+  },
+  {
+    "id": "lawyer-1015",
+    "name": "Ephrem Hailu Berhe",
+    "username": "ephrem_hailu",
+    "password": "password123",
+    "email": "ephrem.hailu@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1015",
+    "specialization": "Tax",
+    "city": "Addis Ababa",
+    "phone": "+251911234515",
+    "bio": "Tax controversy and customs duties specialist advising domestic manufacturers, exporters, and foreign investors on Ministry of Revenues (MOR) tax audits, VAT disputes, and transfer pricing compliance.",
+    "yearsExperience": 9,
+    "education": "LLB – Addis Ababa University (2013), LLM International Taxation – University of Pretoria (2017)",
+    "languages": ["Amharic", "Tigrigna", "English"],
+    "officeAddress": "Meskel Square, Sunshine Building, 4th Floor, Suite 402, Addis Ababa",
+    "courtAdmissions": [
+      "Federal Supreme Court",
+      "Federal Tax Appeal Commission (TAC)",
+      "Federal High Court Revenue Bench"
+    ],
+    "practiceAreasDetailed": [
+      "Ministry of Revenues (MOR) Audit & Assessment Defense",
+      "Value Added Tax (VAT) & Business Profit Tax Appeals",
+      "Customs Duty Classification & Valuation Contests",
+      "Corporate Tax Planning & Double Tax Treaty Structuring"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "International Fiscal Association (IFA)"
+    ],
+    "consultationFee": "Tax controversy review / Hourly advisory",
+    "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    "elo": 1220
+  },
+  {
+    "id": "lawyer-1016",
+    "name": "Meron Worku Asfaw",
+    "username": "meron_worku",
+    "password": "password123",
+    "email": "meron.worku@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1016",
+    "specialization": "Banking",
+    "city": "Addis Ababa",
+    "phone": "+251911234516",
+    "bio": "Top-tier banking, structured finance, and fintech regulatory attorney handling National Bank of Ethiopia compliance, syndicated loans, letters of credit, and statutory mortgage foreclosures under Proclamation No. 97/1998.",
+    "yearsExperience": 13,
+    "education": "LLB – Addis Ababa University (2010), LLM Banking & Financial Law – London School of Economics (2014)",
+    "languages": ["Amharic", "English"],
+    "officeAddress": "Financial District, Ras Abebe Aregay Avenue, Nib Bank Building, 9th Floor, Addis Ababa",
+    "courtAdmissions": [
+      "Federal Supreme Court of Ethiopia",
+      "Federal High Court Banking Bench",
+      "National Bank of Ethiopia Dispute Tribunal"
+    ],
+    "practiceAreasDetailed": [
+      "Commercial Bank Loan Syndication & Security Creation",
+      "Statutory Extrajudicial Foreclosure Defense (የሀራጅ መብት)",
+      "Payment Instrument & Letter of Credit Disputes",
+      "Payment System Issuer & Fintech Regulatory Licensing"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "Bankers Lawyers Association of Ethiopia"
+    ],
+    "consultationFee": "Financial institutions advisory / High-stake borrower defense",
+    "profilePic": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    "elo": 1305
+  },
+  {
+    "id": "lawyer-1017",
+    "name": "Natnael Fikru Zeleke",
+    "username": "natnael_fikru",
+    "password": "password123",
+    "email": "natnael.fikru@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1017",
+    "specialization": "Intellectual Property",
+    "city": "Addis Ababa",
+    "phone": "+251911234517",
+    "bio": "Intellectual property & technology lawyer representing software developers, creative artists, and pharmaceutical enterprises before the Ethiopian Intellectual Property Authority (EIPA) and Federal High Court.",
+    "yearsExperience": 8,
+    "education": "LLB – Jimma University (2014), LLM IP & Digital Economy – Munich IP Law Center (2018)",
+    "languages": ["Amharic", "English", "Oromiffa"],
+    "officeAddress": "Bole Atlas, Namibian Street, Aster Plaza, 5th Floor, Addis Ababa",
+    "courtAdmissions": [
+      "Federal High Court IP & Commercial Bench",
+      "Ethiopian Intellectual Property Authority (EIPA) Appeals Tribunal",
+      "Federal First Instance Court"
+    ],
+    "practiceAreasDetailed": [
+      "Trademark Registration & Infringement Defense",
+      "Software Copyright Licensing & Trade Secrets",
+      "Patent Filing & Pharmaceutical Compulsory Licensing",
+      "Brand Counterfeit Enforcement & Seizure Orders"
+    ],
+    "associationMemberships": [
+      "International Trademark Association (INTA)",
+      "Ethiopian Federal Advocates Association"
+    ],
+    "consultationFee": "IP portfolio assessment / Infringement notice consultation",
+    "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    "elo": 1210
+  },
+  {
+    "id": "lawyer-1018",
+    "name": "Sosina Tamrat Desta",
+    "username": "sosina_tamrat",
+    "password": "password123",
+    "email": "sosina.tamrat@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1018",
+    "specialization": "Immigration",
+    "city": "Dire Dawa",
+    "phone": "+251911234518",
+    "bio": "Immigration and cross-border mobility expert handling work permits, diplomatic visas, permanent residency status, asylum hearings, and nationality retention proceedings in Eastern Ethiopia.",
+    "yearsExperience": 10,
+    "education": "LLB – Haramaya University (2012), LLM International Human Rights & Migration – Addis Ababa University (2016)",
+    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
+    "officeAddress": "Dire Dawa International Airport Corridor, Horizon Plaza, 1st Floor",
+    "courtAdmissions": [
+      "Federal High Court (Eastern Bench)",
+      "Immigration, Nationality and Vital Events Agency Tribunal",
+      "Dire Dawa City Court"
+    ],
+    "practiceAreasDetailed": [
+      "Expatriate Work Permits & Investment Visas",
+      "Dual Nationality & Origin ID (Yellow Card) Processing",
+      "Deportation Defense & Judicial Stay of Removal",
+      "Cross-Border Transit & Customs Compliance"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "African Migration Lawyers Network"
+    ],
+    "consultationFee": "Immigration eligibility review / Visa advisory",
+    "profilePic": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
+    "elo": 1185
+  },
+  {
+    "id": "lawyer-1019",
+    "name": "Kassahun Melaku Tefera",
+    "username": "kassahun_melaku",
+    "password": "password123",
+    "email": "kassahun.melaku@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1019",
+    "specialization": "Labour",
+    "city": "Hawassa",
+    "phone": "+251911234519",
+    "bio": "Industrial park and labor relations attorney specializing in manufacturing labor compliance, occupational safety disputes, workforce restructuring, and severance negotiations in Hawassa and Yirgalem.",
+    "yearsExperience": 12,
+    "education": "LLB – Hawassa University (2011), LLM – Addis Ababa University (2015)",
+    "languages": ["Amharic", "Sidamigna", "English"],
+    "officeAddress": "Hawassa Industrial Park Zone, Park Gate Commercial Arcade, Suite 105",
+    "courtAdmissions": [
+      "Sidama Regional High Court",
+      "Hawassa City Labour Relations Board",
+      "Federal High Court Circuit"
+    ],
+    "practiceAreasDetailed": [
+      "Industrial Park Workforce Labor Compliance",
+      "Occupational Injury & Insurance Compensation",
+      "Mass Layoff & Redundancy Restructuring",
+      "Employment Disciplinary Hearings & Appeals"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "Hawassa Bar Alliance"
+    ],
+    "consultationFee": "Workplace dispute consultation / Retainer",
+    "profilePic": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=200",
+    "elo": 1260
+  },
+  {
+    "id": "lawyer-1020",
+    "name": "Hirut Gebremedhin Tadesse",
+    "username": "hirut_gebremedhin",
+    "password": "password123",
+    "email": "hirut.gebremedhin@lexrating.et",
+    "role": "lawyer",
+    "verified": true,
+    "licenseNumber": "LAW-1020",
+    "specialization": "Land",
+    "city": "Mekelle",
+    "phone": "+251911234520",
+    "bio": "Veteran land and constitutional litigation advocate with 16 years of courtroom practice in commercial property repossession, municipal expropriation, compensation valuation, and boundary delimitations.",
+    "yearsExperience": 16,
+    "education": "LLB – Mekelle University (2007), LLM Public Law – Addis Ababa University (2011)",
+    "languages": ["Amharic", "Tigrigna", "English"],
+    "officeAddress": "Mekelle Romanat Square, Axum Hotel Avenue, Red Sea Tower, 5th Floor",
+    "courtAdmissions": [
+      "Tigray Regional Supreme Court",
+      "Federal Supreme Court Cassation Bench",
+      "Mekelle High Court"
+    ],
+    "practiceAreasDetailed": [
+      "Commercial Land Expropriation Litigation",
+      "Public Infrastructure Corridor Compensation",
+      "Boundary Delimitation & Real Property Repossession",
+      "Municipal Lease Contract Cancellation Appeals"
+    ],
+    "associationMemberships": [
+      "Ethiopian Federal Advocates Association",
+      "Tigray Advocates Association"
+    ],
+    "consultationFee": "High-complexity land litigation evaluation",
+    "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    "elo": 1340
   },
   {
     "id": "client-101",
