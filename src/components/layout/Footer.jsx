@@ -6,7 +6,7 @@ export default function Footer({ onNavigate, onSearchSpec, onOpenAuth }) {
     <footer className="avvo-footer">
       <div className="avvo-footer-grid">
         <div className="avvo-footer-brand">
-          <div className="avvo-footer-logo">⚖ LEX-RATING</div>
+          <div className="avvo-footer-logo">LEX-RATING</div>
           <p className="avvo-footer-tagline">
             Ethiopia's official B2G legal directory. Find MoJ-verified advocates with real-time ELO performance ratings.
           </p>
