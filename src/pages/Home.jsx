@@ -417,4 +417,86 @@ export default function Home({
         </div>
       </section>
 
- 
+      {/* ─── Legal Guides Showcase ──────────────────────────────────────── */}
+      <section className="xtra-section xtra-section-darker">
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.6rem', marginBottom: '3.2rem' }}>
+            <div>
+              <span className="xtra-section-tag">Knowledge Base</span>
+              <h2 className="xtra-section-title" style={{ marginBottom: '0.4rem' }}>Ethiopian Legal Guides</h2>
+              <p className="xtra-section-sub" style={{ marginBottom: 0 }}>Plain-language explanations of Ethiopian proclamations and court procedures.</p>
+            </div>
+            <button className="btn btn-dark-outline btn-sm" onClick={() => onNavigate('guides')}>
+              View All Guides &rarr;
+            </button>
+          </div>
+
+          <div className="xtra-guides-grid">
+            {LEGAL_GUIDES.slice(0, 3).map(g => (
+              <div key={g.id} className="xtra-guide-card" onClick={() => onSelectGuide(g)}>
+                <div className="xtra-guide-header">
+                  <span className="xtra-guide-tag">{g.cat}</span>
+                  <span className="xtra-guide-read">{g.read}</span>
+                </div>
+                <h3 className="xtra-guide-title">{g.title}</h3>
+                <p className="xtra-guide-sub">{g.subtitle}</p>
+                <div className="xtra-guide-footer">
+                  <span>Read Article &rarr;</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Final High-Impact Gold CTA Strip ─────────────────────────────── */}
+      <section className="xtra-cta-strip">
+        <div className="container xtra-cta-inner">
+          <div className="xtra-cta-text">
+            <h2>Need Legal Counsel or Representation?</h2>
+            <p>Connect with top-rated Ethiopian advocates verified by the Ministry of Justice.</p>
+          </div>
+          <div className="xtra-cta-actions">
+            <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
+              Browse All Advocates &rarr;
+            </button>
+            <button className="btn btn-dark-outline btn-lg" onClick={() => onNavigate('qa')}>
+              Ask a Legal Question
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Video Tour Modal ────────────────────────────────────────────── */}
+      {showVideoModal && (
+        <div className="modal-backdrop" onClick={() => setShowVideoModal(false)}>
+          <div className="xtra-video-modal" onClick={e => e.stopPropagation()}>
+            <div className="xtra-video-header">
+              <h3>LEX-RATING System Tour & Judicial Workflow</h3>
+              <button className="modal-close" onClick={() => setShowVideoModal(false)}>X</button>
+            </div>
+            <div className="xtra-video-content">
+              <div className="xtra-video-preview-box">
+                <img
+                  src="/images/ethiopia-court-gavel.jpg"
+                  alt="Ethiopian Judicial System Architecture"
+                  style={{ width: '100%', maxHeight: 320, objectFit: 'cover', borderRadius: 8 }}
+                />
+                <div className="xtra-video-play-banner">
+                  <h4>Federal Ministry of Justice B2G Architecture</h4>
+                  <p>
+                    Demonstrating real-time ELO rating updates upon verdict registration, 
+                    MoJ barcode license verification, and litigant Q&A consulting.
+                  </p>
+                  <button className="btn btn-gold btn-sm" style={{ marginTop: '1.2rem' }} onClick={() => setShowVideoModal(false)}>
+                    Close Tour & Explore System
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
