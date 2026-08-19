@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -17,6 +16,12 @@ import CourtCase  from '../models/CourtCase.js';
 import Question   from '../models/Question.js';
 
 async function seed() {
+  if (!process.env.MONGODB_URI) {
+    console.error('❌ MONGODB_URI is not set in your .env file.');
+    console.error('   Please add it and try again.');
+    process.exit(1);
+  }
+
   await connectDB();
 
   console.log('Seeding MongoDB Atlas from local JSON files...\n');
