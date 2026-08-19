@@ -149,3 +149,272 @@ export default function Home({
         </div>
       </section>
 
+      {/* ─── Client Metrics & Trust Bar ─────────────────────────────────── */}
+      <section className="xtra-metrics-section">
+        <div className="container">
+          <div className="xtra-metrics-grid">
+            {[
+              ['20+', 'MoJ-Verified Advocates', 'Active practicing advocates on the national registry'],
+              ['16+', 'Decided Court Cases', 'Judicially validated trial records across federal courts'],
+              ['10', 'Regional Benches', 'Courts covered across Addis Ababa & regional states'],
+              ['1-10', 'Performance Scale', 'Transparent ELO algorithmic advocate ranking score'],
+            ].map(([num, title, desc]) => (
+              <div key={title} className="xtra-metric-item">
+                <div className="xtra-metric-num">{num}</div>
+                <div className="xtra-metric-title">{title}</div>
+                <div className="xtra-metric-desc">{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Quote 1: "The Real Ones" (Full Screen Strip) ──────────────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[0].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[0].accent}</span>
+            </div>
+          </div>
+
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Voices of the Bar</span>
+              <h2 className="xtra-quote-inline-title">The Real Ones</h2>
+              <p className="xtra-quote-inline-sub">
+                Advocates with steadfast dedication to client rights, constitutional justice, and courtroom integrity.
+              </p>
+            </div>
+
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[0].quote}
+            </blockquote>
+
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[0].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[0].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[0].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[0].stat}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Practice Areas (Pre-Built Demo Style Grid) ────────────────── */}
+      <section className="xtra-section">
+        <div className="container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">Explore Legal Specialties</span>
+            <h2 className="xtra-section-title">Specialized Legal Practice Areas</h2>
+            <p className="xtra-section-sub">
+              Browse top-rated advocates by specific category for your civil, criminal, or corporate matters.
+            </p>
+          </div>
+
+          <div className="xtra-practice-grid">
+            {PRACTICE_AREAS.map(area => (
+              <div
+                key={area.label}
+                className="xtra-practice-card"
+                onClick={() => handlePracticeCard(area)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter') handlePracticeCard(area); }}
+              >
+                <div className="xtra-practice-icon-box">
+                  <span className="xtra-practice-dot" />
+                </div>
+                <h3 className="xtra-practice-title">{area.label}</h3>
+                <span className="xtra-practice-arrow">&rarr;</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Quote 2: "The Old Gems" (Full Screen Strip) ─────────────────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip reverse">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[1].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[1].accent}</span>
+            </div>
+          </div>
+
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Mastery & Tradition</span>
+              <h2 className="xtra-quote-inline-title">The Old Gems</h2>
+              <p className="xtra-quote-inline-sub">
+                Veteran litigators who have shaped precedent across the Federal Supreme Court and Cassation Bench.
+              </p>
+            </div>
+
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[1].quote}
+            </blockquote>
+
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[1].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[1].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[1].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[1].stat}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Core Platform Highlights (High-Contrast Tech Grid) ─────────── */}
+      <section className="xtra-section xtra-section-darker">
+        <div className="container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">B2G Architecture</span>
+            <h2 className="xtra-section-title">Why Ethiopia Trusts LEX-RATING</h2>
+            <p className="xtra-section-sub">
+              Bridging the gap between citizens, advocates, and the judicial court system.
+            </p>
+          </div>
+
+          <div className="xtra-features-grid">
+            <div className="xtra-feature-card">
+              <div className="xtra-feature-number">01</div>
+              <h3 className="xtra-feature-title">Verified MoJ Credentials</h3>
+              <p className="xtra-feature-text">
+                Every advocate profile is cross-checked with the Federal Ministry of Justice roll of advocates. No unverified legal practitioners.
+              </p>
+            </div>
+
+            <div className="xtra-feature-card gold-border">
+              <div className="xtra-feature-number gold">02</div>
+              <h3 className="xtra-feature-title">Courtroom ELO Ratings</h3>
+              <p className="xtra-feature-text">
+                Live mathematical ELO calculations based on win/loss records, opponent strength, case complexity, and certified judicial scores.
+              </p>
+            </div>
+
+            <div className="xtra-feature-card">
+              <div className="xtra-feature-number">03</div>
+              <h3 className="xtra-feature-title">Free Citizen Q&A Forum</h3>
+              <p className="xtra-feature-text">
+                Litigants can ask legal questions and receive answers from advocates across criminal, family, land, and corporate law.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Quote 3: "The Pillars of Justice" (Full Screen Strip) ───────── */}
+      <section className="xtra-quote-showcase-section">
+        <div className="xtra-quote-full-strip">
+          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
+          <div
+            className="xtra-quote-image-side"
+            style={{ backgroundImage: `url(${advocateQuotes[2].image})` }}
+          >
+            <div className="xtra-quote-image-overlay" />
+            <div className="xtra-quote-badge-floating">
+              <span>{advocateQuotes[2].accent}</span>
+            </div>
+          </div>
+
+          {/* High-Contrast Typography & Inline Header Side */}
+          <div className="xtra-quote-content-side">
+            <div className="xtra-quote-inline-header">
+              <span className="xtra-quote-inline-tag">Public Interest Advocacy</span>
+              <h2 className="xtra-quote-inline-title">The Real Champions of Justice</h2>
+              <p className="xtra-quote-inline-sub">
+                Championing equal accessibility, human dignity, and pro bono community representation.
+              </p>
+            </div>
+
+            <div className="xtra-quote-mark">“</div>
+            <blockquote className="xtra-quote-text">
+              {advocateQuotes[2].quote}
+            </blockquote>
+
+            <div className="xtra-quote-attribution">
+              <div className="xtra-quote-author-name">
+                {advocateQuotes[2].author}
+              </div>
+              <div className="xtra-quote-author-role">
+                {advocateQuotes[2].title}
+              </div>
+              <div className="xtra-quote-author-meta">
+                <span>{advocateQuotes[2].location}</span>
+                <span>·</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[2].stat}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Accordion FAQ Component (Standard High-Contrast Accordion) ──── */}
+      <section className="xtra-section">
+        <div className="container xtra-faq-container">
+          <div className="xtra-section-header">
+            <span className="xtra-section-tag">Frequently Asked Questions</span>
+            <h2 className="xtra-section-title">Got Questions? We’ve Got Answers</h2>
+            <p className="xtra-section-sub">
+              Learn how the LEX-RATING rating methodology and verified legal network work.
+            </p>
+          </div>
+
+          <div className="xtra-accordion">
+            {faqs.map((faq, index) => {
+              const isOpen = activeFaq === index;
+              return (
+                <div
+                  key={index}
+                  className={`xtra-accordion-item${isOpen ? ' active' : ''}`}
+                >
+                  <button
+                    className="xtra-accordion-header"
+                    onClick={() => setActiveFaq(isOpen ? -1 : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="xtra-accordion-title">{faq.q}</span>
+                    <span className="xtra-accordion-icon">{isOpen ? '−' : '+'}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="xtra-accordion-body">
+                      <p>{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+ 
