@@ -1,45 +1,42 @@
-import { Router } from 'express';
-import { readJSON } from '../lib/db.js';
-import { MOJ_LICENSES_PATH } from '../config/paths.js';
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-const router = Router();
+/**
+ * Sends a verification email with an OTP code via the Brevo (Sendinblue) API.
+ * Falls back to console logging if the API key is not configured.
+ *
+ * @param {string} toEmail - Recipient email address.
+ * @param {string} code    - OTP code to include in the email body.
+ * @returns {Promise<boolean>} True if the email was dispatched successfully.
+ */
+export async function sendBrevoEmail(toEmail, code) {
+  const apiKey      = process.env.BREVO_API_KEY;
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || 'no-reply@lexrating.gov.et';
+  const senderName  = process.env.BREVO_SENDER_NAME  || 'LEX-RATING System';
 
-// ── POST /api/moj/verify-license ──────────────────────────────────────────
-// Verifies a lawyer's license number (and optionally their registered name)
-// against the official Ministry of Justice registry.
-router.post('/verify-license', (req, res) => {
-  const { licenseNumber, name } = req.body;
-
-  if (!licenseNumber) {
-    return res.status(400).json({ verified: false, error: 'License number is required' });
+  // Graceful fallback when API key is absent / placeholder
+  if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+    console.warn('\n⚠️  WARNING: Brevo API Key not configured in .env. Email was NOT sent.');
+    console.log(`=== MOCK OTP LOG ===\nOTP for ${toEmail}: ${code}\n====================\n`);
+    return false;
   }
 
-  const mojLicenses   = readJSON(MOJ_LICENSES_PATH);
-  const licenseRecord = mojLicenses.find(l => l.licenseNumber === licenseNumber);
+  try {
+    const defaultClient = SibApiV3Sdk.ApiClient.instance;
+    defaultClient.authentications['api-key'].apiKey = apiKey;
 
-  if (!licenseRecord) {
-    return res.status(404).json({ verified: false, error: 'License number not found in official MoJ database' });
+    const apiInstance    = new SibApiV3Sdk.TransactionalEmailsApi();
+    const sendSmtpEmail  = new SibApiV3Sdk.SendSmtpEmail();
+
+    sendSmtpEmail.subject     = 'Your LEX-RATING verification code';
+    sendSmtpEmail.textContent = `Your verification code is: ${code}`;
+    sendSmtpEmail.sender      = { name: senderName, email: senderEmail };
+    sendSmtpEmail.to          = [{ email: toEmail }];
+
+    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`\n📧 Email sent via Brevo to: ${toEmail} — Message ID: ${data.messageId}\n`);
+    return true;
+  } catch (err) {
+    console.error('[emailService] Brevo SDK error:', err);
+    return false;
   }
-
-  if (licenseRecord.status !== 'ACTIVE') {
-    return res.status(400).json({ verified: false, error: 'License status is inactive or suspended' });
-  }
-
-  if (name && licenseRecord.fullName.toLowerCase().trim() !== name.toLowerCase().trim()) {
-    return res.status(400).json({
-      verified: false,
-      error: `License validation failed. Name on license is "${licenseRecord.fullName}", but provided "${name}".`
-    });
-  }
-
-  res.json({ verified: true, licenseRecord });
-});
-
-// ── GET /api/moj/licenses ─────────────────────────────────────────────────
-// Returns the full list of MoJ-registered lawyer licenses.
-router.get('/licenses', (req, res) => {
-  const licenses = readJSON(MOJ_LICENSES_PATH);
-  res.json(licenses);
-});
-
-export default router;
+}
