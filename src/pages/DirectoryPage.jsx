@@ -104,3 +104,113 @@ export default function DirectoryPage({
         </div>
       </aside>
 
+      {/* Main */}
+      <div className="dir-main-content">
+        {/* Search bar */}
+        <div className="dir-search-wrap">
+          <div className="dir-search-row">
+            <div className="dir-search-field" style={{ flex: 2 }}>
+              <input
+                type="text"
+                placeholder="Practice area or advocate name…"
+                value={specInput}
+                list="dir-spec-list"
+                onChange={e => {
+                  const val = e.target.value;
+                  setSpecInput(val);
+                  if (onSearch) onSearch(val, cityInput);
+                }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
+                }}
+              />
+              <datalist id="dir-spec-list">
+                {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
+              </datalist>
+            </div>
+            <div className="dir-search-field" style={{ flex: 2 }}>
+              <input
+                type="text"
+                placeholder="City…"
+                value={cityInput}
+                list="dir-city-list"
+                onChange={e => {
+                  const val = e.target.value;
+                  setCityInput(val);
+                  if (onSearch) onSearch(specInput, val);
+                }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
+                }}
+              />
+              <datalist id="dir-city-list">
+                {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
+              </datalist>
+            </div>
+            {hasFilter && (
+              <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div className="filter-chips">
+            {SPECIALIZATION_LIST.map(s => (
+              <button
+                key={s}
+                className={`filter-chip${searchSpec === s ? ' active' : ''}`}
+                onClick={() => handleSpecChip(s)}
+              >
+                {s}
+              </button>
+            ))}
+            <span style={{ borderLeft: '1px solid #e0e0e0', margin: '0 0.4rem', alignSelf: 'stretch' }} />
+            {ETHIOPIAN_CITIES.map(c => (
+              <button
+                key={c}
+                className={`filter-chip city${searchCity === c ? ' active' : ''}`}
+                onClick={() => handleCityChip(c)}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="results-header">
+          <p className="results-count">
+            <strong>{lawyers.length}</strong> advocates found{searchCity ? ` in ${searchCity}` : ''}{searchSpec ? ` · ${searchSpec}` : ''}
+          </p>
+          {hasFilter && (
+            <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
+              Clear all filters
+            </button>
+          )}
+        </div>
+
+        {loading ? (
+          <div className="loading-state">
+            Loading advocates <span className="loading-dots"><span/><span/><span/></span>
+          </div>
+        ) : lawyers.length > 0 ? (
+          <div className="dir-lawyers-list">
+            {lawyers.map(lawyer => (
+              <LawyerCard
+                key={lawyer.id}
+                lawyer={lawyer}
+                variant="horizontal"
+                onClick={() => onSelectLawyer(lawyer)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <p className="empty-title">No advocates found</p>
+            <p className="empty-sub">Try broadening your search or clearing filters.</p>
+            <button className="btn btn-primary" onClick={clearFilters}>Clear Filters</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
