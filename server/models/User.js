@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
   yearsExperience:{ type: Number, default: null },
   languages:      { type: [String], default: [] },
   education:      { type: String, default: null },
+  officeAddress:  { type: String, default: null },
+  courtAdmissions:{ type: [String], default: [] },
+  practiceAreasDetailed: { type: [String], default: [] },
+  associationMemberships:{ type: [String], default: [] },
+  consultationFee:{ type: String, default: null }
 }, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model('User', userSchema);

@@ -15,14 +15,14 @@ const courtCaseSchema = new mongoose.Schema({
   plaintiffLawyerLicense:  { type: String },
   plaintiffLawyerName:     { type: String },
   judgeRatingPlaintiff:    { type: Number, default: 5.0 },
-  clientRatingPlaintiff:   { type: Number, default: 5.0 },
+  clientRatingPlaintiff:   { type: Number, default: null },
 
   defendantClientId:       { type: String },
   defendantClientName:     { type: String },
   defendantLawyerLicense:  { type: String },
   defendantLawyerName:     { type: String },
   judgeRatingDefendant:    { type: Number, default: 4.0 },
-  clientRatingDefendant:   { type: Number, default: 4.0 },
+  clientRatingDefendant:   { type: Number, default: null },
 
   verdict:                 { type: String, default: 'Decided' },
 }, { timestamps: true });

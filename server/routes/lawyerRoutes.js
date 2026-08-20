@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { mongoose } from '../lib/mongoose.js';
 import { calculateLawyerRatings } from '../services/ratingService.js';
+import { calculateLawyerInteractions } from '../services/interactionService.js';
 
 const router = Router();
 
@@ -24,6 +25,18 @@ async function getAllCases() {
   return readJSON(COURT_CASES_PATH);
 }
 
+// ── GET /api/lawyers/leaderboard ───────────────────────────────────────────
+// Returns ranked list of most interactive advocates with award honors
+router.get('/leaderboard', (req, res) => {
+  try {
+    const { rankedList } = calculateLawyerInteractions();
+    res.json(rankedList);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── GET /api/lawyers/search ────────────────────────────────────────────────
 router.get('/search', async (req, res) => {
   try {
     const specQuery   = (req.query.specialization || '').toLowerCase().trim();
@@ -33,13 +46,14 @@ router.get('/search', async (req, res) => {
 
     const [users, courtCases] = await Promise.all([getAllUsers(), getAllCases()]);
     const { eloMap, statsMap } = calculateLawyerRatings(users, courtCases);
+    const { interactionMap }   = calculateLawyerInteractions();
 
     const matching = users.filter(u => {
       if (u.role !== 'lawyer' || !u.verified) return false;
 
       const uSpec = (u.specialization || '').toLowerCase();
       const uCity = (u.city           || '').toLowerCase();
-      const uName = (u.name           || '').toLowerCase();
+      const uName = (u.name || u.fullName || '').toLowerCase();
       const uBio  = (u.bio            || '').toLowerCase();
       const uLic  = (u.licenseNumber  || '').toLowerCase();
 
@@ -54,6 +68,14 @@ router.get('/search', async (req, res) => {
     const results = matching.map(l => {
       const elo   = eloMap[l.licenseNumber]   || 1000;
       const stats = statsMap[l.licenseNumber] || { casesWon: 0, casesLost: 0, totalCases: 0, ratings: [] };
+      const inter = interactionMap[l.id] || interactionMap[l.licenseNumber] || {
+        qaAnswersCount: 0,
+        helpfulVotesReceived: 0,
+        interactionScore: 0,
+        interactionRank: 99,
+        awards: []
+      };
+
       const rating = stats.ratings.length > 0
         ? parseFloat((stats.ratings.reduce((a, b) => a + b, 0) / stats.ratings.length).toFixed(1))
         : 5.0;
@@ -70,11 +92,21 @@ router.get('/search', async (req, res) => {
         education:       l.education       || '',
         languages:       l.languages       || [],
         profilePic:      l.profilePic      || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
+        officeAddress:   l.officeAddress   || '',
+        courtAdmissions: l.courtAdmissions || [],
+        practiceAreasDetailed: l.practiceAreasDetailed || [],
+        associationMemberships: l.associationMemberships || [],
+        consultationFee: l.consultationFee || '',
         elo,
         rating,
-        casesCount: stats.totalCases,
-        casesWon:   stats.casesWon,
-        casesLost:  stats.casesLost,
+        casesCount:           stats.totalCases,
+        casesWon:             stats.casesWon,
+        casesLost:            stats.casesLost,
+        qaAnswersCount:       inter.qaAnswersCount,
+        helpfulVotesReceived: inter.helpfulVotesReceived,
+        interactionScore:     inter.interactionScore,
+        interactionRank:      inter.interactionRank,
+        awards:               inter.awards || []
       };
     });
 
