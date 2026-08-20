@@ -2,7 +2,7 @@ import { mongoose } from "../lib/mongoose.js";
 
 async function getModel() {
   if (mongoose.connection.readyState === 1) {
-    return (await import("../models/Question.js")).default;
+    return (await import("../models/Questions.js")).default;
   }
   return null;
 }

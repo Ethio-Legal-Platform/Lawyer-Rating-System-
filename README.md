@@ -9,7 +9,7 @@
 | # | Team Member | Student ID | Primary Engineering Role | Assigned Branch | Primary Modules & Files |
 |:---:|:---|:---:|:---|:---:|:---|
 | 1 | **Kalalew** | `CTC-4154-26` | **Backend Developer 1** | `backend/auth-court` | **Authentication, Court System & ELO Rating Engine**<br>• `server/routes/authRoutes.js`<br>• `server/routes/courtRoutes.js`<br>• `server/routes/lawyerRoutes.js`<br>• `server/services/ratingService.js`<br>• `server/services/emailService.js`<br>• `server/middleware/auth.js`<br>• Models: `User.js`, `CourtCase.js` |
-| 2 | **Maraky** | `CTC-2122-26` | **Backend Developer 2** | `backend/qa-moj` | **MongoDB Core, Legal Q&A, MoJ Gateway & Analytics**<br>• `server/config/db.js` (MongoDB Setup)<br>• `server/routes/qaRoutes.js`<br>• `server/routes/mojRoutes.js`<br>• `server/services/qaService.js`<br>• `server/services/interactionService.js`<br>• Models: `Question.js`, `MojLicense.js` |
+| 2 | **Maraky** | `CTC-2122-26` | **Backend Developer 2** | `backend/qa-moj` | **MongoDB Core, Legal Q&A, MoJ Gateway & Analytics**<br>• `server/lib/mongoose.js` (MongoDB Setup)<br>• `server/routes/qaRoutes.js`<br>• `server/routes/mojRoutes.js`<br>• `server/services/qaService.js`<br>• `server/services/interactionService.js`<br>• Models: `Questions.js`, `MojLicense.js` |
 | 3 | **Lemi** | `CTC-1272-26` | **Frontend Developer 1** | `frontend/directory-views` | **Navigation, Auth & Lawyer Directory System**<br>• `src/components/layout/Navbar.jsx`<br>• `src/components/layout/Footer.jsx`<br>• `src/components/common/` (ModalBackdrop, StarRow, EloBar)<br>• `src/features/auth/AuthModal.jsx`<br>• `src/features/directory/` (LawyerCard, LawyerModal)<br>• `src/pages/Home.jsx`<br>• `src/pages/DirectoryPage.jsx`<br>• `src/utils/` (storage.js, ratingUtils.js) |
 | 4 | **Liel** | `CTC-882-26` | **Frontend Developer 2** | `frontend/qa-guides` | **Legal Q&A, Legal Guides & About Platform**<br>• `src/features/qa/QuestionThreadModal.jsx`<br>• `src/features/qa/AskQuestionModal.jsx`<br>• `src/features/guides/` (GuideCard, GuideModal)<br>• `src/pages/QAPage.jsx`<br>• `src/pages/GuidesPage.jsx`<br>• `src/pages/AboutPage.jsx`<br>• `src/data/legalGuides.js`<br>• `src/services/api.js` (Q&A & Inquiries Client) |
 
@@ -107,12 +107,12 @@ graph TB
    Backend Dev 1 (Kalalew)                         Backend Dev 2 (Maraky)
   [backend/auth-court]                            [backend/qa-moj]
   ─────────────────────────────────               ─────────────────────────────────
-  • User & CourtCase Models                       • MongoDB Setup (server/config/db.js)
+  • User & CourtCase Models                       • MongoDB Setup (server/lib/mongoose.js)
   • JWT Auth & Bcrypt Hashing                     • Question & MoJ License Models
   • Auth Middleware (requireAuth/Role)            • Q&A Service & Endpoints
   • Court Case Registration (Judge Only)          • MoJ Registry Verification
   • ELO Rating Engine & Win-Rate Math             • Community Analytics & Leaderboard
-  • Brevo Email Service & OTP Dispatch            • Seed & Data Migration Script
+  • Brevo Email Service & OTP Dispatch            • JSON fallback storage with optional MongoDB persistence
 ```
 
 #### 1. Backend Dev 1 (Kalalew) — `backend/auth-court`
@@ -137,18 +137,17 @@ graph TB
 #### 2. Backend Dev 2 (Maraky) — `backend/qa-moj`
 * **Domain**: MongoDB Database Configuration, Legal Q&A, Inquiries, MoJ Gateway & Analytics.
 * **Files Assigned**:
-  * `server/config/db.js`
+  * `server/lib/mongoose.js`
   * `server/routes/qaRoutes.js`
   * `server/routes/mojRoutes.js`
   * `server/services/qaService.js`
   * `server/services/interactionService.js`
 * **Mongoose Models**:
-  * `Question.js`: Schema for public questions, private consultations, sub-document answers, and upvoters.
+  * `Questions.js`: Schema for public questions, private consultations, sub-document answers, and upvoters.
   * `MojLicense.js`: Schema for Ministry of Justice official advocate licensing records.
 * **Key Tasks**:
-  * Setup MongoDB connection with Mongoose in `server/config/db.js` and initialize in `server/server.js`.
-  * Create data seed/migration script to import data into MongoDB collections.
-  * Migrate Q&A and private inquiries CRUD operations to MongoDB.
+  * Setup MongoDB connection with Mongoose in `server/lib/mongoose.js` and initialize in `server/server.js`.
+  * Use the bundled JSON data files when MongoDB is not configured, or persist Q&A and private inquiries in MongoDB when `MONGODB_URI` is set.
   * Atomic upvote toggling using MongoDB `$addToSet` / `$pull` operators.
   * Protect Q&A write endpoints with `requireAuth` middleware.
   * MoJ license validation queries in `mojRoutes.js`.
@@ -413,6 +412,7 @@ Create a `.env` file in the project root directory:
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/lex_rating
 JWT_SECRET=your_secure_jwt_secret_key_here
+GOV_INTEGRATION_API_KEY=your_government_integration_key_here
 
 # Brevo Transactional Email Service
 BREVO_API_KEY=your_brevo_api_key_here
