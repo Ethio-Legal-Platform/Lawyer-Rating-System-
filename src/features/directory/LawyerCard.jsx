@@ -49,8 +49,14 @@ export default function LawyerCard({ lawyer, onClick, variant = 'standard' }) {
           )}
 
           <div className="lawyer-card-rating">
-            <StarRow rating={lawyer.rating} />
-            <span className="rating-num">{(Number(lawyer.rating) || 0).toFixed(1)}</span>
+            {lawyer.showRating === false ? (
+              <span className="lawyer-rating-private-badge">🔒 Rating Kept Private</span>
+            ) : (
+              <>
+                <StarRow rating={lawyer.rating} />
+                <span className="rating-num">{(Number(lawyer.rating) || 0).toFixed(1)}</span>
+              </>
+            )}
             <span className="rating-desc">({lawyer.casesCount || 0} court cases)</span>
           </div>
         </div>
@@ -58,10 +64,17 @@ export default function LawyerCard({ lawyer, onClick, variant = 'standard' }) {
 
       {/* Card Action / Score Panel */}
       <div className="lawyer-card-footer">
-        <div className="lawyer-elo-badge">
-          <span className="lawyer-elo-num">{lawyer.elo}</span>
-          <span className="lawyer-elo-label">ELO Score</span>
-        </div>
+        {lawyer.showRating === false ? (
+          <div className="lawyer-elo-badge private" title="Rating kept private by advocate">
+            <span className="lawyer-elo-num">🔒</span>
+            <span className="lawyer-elo-label">Rating Private</span>
+          </div>
+        ) : (
+          <div className="lawyer-elo-badge">
+            <span className="lawyer-elo-num">{lawyer.elo}</span>
+            <span className="lawyer-elo-label">ELO Score</span>
+          </div>
+        )}
         <button
           className="btn btn-orange btn-sm"
           onClick={e => {
