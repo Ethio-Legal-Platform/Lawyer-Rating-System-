@@ -1,16 +1,32 @@
 import React from 'react';
 
-export default function Navbar({ user, page, onNavigate, onSignIn, onSignOut }) {
+export default function Navbar({ 
+  user, 
+  page, 
+  theme = 'dark',
+  onToggleTheme,
+  onNavigate, 
+  onSignIn, 
+  onSignOut,
+  onOpenProfile
+}) {
   return (
     <nav className="avvo-nav">
       <div className="avvo-nav-inner">
         <button
           className="avvo-logo"
           onClick={() => onNavigate('home')}
-          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
         >
-          <span className="avvo-logo-icon" style={{ fontWeight: 900 }}>LEX</span>
-          <span>LEX-RATING</span>
+          <img
+            src="/images/lex-logo.png"
+            alt="LEX - Lawyer Rating Logo"
+            className="avvo-logo-img"
+          />
+          <div className="avvo-logo-text-wrap">
+            <span className="avvo-logo-title">LEX-RATING</span>
+            <span className="avvo-logo-sub">Lawyer Experience</span>
+          </div>
         </button>
 
         <div className="avvo-nav-links">
@@ -41,9 +57,31 @@ export default function Navbar({ user, page, onNavigate, onSignIn, onSignOut }) 
         </div>
 
         <div className="avvo-nav-actions">
+          {/* Theme Toggle Button (Light / Dark Mode) */}
+          <button
+            type="button"
+            className="avvo-theme-toggle"
+            onClick={onToggleTheme}
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            <span className="theme-toggle-icon">
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </span>
+            <span className="theme-toggle-text">
+              {theme === 'dark' ? 'Light' : 'Dark'}
+            </span>
+          </button>
+
           {user ? (
             <>
-              <div className="avvo-nav-user">
+              {/* Clickable Profile Card to edit profile */}
+              <button 
+                type="button"
+                className="avvo-nav-user avvo-nav-user-clickable"
+                onClick={onOpenProfile}
+                title="Click to view and edit your profile"
+              >
                 <img
                   src={user.profilePic || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'}
                   alt={user.name}
@@ -52,22 +90,17 @@ export default function Navbar({ user, page, onNavigate, onSignIn, onSignOut }) 
                     e.target.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200';
                   }}
                 />
-                <span className="avvo-nav-username">{user.name}</span>
+                <div className="avvo-nav-user-info">
+                  <span className="avvo-nav-username">{user.name}</span>
+                  <span className="avvo-nav-edit-hint">Edit Profile ✎</span>
+                </div>
                 {user.role === 'lawyer' && (
-                  <span
-                    style={{
-                      background: '#f55d25',
-                      color: '#fff',
-                      fontSize: '1.1rem',
-                      fontWeight: 700,
-                      padding: '0.15rem 0.5rem',
-                      borderRadius: 99
-                    }}
-                  >
+                  <span className="avvo-nav-role-badge lawyer">
                     Advocate
                   </span>
                 )}
-              </div>
+              </button>
+
               <button className="btn btn-ghost btn-sm" onClick={onSignOut}>
                 Sign Out
               </button>
