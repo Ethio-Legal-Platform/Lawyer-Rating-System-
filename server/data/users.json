@@ -38,7 +38,8 @@
     ],
     "consultationFee": "Free initial 20-minute preliminary assessment / Pro bono quota available",
     "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1280
+    "elo": 1280,
+    "showRating": true
   },
   {
     "id": "lawyer-1002",

@@ -25,12 +25,18 @@ import { api } from './services/api';
 import { getStoredUser, storeUser, clearStoredUser, clearToken } from './utils/storage';
 
 export default function App() {
-  // State: Theme (Dark / Light Mode)
+  // State: Theme (Light Mode by default, remembered per account & device)
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem('lex-theme') || 'dark';
+      const currentUser = getStoredUser();
+      if (currentUser?.themePreference) {
+        return currentUser.themePreference;
+      }
+      const stored = localStorage.getItem('lex-theme');
+      if (stored) return stored;
+      return 'light';
     } catch {
-      return 'dark';
+      return 'light';
     }
   });
 
@@ -71,7 +77,14 @@ export default function App() {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    if (user?.id) {
+      const updatedUser = { ...user, themePreference: nextTheme };
+      setUser(updatedUser);
+      storeUser(updatedUser);
+      api.updateThemePreference(user.id, nextTheme).catch(() => {});
+    }
   };
 
   // Data Fetching: Lawyers
@@ -138,6 +151,9 @@ export default function App() {
   const handleLogin = (nextUser) => {
     setUser(nextUser);
     storeUser(nextUser);
+    if (nextUser?.themePreference && (nextUser.themePreference === 'light' || nextUser.themePreference === 'dark')) {
+      setTheme(nextUser.themePreference);
+    }
   };
 
   const handleLogout = () => {
@@ -151,6 +167,9 @@ export default function App() {
   const handleProfileUpdated = (updatedUser) => {
     setUser(updatedUser);
     storeUser(updatedUser);
+    if (updatedUser?.themePreference) {
+      setTheme(updatedUser.themePreference);
+    }
     fetchLawyers();
   };
 

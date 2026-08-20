@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { mongoose } from '../lib/mongoose.js';
 import { sendBrevoEmail } from '../services/emailService.js';
+import { readJSON, writeJSON } from '../lib/db.js';
+import { USERS_PATH, MOJ_LICENSES_PATH } from '../config/paths.js';
 
 const router = Router();
 const SALT_ROUNDS = 10;
@@ -19,7 +21,8 @@ router.post('/register', async (req, res) => {
   const {
     name, username, password, email, role,
     licenseNumber, specialization,
-    city, phone, bio, yearsExperience, languages, education
+    city, phone, bio, yearsExperience, languages, education,
+    showRating
   } = req.body;
 
   if (!name || !username || !password || !email || !role) {
@@ -79,6 +82,7 @@ router.post('/register', async (req, res) => {
       languages:       Array.isArray(languages) ? languages : (languages ? [languages] : []),
       education:       education       || null,
       elo:             role === 'lawyer' ? 1000 : null,
+      showRating:      showRating !== undefined ? Boolean(showRating) : true,
       verified:        false,
     }
   };
@@ -181,7 +185,7 @@ router.post('/login', async (req, res) => {
 
 // ── GET /api/auth/me ───────────────────────────────────────────────────────
 // Returns the latest profile details for the authenticated user
-router.get('/me', (req, res) => {
+router.get('/me', async (req, res) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
   let decoded = null;
@@ -198,8 +202,15 @@ router.get('/me', (req, res) => {
     return res.status(401).json({ error: 'Unauthorized: User ID or token required' });
   }
 
-  const users = readJSON(USERS_PATH);
-  const user = users.find(u => u.id === userId);
+  let user = null;
+  if (mongoose.connection.readyState === 1) {
+    const User = (await import('../models/User.js')).default;
+    user = await User.findOne({ id: userId }).lean();
+  } else {
+    const users = readJSON(USERS_PATH);
+    user = users.find(u => u.id === userId);
+  }
+
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
@@ -210,7 +221,7 @@ router.get('/me', (req, res) => {
 
 // ── PUT /api/auth/profile ──────────────────────────────────────────────────
 // Updates the authenticated user's profile fields and persists to disk
-router.put('/profile', (req, res) => {
+router.put('/profile', async (req, res) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
   let decoded = null;
@@ -227,41 +238,84 @@ router.put('/profile', (req, res) => {
     return res.status(401).json({ error: 'Unauthorized: User ID required' });
   }
 
-  const users = readJSON(USERS_PATH);
-  const userIndex = users.findIndex(u => u.id === userId);
-  if (userIndex === -1) {
-    return res.status(404).json({ error: 'User not found in registry' });
-  }
-
-  const existingUser = users[userIndex];
   const {
     name, email, phone, city, bio, profilePic,
     specialization, yearsExperience, languages, education,
-    officeAddress, consultationFee
+    officeAddress, consultationFee, showRating, themePreference
   } = req.body;
 
   if (name !== undefined && !name.trim()) {
     return res.status(400).json({ error: 'Name cannot be empty' });
   }
 
-  const updatedUser = {
-    ...existingUser,
-    name: name !== undefined ? name.trim() : existingUser.name,
-    email: email !== undefined ? email.trim() : existingUser.email,
-    phone: phone !== undefined ? phone : existingUser.phone,
-    city: city !== undefined ? city : existingUser.city,
-    bio: bio !== undefined ? bio : existingUser.bio,
-    profilePic: profilePic !== undefined ? profilePic : existingUser.profilePic,
-    specialization: specialization !== undefined ? specialization : existingUser.specialization,
-    yearsExperience: yearsExperience !== undefined ? Number(yearsExperience) : existingUser.yearsExperience,
-    languages: Array.isArray(languages) ? languages : (languages ? [languages] : existingUser.languages),
-    education: education !== undefined ? education : existingUser.education,
-    officeAddress: officeAddress !== undefined ? officeAddress : existingUser.officeAddress,
-    consultationFee: consultationFee !== undefined ? consultationFee : existingUser.consultationFee
-  };
+  let updatedUser = null;
 
-  users[userIndex] = updatedUser;
-  writeJSON(USERS_PATH, users);
+  if (mongoose.connection.readyState === 1) {
+    const User = (await import('../models/User.js')).default;
+    const existingUser = await User.findOne({ id: userId }).lean();
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found in registry' });
+    }
+
+    const updates = {
+      name: name !== undefined ? name.trim() : existingUser.name,
+      email: email !== undefined ? email.trim() : existingUser.email,
+      phone: phone !== undefined ? phone : existingUser.phone,
+      city: city !== undefined ? city : existingUser.city,
+      bio: bio !== undefined ? bio : existingUser.bio,
+      profilePic: profilePic !== undefined ? profilePic : existingUser.profilePic,
+      specialization: specialization !== undefined ? specialization : existingUser.specialization,
+      yearsExperience: yearsExperience !== undefined ? Number(yearsExperience) : existingUser.yearsExperience,
+      languages: Array.isArray(languages) ? languages : (languages ? [languages] : existingUser.languages),
+      education: education !== undefined ? education : existingUser.education,
+      officeAddress: officeAddress !== undefined ? officeAddress : existingUser.officeAddress,
+      consultationFee: consultationFee !== undefined ? consultationFee : existingUser.consultationFee,
+      showRating: showRating !== undefined ? Boolean(showRating) : (existingUser.showRating !== false),
+      themePreference: themePreference !== undefined ? themePreference : (existingUser.themePreference || 'light')
+    };
+
+    updatedUser = await User.findOneAndUpdate({ id: userId }, { $set: updates }, { returnDocument: 'after' }).lean();
+
+    // Also sync local JSON fallback
+    const { readJSON, writeJSON } = await import('../lib/db.js');
+    const { USERS_PATH } = await import('../config/paths.js');
+    const users = readJSON(USERS_PATH);
+    const idx = users.findIndex(u => u.id === userId);
+    if (idx >= 0) {
+      users[idx] = { ...users[idx], ...updates };
+      writeJSON(USERS_PATH, users);
+    }
+  } else {
+    const { readJSON, writeJSON } = await import('../lib/db.js');
+    const { USERS_PATH } = await import('../config/paths.js');
+    const users = readJSON(USERS_PATH);
+    const userIndex = users.findIndex(u => u.id === userId);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'User not found in registry' });
+    }
+
+    const existingUser = users[userIndex];
+    updatedUser = {
+      ...existingUser,
+      name: name !== undefined ? name.trim() : existingUser.name,
+      email: email !== undefined ? email.trim() : existingUser.email,
+      phone: phone !== undefined ? phone : existingUser.phone,
+      city: city !== undefined ? city : existingUser.city,
+      bio: bio !== undefined ? bio : existingUser.bio,
+      profilePic: profilePic !== undefined ? profilePic : existingUser.profilePic,
+      specialization: specialization !== undefined ? specialization : existingUser.specialization,
+      yearsExperience: yearsExperience !== undefined ? Number(yearsExperience) : existingUser.yearsExperience,
+      languages: Array.isArray(languages) ? languages : (languages ? [languages] : existingUser.languages),
+      education: education !== undefined ? education : existingUser.education,
+      officeAddress: officeAddress !== undefined ? officeAddress : existingUser.officeAddress,
+      consultationFee: consultationFee !== undefined ? consultationFee : existingUser.consultationFee,
+      showRating: showRating !== undefined ? Boolean(showRating) : (existingUser.showRating !== false),
+      themePreference: themePreference !== undefined ? themePreference : (existingUser.themePreference || 'light')
+    };
+
+    users[userIndex] = updatedUser;
+    writeJSON(USERS_PATH, users);
+  }
 
   const { password: _p, ...safeUser } = updatedUser;
 
@@ -269,6 +323,31 @@ router.put('/profile', (req, res) => {
     message: 'Profile updated successfully',
     user: safeUser
   });
+});
+
+// ── PUT /api/auth/theme ──────────────────────────────────────────────────
+// Fast theme preference sync on toggle
+router.put('/theme', async (req, res) => {
+  const { userId, theme } = req.body;
+  if (!userId || !['light', 'dark'].includes(theme)) {
+    return res.status(400).json({ error: 'Valid userId and theme ("light" | "dark") required' });
+  }
+
+  if (mongoose.connection.readyState === 1) {
+    const User = (await import('../models/User.js')).default;
+    await User.findOneAndUpdate({ id: userId }, { $set: { themePreference: theme } });
+  }
+
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { USERS_PATH } = await import('../config/paths.js');
+  const users = readJSON(USERS_PATH);
+  const idx = users.findIndex(u => u.id === userId);
+  if (idx >= 0) {
+    users[idx].themePreference = theme;
+    writeJSON(USERS_PATH, users);
+  }
+
+  res.json({ success: true, theme });
 });
 
 export default router;

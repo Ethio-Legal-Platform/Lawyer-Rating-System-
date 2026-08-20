@@ -97,6 +97,7 @@ router.get('/search', async (req, res) => {
         practiceAreasDetailed: l.practiceAreasDetailed || [],
         associationMemberships: l.associationMemberships || [],
         consultationFee: l.consultationFee || '',
+        showRating:      l.showRating !== false,
         elo,
         rating,
         casesCount:           stats.totalCases,

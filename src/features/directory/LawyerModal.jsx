@@ -40,12 +40,20 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               <span className="lawyer-modal-tag">
                 Licensed for {lawyer.yearsExperience || 1} {lawyer.yearsExperience === 1 ? 'Year' : 'Years'}
               </span>
-              <span className="lawyer-modal-tag" style={{ background: 'var(--gold)', color: '#090c10', border: 'none', fontWeight: 800 }}>
-                ELO {lawyer.elo}
-              </span>
-              <span className="lawyer-modal-tag" style={{ background: 'var(--gold-light)', color: 'var(--gold)', border: '1px solid var(--gold-border)', fontWeight: 700 }}>
-                Score: {avvoRating} / 10
-              </span>
+              {lawyer.showRating === false ? (
+                <span className="lawyer-modal-tag" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
+                  🔒 Rating Kept Private
+                </span>
+              ) : (
+                <>
+                  <span className="lawyer-modal-tag" style={{ background: 'var(--gold)', color: '#090c10', border: 'none', fontWeight: 800 }}>
+                    ELO {lawyer.elo}
+                  </span>
+                  <span className="lawyer-modal-tag" style={{ background: 'var(--gold-light)', color: 'var(--gold)', border: '1px solid var(--gold-border)', fontWeight: 700 }}>
+                    Score: {avvoRating} / 10
+                  </span>
+                </>
+              )}
             </div>
           </div>
           <button className="modal-close" onClick={onClose} aria-label="Close">X</button>
@@ -75,16 +83,25 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
             <>
               {/* ELO and Profile Stats */}
               <div className="modal-stats-row">
-                <div className="modal-stat-box" style={{ borderTop: '3px solid var(--gold)' }}>
-                  <span className="modal-stat-num gold">{lawyer.elo}</span>
-                  <span className="modal-stat-label">ELO Rating</span>
-                </div>
-                <div className="modal-stat-box" style={{ borderTop: '3px solid #ffc72c' }}>
-                  <span className="modal-stat-num gold">
-                    {avvoRating} <span style={{ fontSize: '1.2rem', color: 'var(--text-dim)' }}>/ 10</span>
-                  </span>
-                  <span className="modal-stat-label">Platform Score</span>
-                </div>
+                {lawyer.showRating === false ? (
+                  <div className="modal-stat-box" style={{ borderTop: '3px solid var(--border)', flex: '1 1 200px' }}>
+                    <span className="modal-stat-num" style={{ color: 'var(--text-muted)' }}>🔒 Private</span>
+                    <span className="modal-stat-label">Courtroom Performance</span>
+                  </div>
+                ) : (
+                  <>
+                    <div className="modal-stat-box" style={{ borderTop: '3px solid var(--gold)' }}>
+                      <span className="modal-stat-num gold">{lawyer.elo}</span>
+                      <span className="modal-stat-label">ELO Rating</span>
+                    </div>
+                    <div className="modal-stat-box" style={{ borderTop: '3px solid #ffc72c' }}>
+                      <span className="modal-stat-num gold">
+                        {avvoRating} <span style={{ fontSize: '1.2rem', color: 'var(--text-dim)' }}>/ 10</span>
+                      </span>
+                      <span className="modal-stat-label">Platform Score</span>
+                    </div>
+                  </>
+                )}
                 <div className="modal-stat-box" style={{ borderTop: '3px solid var(--blue)' }}>
                   <span className="modal-stat-num blue">{lawyer.casesCount || 0}</span>
                   <span className="modal-stat-label">Court Decisions</span>
@@ -97,15 +114,25 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                 </div>
               </div>
 
-              <EloBar elo={lawyer.elo} />
-
-              {/* Star rating */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1.6rem 0', fontSize: '1.4rem', color: 'var(--text-muted)' }}>
-                <StarRow rating={lawyer.rating} />
-                <span>
-                  <strong style={{ color: 'var(--text-white)' }}>{(Number(lawyer.rating) || 0).toFixed(1)}</strong> Performance Rating (Ministry of Justice Registry)
-                </span>
-              </div>
+              {lawyer.showRating === false ? (
+                <div className="lawyer-modal-privacy-notice" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.2rem 1.6rem', margin: '1.6rem 0', display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+                  <span style={{ fontSize: '1.8rem' }}>🔒</span>
+                  <span style={{ fontSize: '1.3rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                    This advocate has configured their courtroom ELO performance score to be private in accordance with LEX profile privacy controls.
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <EloBar elo={lawyer.elo} />
+                  {/* Star rating */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1.6rem 0', fontSize: '1.4rem', color: 'var(--text-muted)' }}>
+                    <StarRow rating={lawyer.rating} />
+                    <span>
+                      <strong style={{ color: 'var(--text-white)' }}>{(Number(lawyer.rating) || 0).toFixed(1)}</strong> Performance Rating (Ministry of Justice Registry)
+                    </span>
+                  </div>
+                </>
+              )}
 
               {/* Professional Biography */}
               {lawyer.bio && (

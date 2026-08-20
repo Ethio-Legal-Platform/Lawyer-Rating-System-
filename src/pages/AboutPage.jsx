@@ -32,8 +32,14 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
             Find a Verified Advocate &rarr;
           </button>
           <button
-            className="btn btn-secondary btn-lg"
-            style={{ borderColor: 'rgba(255,255,255,0.6)', color: '#fff' }}
+            className="btn btn-lg"
+            style={{
+              background: '#ffffff',
+              color: '#090c10',
+              borderColor: '#ffffff',
+              fontWeight: 800,
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+            }}
             onClick={() => onNavigate('qa')}
           >
             Ask a Free Legal Question
@@ -60,7 +66,6 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
 
             <div className="about-lex-dims-grid">
               <div className="about-lex-dim-card">
-                <div className="about-lex-dim-icon">⚖️</div>
                 <div className="about-lex-dim-title">1. Courtroom Record</div>
                 <div className="about-lex-dim-desc">
                   Real litigation analytics tracking verdicts, rulings, and settlement outcomes before the Federal Supreme Court, High Courts, and Regional circuits.
@@ -68,7 +73,6 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
               </div>
 
               <div className="about-lex-dim-card">
-                <div className="about-lex-dim-icon">🛡️</div>
                 <div className="about-lex-dim-title">2. Official MoJ Verification</div>
                 <div className="about-lex-dim-desc">
                   Every listed advocate holds an authenticated, active Ministry of Justice license (<code style={{ color: 'var(--gold)' }}>LAW-XXXX</code>), cross-checked against federal disciplinary registries.
@@ -76,7 +80,6 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
               </div>
 
               <div className="about-lex-dim-card">
-                <div className="about-lex-dim-icon">🎯</div>
                 <div className="about-lex-dim-title">3. Domain Specialization</div>
                 <div className="about-lex-dim-desc">
                   Deep practice-area classification spanning Criminal Defense, Corporate M&amp;A, Land &amp; Property Expropriation, Commercial Arbitration, and Family Law.
@@ -84,7 +87,6 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
               </div>
 
               <div className="about-lex-dim-card">
-                <div className="about-lex-dim-icon">🤝</div>
                 <div className="about-lex-dim-title">4. Civic &amp; Pro Bono Impact</div>
                 <div className="about-lex-dim-desc">
                   Active engagement answering citizens' legal dilemmas in the public Q&amp;A forum and undertaking verified pro bono representations.

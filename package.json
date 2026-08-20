@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "node server/server.js",
+    "seed:mongo": "node server/scripts/seedMongo.js",
     "start": "concurrently \"vite\" \"node server/server.js\"",
     "build": "vite build",
     "lint": "oxlint",

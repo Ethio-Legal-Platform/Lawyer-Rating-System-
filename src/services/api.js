@@ -148,6 +148,14 @@ export const api = {
     });
     const data = await res.json();
     return { ok: res.ok, status: res.status, data };
+  },
+
+  updateThemePreference: async (userId, theme) => {
+    const res = await authFetch('/auth/theme', {
+      method: 'PUT',
+      body: JSON.stringify({ userId, theme })
+    });
+    return res.json();
   }
 };
 

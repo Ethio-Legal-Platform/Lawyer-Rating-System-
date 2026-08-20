@@ -31,6 +31,7 @@ export default function ProfileModal({ currentUser, onClose, onProfileUpdated })
     officeAddress: currentUser?.officeAddress || '',
     consultationFee: currentUser?.consultationFee || '',
     languages: Array.isArray(currentUser?.languages) ? currentUser.languages : ['Amharic', 'English'],
+    showRating: currentUser?.showRating !== false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -337,6 +338,32 @@ export default function ProfileModal({ currentUser, onClose, onProfileUpdated })
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+
+                {/* Privacy Control: Rating Visibility */}
+                <div className="profile-privacy-card" style={{ marginTop: '2rem', padding: '1.6rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.2rem' }}>
+                    <div style={{ flex: 1, minWidth: 240 }}>
+                      <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--text-white)', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                        <span>⚖️ Public Courtroom Rating Visibility</span>
+                        <span style={{ fontSize: '1.15rem', padding: '0.2rem 0.7rem', borderRadius: 4, background: formData.showRating !== false ? 'rgba(217,119,6,0.2)' : 'rgba(255,255,255,0.1)', color: formData.showRating !== false ? 'var(--gold)' : 'var(--text-muted)', fontWeight: 600 }}>
+                          {formData.showRating !== false ? 'Public' : 'Private'}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginTop: '0.4rem', lineHeight: 1.5 }}>
+                        Respecting your privacy: Choose whether your courtroom ELO score, win rate, and star ratings are visible to the public or kept private on your profile.
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className={`btn ${formData.showRating !== false ? 'btn-gold-outline' : 'btn-dark-outline'}`}
+                      onClick={() => handleChange('showRating', formData.showRating === false)}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontSize: '1.3rem', padding: '0.8rem 1.6rem', fontWeight: 600 }}
+                    >
+                      {formData.showRating !== false ? '👁️ Public (Visible)' : '🔒 Private (Hidden)'}
+                    </button>
                   </div>
                 </div>
               </div>

@@ -22,7 +22,9 @@ const userSchema = new mongoose.Schema({
   courtAdmissions:{ type: [String], default: [] },
   practiceAreasDetailed: { type: [String], default: [] },
   associationMemberships:{ type: [String], default: [] },
-  consultationFee:{ type: String, default: null }
+  consultationFee:{ type: String, default: null },
+  showRating:     { type: Boolean, default: true },
+  themePreference:{ type: String, enum: ['light', 'dark'], default: 'light' }
 }, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model('User', userSchema);
