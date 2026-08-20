@@ -27,6 +27,7 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
     yearsExperience: '',
     education: '',
     languages: 'Amharic, English',
+    showRating: true,
   });
 
   const [otpEmail, setOtpEmail] = useState('');
@@ -39,7 +40,7 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
   const quickFill = (userType) => {
     clear();
     if (userType === 'advocate') {
-      setLoginForm({ username: 'kebede', password: 'password123' });
+      setLoginForm({ username: 'kebede_haile', password: 'password123' });
     } else {
       setLoginForm({ username: 'dawit', password: 'password123' });
     }
@@ -162,8 +163,8 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
       >
         {/* Header */}
         <div className="auth-header">
-          <div className="auth-header-icon-box">
-            <span className="auth-header-icon">⚖️</span>
+          <div className="auth-header-icon-box" style={{ background: 'transparent', padding: 0 }}>
+            <img src="/images/lex-logo.png" alt="LEX Logo" style={{ width: 48, height: 48, objectFit: 'contain' }} />
           </div>
           <div className="auth-header-text">
             <h2 className="auth-title">
@@ -523,6 +524,24 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
                       value={regForm.bio}
                       onChange={e => f('bio', e.target.value)}
                     />
+                  </div>
+
+                  {/* Rating Privacy Selection */}
+                  <div className="auth-privacy-toggle-box" style={{ marginTop: '1.2rem', padding: '1.2rem 1.4rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', userSelect: 'none' }}>
+                      <input
+                        type="checkbox"
+                        checked={regForm.showRating !== false}
+                        onChange={e => f('showRating', e.target.checked)}
+                        style={{ width: 18, height: 18, accentColor: 'var(--gold)', cursor: 'pointer' }}
+                      />
+                      <span style={{ fontSize: '1.35rem', fontWeight: 600, color: 'var(--text-white)' }}>
+                        Display my courtroom rating & ELO score publicly
+                      </span>
+                    </label>
+                    <span style={{ fontSize: '1.15rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.4rem', paddingLeft: '2.8rem', lineHeight: 1.4 }}>
+                      Respecting your privacy: If unchecked, your score will be kept private on your public profile. You can change this at any time in your profile settings.
+                    </span>
                   </div>
                 </div>
               )}
