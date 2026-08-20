@@ -14,3 +14,4 @@ export const DATA_DIR = path.join(SERVER_DIR, 'data');
 export const USERS_PATH        = path.join(DATA_DIR, 'users.json');
 export const MOJ_LICENSES_PATH = path.join(DATA_DIR, 'moj_licenses.json');
 export const COURT_CASES_PATH  = path.join(DATA_DIR, 'court_cases.json');
+export const QUESTIONS_PATH    = path.join(DATA_DIR, 'questions.json');

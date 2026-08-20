@@ -3,6 +3,7 @@ import cors    from 'cors';
 import path    from 'path';
 import dotenv  from 'dotenv';
 import { fileURLToPath } from 'url';
+import { connectDB } from './lib/mongoose.js';
 
 // ── Environment ────────────────────────────────────────────────────────────
 const __filename = fileURLToPath(import.meta.url);
@@ -45,7 +46,8 @@ app.use('/api/qa',      qaRoutes);
 
 // ── Start ──────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await connectDB();
   console.log(`\n⚖  LEX-RATING Server running on http://localhost:${PORT}`);
   console.log(`   Auth API:   /api/auth`);
   console.log(`   MoJ API:    /api/moj`);

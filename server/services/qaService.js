@@ -1,60 +1,59 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { readJSON, writeJSON } from '../lib/db.js';
+import { mongoose } from '../lib/mongoose.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
-const QUESTIONS_FILE = path.resolve(__dirname, '../data/questions.json');
-
-/**
- * Get all questions with optional filtering by category, search query, or city
- */
-/**
- * Get all questions with optional filtering by category, search query, or city
- * Defaults to public questions only unless includePrivate or user filter is specified
- */
-export function getQuestions({ category, search, city, includePrivate, userId, lawyerId, lawyerCity, lawyerSpec } = {}) {
-  let questions = readJSON(QUESTIONS_FILE, []);
-
-  // Filter public vs private
-  if (!includePrivate) {
-    questions = questions.filter(q => !q.isPrivate);
+async function getModel() {
+  if (mongoose.connection.readyState === 1) {
+    return (await import('../models/Question.js')).default;
   }
+  return null;
+}
 
-  if (category && category !== 'All') {
-    questions = questions.filter(q => q.category.toLowerCase() === category.toLowerCase());
+async function readQuestions() {
+  const Model = await getModel();
+  if (Model) return Model.find().lean();
+  const { readJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  return readJSON(QUESTIONS_PATH, []);
+}
+
+async function saveQuestion(doc) {
+  const Model = await getModel();
+  if (Model) {
+    await Model.updateOne({ id: doc.id }, doc, { upsert: true });
+    return;
   }
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
+  const idx = questions.findIndex(q => q.id === doc.id);
+  if (idx === -1) questions.unshift(doc);
+  else questions[idx] = doc;
+  writeJSON(QUESTIONS_PATH, questions);
+}
 
-  if (city && city !== 'All') {
-    questions = questions.filter(q => q.city && q.city.toLowerCase() === city.toLowerCase());
-  }
-
+export async function getQuestions({ category, search, city, includePrivate } = {}) {
+  let questions = await readQuestions();
+  if (!includePrivate) questions = questions.filter(q => !q.isPrivate);
+  if (category && category !== 'All') questions = questions.filter(q => q.category?.toLowerCase() === category.toLowerCase());
+  if (city && city !== 'All') questions = questions.filter(q => q.city?.toLowerCase() === city.toLowerCase());
   if (search) {
-    const qTerm = search.toLowerCase();
-    questions = questions.filter(q => 
-      q.title.toLowerCase().includes(qTerm) || 
-      q.description.toLowerCase().includes(qTerm) ||
-      (q.category && q.category.toLowerCase().includes(qTerm))
+    const t = search.toLowerCase();
+    questions = questions.filter(q =>
+      q.title?.toLowerCase().includes(t) ||
+      q.description?.toLowerCase().includes(t) ||
+      q.category?.toLowerCase().includes(t)
     );
   }
-
-  // Sort by newest first
   return questions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
-/**
- * Get private inquiries relevant to a client or nearby lawyer
- */
-export function getPrivateInquiries({ userId, role, city, specialization }) {
-  const questions = readJSON(QUESTIONS_FILE, []);
+export async function getPrivateInquiries({ userId, role, city, specialization } = {}) {
+  const questions = await readQuestions();
   const privateList = questions.filter(q => q.isPrivate);
 
   if (role === 'lawyer') {
-    // Return inquiries targeted to this lawyer, or in their city & specialization
     return privateList.filter(q => {
-      if (q.targetLawyerId && q.targetLawyerId === userId) return true;
+      if (q.targetLawyerId === userId) return true;
       if (!q.targetLawyerId) {
-        // Open nearby inquiry
         const matchCity = !city || !q.city || q.city.toLowerCase() === city.toLowerCase();
         const matchSpec = !specialization || !q.category || q.category.toLowerCase().includes(specialization.toLowerCase());
         return matchCity || matchSpec;
@@ -63,197 +62,154 @@ export function getPrivateInquiries({ userId, role, city, specialization }) {
     }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }
 
-  // Client view: their own inquiries
-  return privateList.filter(q => q.authorId === userId).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  return privateList
+    .filter(q => q.authorId === userId)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
-/**
- * Get single question by ID
- */
-export function getQuestionById(id) {
-  const questions = readJSON(QUESTIONS_FILE, []);
+export async function getQuestionById(id) {
+  const Model = await getModel();
+  if (Model) return Model.findOne({ id }).lean();
+  const questions = await readQuestions();
   return questions.find(q => q.id === id) || null;
 }
 
-/**
- * Create a new question (public or private consultation)
- */
-export function createQuestion({
-  title,
-  description,
-  category,
-  city,
-  authorName,
-  authorRole,
-  authorId,
-  isPrivate,
-  targetLawyerId,
-  targetLawyerName
-}) {
-  if (!authorId) {
-    throw new Error('You must be signed in to ask a question');
-  }
-  if (!title || !description) {
-    throw new Error('Title and description are required');
-  }
+export async function createQuestion({ title, description, category, city, authorName, authorRole, authorId, isPrivate, targetLawyerId, targetLawyerName }) {
+  if (!authorId) throw new Error('You must be signed in to ask a question');
+  if (!title || !description) throw new Error('Title and description are required');
 
-  const questions = readJSON(QUESTIONS_FILE, []);
   const newQuestion = {
-    id: `q-${Date.now()}`,
-    title: title.trim(),
-    description: description.trim(),
-    category: category || 'General',
-    city: city || 'Addis Ababa',
-    authorName: authorName || 'Anonymous Litigant',
-    authorRole: authorRole || 'client',
-    authorId: authorId,
-    isPrivate: Boolean(isPrivate),
-    targetLawyerId: targetLawyerId || null,
+    id:               `q-${Date.now()}`,
+    title:            title.trim(),
+    description:      description.trim(),
+    category:         category    || 'General',
+    city:             city        || 'Addis Ababa',
+    authorName:       authorName  || 'Anonymous Litigant',
+    authorRole:       authorRole  || 'client',
+    authorId,
+    isPrivate:        Boolean(isPrivate),
+    targetLawyerId:   targetLawyerId   || null,
     targetLawyerName: targetLawyerName || null,
-    status: isPrivate ? 'private_pending' : 'public',
-    createdAt: new Date().toISOString(),
-    publishedAt: isPrivate ? null : new Date().toISOString(),
-    answers: []
+    status:           isPrivate ? 'private_pending' : 'public',
+    createdAt:        new Date().toISOString(),
+    publishedAt:      isPrivate ? null : new Date().toISOString(),
+    answers:          [],
   };
 
-  questions.unshift(newQuestion);
-  writeJSON(QUESTIONS_FILE, questions);
+  await saveQuestion(newQuestion);
   return newQuestion;
 }
 
-/**
- * Publish a private question to the public forum
- */
-export function publishQuestionToPublic(questionId, userId) {
-  const questions = readJSON(QUESTIONS_FILE, []);
+export async function publishQuestionToPublic(questionId, userId) {
+  const Model = await getModel();
+
+  if (Model) {
+    const q = await Model.findOne({ id: questionId }).lean();
+    if (!q) throw new Error('Question not found');
+    if (q.authorId !== userId) throw new Error('Only the author can publish this question');
+    return Model.findOneAndUpdate(
+      { id: questionId },
+      { isPrivate: false, status: 'public', publishedAt: new Date().toISOString() },
+      { new: true }
+    ).lean();
+  }
+
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
   const q = questions.find(q => q.id === questionId);
-
-  if (!q) {
-    throw new Error('Question not found');
-  }
-
-  // Ensure only author can publish
-  if (q.authorId !== userId) {
-    throw new Error('Only the author can authorize making this consultation public');
-  }
-
+  if (!q) throw new Error('Question not found');
+  if (q.authorId !== userId) throw new Error('Only the author can publish this question');
   q.isPrivate = false;
   q.status = 'public';
   q.publishedAt = new Date().toISOString();
-
-  writeJSON(QUESTIONS_FILE, questions);
+  writeJSON(QUESTIONS_PATH, questions);
   return q;
 }
 
-/**
- * Add an answer / comment to a question
- */
-export function addAnswer(questionId, {
-  content,
-  authorId,
-  authorName,
-  authorUsername,
-  authorRole,
-  isLawyer,
-  licenseNumber,
-  specialization,
-  elo,
-  profilePic,
-  city
-}) {
-  if (!authorId) {
-    throw new Error('You must be signed in to post a reply');
-  }
-  if (!content || !content.trim()) {
-    throw new Error('Answer content cannot be empty');
-  }
-
-  const questions = readJSON(QUESTIONS_FILE, []);
-  const index = questions.findIndex(q => q.id === questionId);
-
-  if (index === -1) {
-    throw new Error('Question not found');
-  }
+export async function addAnswer(questionId, { content, authorId, authorName, authorUsername, authorRole, isLawyer, licenseNumber, specialization, elo, profilePic, city }) {
+  if (!authorId) throw new Error('You must be signed in to post a reply');
+  if (!content?.trim()) throw new Error('Answer content cannot be empty');
 
   const newAnswer = {
-    id: `ans-${Date.now()}`,
-    authorId: authorId,
-    authorName: authorName || (isLawyer ? 'Advocate' : 'Community Member'),
+    id:             `ans-${Date.now()}`,
+    content:        content.trim(),
+    authorId,
+    authorName:     authorName     || (isLawyer ? 'Advocate' : 'Community Member'),
     authorUsername: authorUsername || 'user',
-    authorRole: isLawyer ? 'lawyer' : (authorRole || 'client'),
-    isLawyer: Boolean(isLawyer),
-    licenseNumber: licenseNumber || null,
+    authorRole:     isLawyer ? 'lawyer' : (authorRole || 'client'),
+    isLawyer:       Boolean(isLawyer),
+    licenseNumber:  licenseNumber  || null,
     specialization: specialization || null,
-    elo: elo || null,
-    profilePic: profilePic || (isLawyer 
-      ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200'
-      : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'
-    ),
-    city: city || 'Ethiopia',
-    content: content.trim(),
-    createdAt: new Date().toISOString(),
-    upvotes: 0,
-    upvotedBy: []
+    elo:            elo            || null,
+    profilePic:     profilePic     || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
+    city:           city           || 'Ethiopia',
+    upvotes:        0,
+    upvotedBy:      [],
+    createdAt:      new Date().toISOString(),
   };
 
-  if (!Array.isArray(questions[index].answers)) {
-    questions[index].answers = [];
+  const Model = await getModel();
+  if (Model) {
+    const update = isLawyer
+      ? { $push: { answers: { $each: [newAnswer], $position: 0 } } }
+      : { $push: { answers: newAnswer } };
+    if (isLawyer) update.$set = { status: 'advocate_answered' };
+    await Model.updateOne({ id: questionId }, update);
+    return newAnswer;
   }
 
-  // Put lawyer answers first, or append
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
+  const idx = questions.findIndex(q => q.id === questionId);
+  if (idx === -1) throw new Error('Question not found');
+  if (!Array.isArray(questions[idx].answers)) questions[idx].answers = [];
   if (isLawyer) {
-    questions[index].answers.unshift(newAnswer);
-    if (questions[index].isPrivate) {
-      questions[index].status = 'advocate_answered';
-    }
+    questions[idx].answers.unshift(newAnswer);
+    if (questions[idx].isPrivate) questions[idx].status = 'advocate_answered';
   } else {
-    questions[index].answers.push(newAnswer);
+    questions[idx].answers.push(newAnswer);
   }
-
-  writeJSON(QUESTIONS_FILE, questions);
+  writeJSON(QUESTIONS_PATH, questions);
   return newAnswer;
 }
 
-/**
- * Upvote an answer (1 vote per user toggle)
- */
-export function upvoteAnswer(questionId, answerId, userId) {
-  if (!userId) {
-    throw new Error('You must be signed in to upvote answers');
+export async function upvoteAnswer(questionId, answerId, userId) {
+  if (!userId) throw new Error('You must be signed in to upvote');
+
+  const Model = await getModel();
+  if (Model) {
+    const q = await Model.findOne({ id: questionId, 'answers.id': answerId }).lean();
+    if (!q) throw new Error('Question or answer not found');
+    const ans = q.answers.find(a => a.id === answerId);
+    const hasUpvoted = ans.upvotedBy?.includes(userId);
+
+    if (hasUpvoted) {
+      await Model.updateOne(
+        { id: questionId, 'answers.id': answerId },
+        { $pull: { 'answers.$.upvotedBy': userId }, $inc: { 'answers.$.upvotes': -1 } }
+      );
+    } else {
+      await Model.updateOne(
+        { id: questionId, 'answers.id': answerId },
+        { $push: { 'answers.$.upvotedBy': userId }, $inc: { 'answers.$.upvotes': 1 } }
+      );
+    }
+    return { hasUpvoted: !hasUpvoted, upvotes: hasUpvoted ? ans.upvotes - 1 : ans.upvotes + 1 };
   }
 
-  const questions = readJSON(QUESTIONS_FILE, []);
-  const q = questions.find(q => q.id === questionId);
-  if (!q || !Array.isArray(q.answers)) {
-    throw new Error('Question or answers not found');
-  }
-
-  const ans = q.answers.find(a => a.id === answerId);
-  if (!ans) {
-    throw new Error('Answer not found');
-  }
-
-  if (!Array.isArray(ans.upvotedBy)) {
-    ans.upvotedBy = [];
-  }
-
-  const existingIdx = ans.upvotedBy.indexOf(userId);
-  let hasUpvoted = false;
-
-  if (existingIdx > -1) {
-    // User already upvoted -> toggle off
-    ans.upvotedBy.splice(existingIdx, 1);
-    ans.upvotes = Math.max(0, (ans.upvotes || 1) - 1);
-    hasUpvoted = false;
-  } else {
-    // Add upvote
-    ans.upvotedBy.push(userId);
-    ans.upvotes = (ans.upvotes || 0) + 1;
-    hasUpvoted = true;
-  }
-
-  writeJSON(QUESTIONS_FILE, questions);
-  return { answer: ans, hasUpvoted, upvotes: ans.upvotes };
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
+  const q   = questions.find(q => q.id === questionId);
+  if (!q) throw new Error('Question not found');
+  const ans = q.answers?.find(a => a.id === answerId);
+  if (!ans) throw new Error('Answer not found');
+  if (!Array.isArray(ans.upvotedBy)) ans.upvotedBy = [];
+  const pos = ans.upvotedBy.indexOf(userId);
+  if (pos > -1) { ans.upvotedBy.splice(pos, 1); ans.upvotes = Math.max(0, (ans.upvotes || 1) - 1); }
+  else          { ans.upvotedBy.push(userId);    ans.upvotes = (ans.upvotes || 0) + 1; }
+  writeJSON(QUESTIONS_PATH, questions);
+  return { hasUpvoted: pos === -1, upvotes: ans.upvotes };
 }
-
-

@@ -1,45 +1,40 @@
 import { Router } from 'express';
-import { readJSON } from '../lib/db.js';
-import { MOJ_LICENSES_PATH } from '../config/paths.js';
+import { mongoose } from '../lib/mongoose.js';
 
 const router = Router();
 
-// ── POST /api/moj/verify-license ──────────────────────────────────────────
-// Verifies a lawyer's license number (and optionally their registered name)
-// against the official Ministry of Justice registry.
-router.post('/verify-license', (req, res) => {
+async function getLicenses() {
+  if (mongoose.connection.readyState === 1) {
+    const MojLicense = (await import('../models/MojLicense.js')).default;
+    return MojLicense.find().lean();
+  }
+  const { readJSON } = await import('../lib/db.js');
+  const { MOJ_LICENSES_PATH } = await import('../config/paths.js');
+  return readJSON(MOJ_LICENSES_PATH);
+}
+
+router.post('/verify-license', async (req, res) => {
   const { licenseNumber, name } = req.body;
+  if (!licenseNumber) return res.status(400).json({ verified: false, error: 'License number is required' });
 
-  if (!licenseNumber) {
-    return res.status(400).json({ verified: false, error: 'License number is required' });
+  const licenses = await getLicenses();
+  const record   = licenses.find(l => l.licenseNumber === licenseNumber);
+
+  if (!record) return res.status(404).json({ verified: false, error: 'License number not found in official MoJ database' });
+  if (record.status !== 'ACTIVE') return res.status(400).json({ verified: false, error: 'License status is inactive or suspended' });
+  if (name && record.fullName.toLowerCase().trim() !== name.toLowerCase().trim()) {
+    return res.status(400).json({ verified: false, error: `License validation failed. Name on license is "${record.fullName}", but provided "${name}".` });
   }
 
-  const mojLicenses   = readJSON(MOJ_LICENSES_PATH);
-  const licenseRecord = mojLicenses.find(l => l.licenseNumber === licenseNumber);
-
-  if (!licenseRecord) {
-    return res.status(404).json({ verified: false, error: 'License number not found in official MoJ database' });
-  }
-
-  if (licenseRecord.status !== 'ACTIVE') {
-    return res.status(400).json({ verified: false, error: 'License status is inactive or suspended' });
-  }
-
-  if (name && licenseRecord.fullName.toLowerCase().trim() !== name.toLowerCase().trim()) {
-    return res.status(400).json({
-      verified: false,
-      error: `License validation failed. Name on license is "${licenseRecord.fullName}", but provided "${name}".`
-    });
-  }
-
-  res.json({ verified: true, licenseRecord });
+  res.json({ verified: true, licenseRecord: record });
 });
 
-// ── GET /api/moj/licenses ─────────────────────────────────────────────────
-// Returns the full list of MoJ-registered lawyer licenses.
-router.get('/licenses', (req, res) => {
-  const licenses = readJSON(MOJ_LICENSES_PATH);
-  res.json(licenses);
+router.get('/licenses', async (req, res) => {
+  try {
+    res.json(await getLicenses());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 export default router;
