@@ -4,116 +4,182 @@ import { ETHIOPIAN_CITIES } from '../data/constants';
 export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
   return (
     <div>
-      {/* Hero */}
+      {/* ─── Hero Section ──────────────────────────────────────────────── */}
       <section className="about-hero">
-        <div className="avvo-hero-tag">ABOUT AVVO · LEX-RATING</div>
-        <h1>We Make Legal Easier.</h1>
+        <div className="about-hero-logo-box">
+          <img 
+            src="/images/lex-logo.png" 
+            alt="LEX - Lawyer Rating" 
+            className="about-hero-logo-img" 
+          />
+          <div className="about-hero-logo-motto">
+            <span>TRUST</span>
+            <span className="dot">•</span>
+            <span>REVIEW</span>
+            <span className="dot">•</span>
+            <span>CHOOSE</span>
+          </div>
+        </div>
+
+        <div className="avvo-hero-tag">ABOUT LEX-RATING · ETHIOPIA'S OFFICIAL B2G LEGAL DIRECTORY</div>
+        <h1>Demystifying Legal Practice Through Verified Lawyer Experience.</h1>
         <p>
-          At Avvo, we make legal easier to find, easier to understand, and easier to trust—for everyone. We are the most comprehensive attorney rating and review platform, providing detailed profiles for over 97% of licensed attorneys, hosting one of the largest free legal Q&A forums, and helping millions of people get the legal help and information they need.
+          <strong>LEX-RATING</strong> is Ethiopia's authoritative Business-to-Government (B2G) legal rating platform. We provide complete transparency for citizens, enterprises, and public institutions to evaluate, compare, and retain Ministry of Justice verified advocates based on real courtroom performance, litigation track records, and authentic client reviews.
         </p>
+
         <div className="about-hero-actions">
           <button className="btn btn-primary btn-lg" onClick={() => onNavigate('directory')}>
-            Find a Lawyer →
+            Find a Verified Advocate &rarr;
           </button>
           <button
-            className="btn btn-secondary btn-lg"
-            style={{ borderColor: 'rgba(255,255,255,0.6)', color: '#fff' }}
+            className="btn btn-lg"
+            style={{
+              background: '#ffffff',
+              color: '#090c10',
+              borderColor: '#ffffff',
+              fontWeight: 800,
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+            }}
             onClick={() => onNavigate('qa')}
           >
-            Ask a Free Question
+            Ask a Free Legal Question
           </button>
         </div>
       </section>
 
-      {/* Avvo by the Numbers */}
+      {/* ─── Meaning of LEX Section ────────────────────────────────────── */}
+      <section className="about-lex-meaning-section">
+        <div className="container" style={{ maxWidth: 960 }}>
+          <div className="about-lex-meaning-box">
+            <div className="about-lex-callout-title">
+              <span>What Does</span>
+              <span className="about-lex-highlight-tag">LEX</span>
+              <span>Mean?</span>
+            </div>
+            
+            <p className="about-lex-meaning-text">
+              At its core, <strong>LEX stands for Lawyer EXperience</strong> (while also drawing heritage from the classical Latin root <em>lex</em>, meaning <em>Law and Justice</em>). 
+            </p>
+            <p className="about-lex-meaning-text">
+              In traditional legal markets, choosing an attorney has often relied on hearsay, non-transparent claims, or marketing. <strong>LEX-RATING was established to redefine "Lawyer Experience" into a verifiable, merit-based standard.</strong> To us, experience is not just how many years have passed on a diploma—it is measured by an advocate's real-world courtroom history, validated Ministry of Justice credentials, case win/loss ratios across regional and federal benches, and their active contribution to community justice.
+            </p>
+
+            <div className="about-lex-dims-grid">
+              <div className="about-lex-dim-card">
+                <div className="about-lex-dim-title">1. Courtroom Record</div>
+                <div className="about-lex-dim-desc">
+                  Real litigation analytics tracking verdicts, rulings, and settlement outcomes before the Federal Supreme Court, High Courts, and Regional circuits.
+                </div>
+              </div>
+
+              <div className="about-lex-dim-card">
+                <div className="about-lex-dim-title">2. Official MoJ Verification</div>
+                <div className="about-lex-dim-desc">
+                  Every listed advocate holds an authenticated, active Ministry of Justice license (<code style={{ color: 'var(--gold)' }}>LAW-XXXX</code>), cross-checked against federal disciplinary registries.
+                </div>
+              </div>
+
+              <div className="about-lex-dim-card">
+                <div className="about-lex-dim-title">3. Domain Specialization</div>
+                <div className="about-lex-dim-desc">
+                  Deep practice-area classification spanning Criminal Defense, Corporate M&amp;A, Land &amp; Property Expropriation, Commercial Arbitration, and Family Law.
+                </div>
+              </div>
+
+              <div className="about-lex-dim-card">
+                <div className="about-lex-dim-title">4. Civic &amp; Pro Bono Impact</div>
+                <div className="about-lex-dim-desc">
+                  Active engagement answering citizens' legal dilemmas in the public Q&amp;A forum and undertaking verified pro bono representations.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ─── The 3 Motto Tenets ──────────────────────────────────────── */}
+          <h2 className="avvo-section-title" style={{ textAlign: 'center', marginTop: '4rem' }}>
+            Our Core Operating Tenets
+          </h2>
+          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>
+            The three guiding principles that govern every profile and rating on the LEX platform.
+          </p>
+
+          <div className="about-motto-grid">
+            <div className="about-motto-card">
+              <div className="about-motto-tag">TRUST</div>
+              <div className="about-motto-title">Government-Backed Integrity</div>
+              <p className="about-motto-desc">
+                Every lawyer profile is linked directly to the Ethiopian Ministry of Justice license database. Unlicensed or suspended individuals cannot register or represent themselves on the platform.
+              </p>
+            </div>
+
+            <div className="about-motto-card">
+              <div className="about-motto-tag">REVIEW</div>
+              <div className="about-motto-title">Authentic Litigant Feedback</div>
+              <p className="about-motto-desc">
+                Real clients who have retained an advocate share transparent reviews and ratings on communication, courtroom preparation, and ethical conduct.
+              </p>
+            </div>
+
+            <div className="about-motto-card">
+              <div className="about-motto-tag">CHOOSE</div>
+              <div className="about-motto-title">Confident Legal Selection</div>
+              <p className="about-motto-desc">
+                With objective ELO performance ratings, win/loss stats, and clear consultation terms, citizens and businesses choose the ideal legal counsel with complete confidence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Platform by the Numbers ──────────────────────────────────── */}
       <section className="about-numbers-strip">
         <div className="container">
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.4rem', fontWeight: 800, textAlign: 'center', marginBottom: '0.6rem' }}>
-            Avvo by the Numbers
+            LEX-RATING in Numbers
           </h2>
           <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: '1.5rem', marginBottom: '3.2rem' }}>
-            From a bold idea in 2007, Avvo has grown into one of the most comprehensive legal networks, helping millions find the information and legal help they need.
+            Transforming Ethiopia's legal landscape into an accessible, data-driven, and trustworthy ecosystem.
           </p>
           <div className="about-numbers-grid">
             <div>
-              <span className="about-number-val">97%</span>
-              <div className="about-number-title">Of Attorneys Covered</div>
-              <p className="about-number-desc">Comprehensive listings for licensed attorneys nationwide with public verification.</p>
+              <span className="about-number-val">100%</span>
+              <div className="about-number-title">MoJ Licensed Verification</div>
+              <p className="about-number-desc">Zero unverified listings. Every advocate authenticated via Ministry of Justice registries.</p>
             </div>
             <div>
-              <span className="about-number-val">17M+</span>
-              <div className="about-number-title">Legal Q&As Answered</div>
-              <p className="about-number-desc">Every single answer comes directly from an active, licensed attorney.</p>
+              <span className="about-number-val">2,500+</span>
+              <div className="about-number-title">Court Decisions Tracked</div>
+              <p className="about-number-desc">Federal Supreme, High Court, and Regional bench rulings aggregated for performance scoring.</p>
             </div>
             <div>
-              <span className="about-number-val">1.1M+</span>
-              <div className="about-number-title">Lawyers in Our Network</div>
-              <p className="about-number-desc">Detailed profiles that make it easy to research, compare, and find the right fit fast.</p>
+              <span className="about-number-val">11</span>
+              <div className="about-number-title">Regional Jurisdictions</div>
+              <p className="about-number-desc">Connecting citizens in Addis Ababa, Hawassa, Bahir Dar, Dire Dawa, Mekelle, and beyond.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What is Avvo? */}
-      <section className="about-story-section">
-        <div className="container" style={{ maxWidth: 860 }}>
-          <h2 className="avvo-section-title">What is Avvo?</h2>
-          <p style={{ fontSize: '1.6rem', color: 'var(--gray-700)', lineHeight: 1.7, marginBottom: '1.6rem' }}>
-            Inspired by the Italian word for lawyer, <strong>“avvocato,”</strong> Avvo launched in 2007 with a bold idea: <em>make finding a lawyer as straightforward as choosing a hotel or doctor online.</em> By 2010, Avvo’s directory profiled over 90% of attorneys nationwide. By 2014, our Q&A forum had surpassed 5 million questions and answers, with a 99% response rate.
-          </p>
-          <p style={{ fontSize: '1.6rem', color: 'var(--gray-700)', lineHeight: 1.7 }}>
-            In 2018, Avvo joined Internet Brands as part of the Martindale-Avvo network, creating one of the largest online legal networks attracting over 25 million monthly consumers. Most recently, our network was recognized in <strong>The National Law Journal's 2026 "Best Of" survey</strong>, winning multiple awards for our attorney rating and legal marketing services.
-          </p>
-
-          <div className="about-quote-box">
-            “Make finding a lawyer as straightforward as choosing a hotel or doctor online.”
-          </div>
-
-          <p style={{ fontSize: '1.5rem', color: 'var(--gray-500)', lineHeight: 1.6 }}>
-            Today, Avvo hosts detailed profiles for over 97% of all licensed attorneys—based on national lawyer population registries—and more than 17 million searchable legal questions and answers.
-          </p>
-
-          {/* Timeline */}
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 800, marginTop: '3.6rem', marginBottom: '0.8rem' }}>
-            Avvo Timeline
-          </h3>
-          <div className="about-timeline">
-            {[
-              { year: '2007', text: 'Avvo launches with a bold vision for accessible legal help.' },
-              { year: '2010', text: 'Ratings cover 90%+ of attorneys nationwide.' },
-              { year: '2014', text: 'Q&A forum surpasses 5M questions with a 99% response rate.' },
-              { year: '2018', text: 'Joins Internet Brands / Martindale-Avvo network; 25M+ monthly consumers.' },
-              { year: 'Today', text: '97% of all licensed attorneys rated; 17M+ Q&As searchable.' },
-            ].map(t => (
-              <div key={t.year} className="timeline-card">
-                <div className="timeline-year">{t.year}</div>
-                <p className="timeline-text">{t.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Four Pillars */}
+      {/* ─── Four Pillars of the Platform ────────────────────────────── */}
       <section className="avvo-section avvo-section-white">
         <div className="container">
-          <h2 className="avvo-section-title" style={{ textAlign: 'center' }}>Making Legal Easier</h2>
-          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>Four tools that connect people with the right legal help</p>
+          <h2 className="avvo-section-title" style={{ textAlign: 'center' }}>How LEX-RATING Serves You</h2>
+          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>Four dedicated tools bringing clarity and confidence to legal assistance</p>
 
           <div className="about-pillars-grid">
             {/* Pillar 1 */}
             <div className="pillar-card">
               <div className="pillar-badge">01 · Directory</div>
-              <div className="pillar-title">Attorney Profiles</div>
+              <div className="pillar-title">Advocate Directory</div>
               <p className="pillar-desc">
-                Featuring a network of 1.1 million lawyers, our legal directory makes it easy to go from "I think I need a lawyer" to "I found the right one." We bring Avvo Ratings, detailed profiles, and client reviews together in one place, giving consumers the tools to quickly research and compare, and giving attorneys a platform to stand out.
+                Easily filter by city, language, and legal specialization. Review comprehensive profiles with admissions, office addresses, fees, and verified credentials.
               </p>
               <div className="pillar-split">
                 <div className="pillar-for">
-                  <strong>For Consumers</strong> Research and compare attorneys quickly.
+                  <strong>For Litigants</strong> Discover top counsel matched to your exact case requirements.
                 </div>
                 <div className="pillar-for">
-                  <strong>For Attorneys</strong> A platform to stand out and attract clients.
+                  <strong>For Advocates</strong> Showcase validated credentials and expand your client base.
                 </div>
               </div>
             </div>
@@ -121,16 +187,16 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
             {/* Pillar 2 */}
             <div className="pillar-card">
               <div className="pillar-badge">02 · Rating System</div>
-              <div className="pillar-title">The Avvo & ELO Rating</div>
+              <div className="pillar-title">The ELO Experience Rating</div>
               <p className="pillar-desc">
-                The Rating calculates an objective 1-to-10 score—from "Extreme Caution" to "Superb"—for each attorney based on their experience, education, peer endorsements, and court performance history. For consumers, it delivers an instant snapshot of credentials. For attorneys, it provides an objective mark of credibility.
+                An algorithmic rating (1000–1400+ ELO) that dynamically evaluates win/loss litigation outcomes, case complexity, and active courtroom advocacy.
               </p>
               <div className="pillar-split">
                 <div className="pillar-for">
-                  <strong>For Consumers</strong> An instant snapshot of a lawyer's credentials.
+                  <strong>For Litigants</strong> An instant, objective benchmark of demonstrated courtroom success.
                 </div>
                 <div className="pillar-for">
-                  <strong>For Attorneys</strong> An objective mark of credibility that builds trust.
+                  <strong>For Advocates</strong> A merit-based accolade that highlights superior trial excellence.
                 </div>
               </div>
             </div>
@@ -138,16 +204,16 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
             {/* Pillar 3 */}
             <div className="pillar-card">
               <div className="pillar-badge">03 · Verified Reviews</div>
-              <div className="pillar-title">Avvo Reviews</div>
+              <div className="pillar-title">Client &amp; Peer Reviews</div>
               <p className="pillar-desc">
-                Avvo Reviews give clients a voice and attorneys a powerful way to build their reputation. In the past year alone, more than 72,000 new attorney reviews were added. Only people who hired or consulted with an attorney can post a review, fake reviews are removed, and genuine client feedback stands.
+                Genuine feedback from litigants who have engaged with the advocate for consultations or court representation, verified to prevent tampering.
               </p>
               <div className="pillar-split">
                 <div className="pillar-for">
-                  <strong>For Consumers</strong> Candid, firsthand client insights.
+                  <strong>For Litigants</strong> Authentic, firsthand insights into responsiveness and professionalism.
                 </div>
                 <div className="pillar-for">
-                  <strong>For Attorneys</strong> Deepen trust and demonstrate satisfaction.
+                  <strong>For Advocates</strong> Build a long-term reputation backed by real client satisfaction.
                 </div>
               </div>
             </div>
@@ -155,16 +221,16 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
             {/* Pillar 4 */}
             <div className="pillar-card">
               <div className="pillar-badge">04 · Community Q&A</div>
-              <div className="pillar-title">The Q&A Forum</div>
+              <div className="pillar-title">Free Legal Q&amp;A Forum</div>
               <p className="pillar-desc">
-                Our Q&A Forum gives consumers free, anonymous access to licensed attorneys who speak directly to their situation. Last year, users asked nearly 124,000 new questions and received over 126,000 answers.
+                Ask legal questions anonymously and receive expert guidance directly from licensed Ethiopian advocates specializing in relevant proclamations.
               </p>
               <div className="pillar-split">
                 <div className="pillar-for">
-                  <strong>124K</strong> New questions asked last year
+                  <strong>For Litigants</strong> Fast, free preliminary answers to pressing legal issues.
                 </div>
                 <div className="pillar-for">
-                  <strong>126K+</strong> Answers provided by licensed attorneys
+                  <strong>For Advocates</strong> Demonstrate domain mastery and earn Community Leaderboard awards.
                 </div>
               </div>
             </div>
@@ -172,104 +238,104 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
         </div>
       </section>
 
-      {/* How the Rating Works Deep Dive */}
+      {/* ─── How the Rating Works Deep Dive ──────────────────────────── */}
       <div className="about-rating-deepdive">
         <div className="container" style={{ maxWidth: 860 }}>
-          <h2>How the Rating Works</h2>
+          <h2>How the Lawyer Experience (LEX) Rating Works</h2>
           <p>
-            The Rating is calculated by a proprietary model developed with input from attorneys, consumers, and other legal professionals. It draws on two data sources: public records (from state bars, regulatory agencies, Ministry of Justice, and courts) and information attorneys share on their profiles.
+            The LEX Rating is calculated by an automated, data-driven algorithm developed in coordination with judicial procedures. It synthesizes two primary inputs: official court litigation logs (case outcomes, appeals, and court bench levels) and Ministry of Justice registry records.
           </p>
           <p>
-            Each lawyer is evaluated using the same objective criteria—experience, education, professional achievements, peer endorsements, and disciplinary history. Every factor that influences the score is visible on the attorney's profile, and ratings automatically update as new data arrives.
+            Every advocate is evaluated under standardized criteria—courtroom victories, case complexity, specialization mastery, disciplinary record, and client ratings. As new court rulings are handed down, the ELO score updates automatically in real-time.
           </p>
           <div className="about-rating-highlight">
-            🛡️ <strong>The rating can't be bought:</strong> No manual overrides, no exceptions, and no commercial relationship can change an attorney's score.
+            <strong>The rating cannot be bought or manipulated:</strong> No sponsored tier, ad spend, or manual override can modify an advocate's ELO score or verified court record.
           </div>
         </div>
       </div>
 
-      {/* Testimonials */}
+      {/* ─── Testimonials ────────────────────────────────────────────── */}
       <section className="avvo-section avvo-section-white">
         <div className="container">
-          <h2 className="avvo-section-title" style={{ textAlign: 'center' }}>What People Are Saying</h2>
-          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>From attorneys building their practice to clients finding the help they need</p>
+          <h2 className="avvo-section-title" style={{ textAlign: 'center' }}>Voices from Our Community</h2>
+          <p className="avvo-section-sub" style={{ textAlign: 'center' }}>From senior advocates building verified reputations to litigants finding justice</p>
 
           <div className="testimonials-grid">
             <div className="testimonial-card">
               <div>
-                <span className="testimonial-role attorney">Attorney</span>
-                <p className="testimonial-quote">“Avvo is … basically the 'Google' of finding an attorney.”</p>
+                <span className="testimonial-role attorney">Advocate</span>
+                <p className="testimonial-quote">“LEX-RATING provides genuine meritocracy. Our firm's high-stakes litigation wins are accurately reflected, attracting top commercial clients.”</p>
               </div>
-              <div className="testimonial-author">— Andrew S. Roberts, Advocate</div>
+              <div className="testimonial-author">— Kebede Haile Mariam, Federal Supreme Court Advocate</div>
             </div>
 
             <div className="testimonial-card">
               <div>
                 <span className="testimonial-role consumer">Litigant</span>
-                <p className="testimonial-quote">“I actually chose to hire Brian based on the reviews I found on Avvo … at every hearing, Brian showed up extremely well-prepared.”</p>
+                <p className="testimonial-quote">“I needed an expert in municipal land lease disputes in Hawassa. Finding Dawit's verified MoJ profile and courtroom track record gave me complete peace of mind.”</p>
               </div>
-              <div className="testimonial-author">— Kevin, Platform User</div>
+              <div className="testimonial-author">— Meseret A., Business Owner</div>
             </div>
 
             <div className="testimonial-card">
               <div>
-                <span className="testimonial-role attorney">Attorney</span>
-                <p className="testimonial-quote">“Leads and referral sources alike rely on our robust online profiles … and more than 500 client ratings and reviews.”</p>
+                <span className="testimonial-role attorney">Advocate</span>
+                <p className="testimonial-quote">“Answering questions on the legal Q&amp;A forum allows us to give back to the community while demonstrating our specialized expertise in Ethiopian commercial law.”</p>
               </div>
-              <div className="testimonial-author">— Kyle E. Krull, Senior Advocate</div>
+              <div className="testimonial-author">— Tigist Alemu Bekele, Corporate Law Specialist</div>
             </div>
 
             <div className="testimonial-card">
               <div>
                 <span className="testimonial-role consumer">Litigant</span>
-                <p className="testimonial-quote">“[I] found him on Avvo. He has the knowledge and know-how to be a true advocate.”</p>
+                <p className="testimonial-quote">“The free legal Q&amp;A gave me clear constitutional answers within hours. I then retained a verified advocate directly through the directory.”</p>
               </div>
-              <div className="testimonial-author">— Jackie, Platform User</div>
+              <div className="testimonial-author">— Dawit T., Litigant</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Action Links & Resources */}
+      {/* ─── Action Links & Resources ────────────────────────────────── */}
       <section className="about-links-section">
         <div className="about-links-grid">
           <div className="about-link-group">
-            <h3>For Consumers</h3>
+            <h3>For Citizens &amp; Litigants</h3>
             <ul>
-              <li><a href="#directory" onClick={(e) => { e.preventDefault(); onNavigate('directory'); }}>Find a Lawyer</a></li>
-              <li><a href="#qa" onClick={(e) => { e.preventDefault(); onNavigate('qa'); }}>Ask a Free Question</a></li>
-              <li><a href="#guides" onClick={(e) => { e.preventDefault(); onNavigate('guides'); }}>Browse Legal Guides & Advice</a></li>
-              <li><a href="#directory" onClick={(e) => { e.preventDefault(); onNavigate('directory'); }}>Search by Location</a></li>
+              <li><a href="#directory" onClick={(e) => { e.preventDefault(); onNavigate('directory'); }}>Find a Verified Advocate</a></li>
+              <li><a href="#qa" onClick={(e) => { e.preventDefault(); onNavigate('qa'); }}>Ask a Free Legal Question</a></li>
+              <li><a href="#guides" onClick={(e) => { e.preventDefault(); onNavigate('guides'); }}>Browse Federal Legal Guides</a></li>
+              <li><a href="#directory" onClick={(e) => { e.preventDefault(); onNavigate('directory'); }}>Search Advocates by City</a></li>
             </ul>
           </div>
 
           <div className="about-link-group">
-            <h3>For Attorneys</h3>
+            <h3>For Licensed Advocates</h3>
             <ul>
-              <li><a href="#auth" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>Claim Your Profile</a></li>
-              <li><a href="#auth" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>Manage Your Profile</a></li>
+              <li><a href="#auth" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>Claim or Register Profile</a></li>
+              <li><a href="#auth" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>MoJ License Verification</a></li>
               <li><a href="#qa" onClick={(e) => { e.preventDefault(); onNavigate('qa'); }}>Answer Legal Questions</a></li>
-              <li><a href="#auth" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>Register with MoJ License</a></li>
+              <li><a href="#directory" onClick={(e) => { e.preventDefault(); onNavigate('directory'); }}>View Leaderboard Rankings</a></li>
             </ul>
           </div>
 
           <div className="about-link-group">
-            <h3>Platform Resources</h3>
+            <h3>Platform &amp; Legal Framework</h3>
             <ul>
-              <li><a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }}>About Avvo / LEX-RATING</a></li>
-              <li><a href="#guides" onClick={(e) => { e.preventDefault(); onNavigate('guides'); }}>Federal Proclamations & Legal Code</a></li>
-              <li><a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }}>How the ELO Rating Works</a></li>
-              <li><a href="#support" onClick={(e) => { e.preventDefault(); alert('Support portal: support@lexrating.et'); }}>Help & Support</a></li>
+              <li><a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }}>About LEX-RATING &amp; Lawyer Experience</a></li>
+              <li><a href="#guides" onClick={(e) => { e.preventDefault(); onNavigate('guides'); }}>Federal Proclamations &amp; Civil Code</a></li>
+              <li><a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }}>How the ELO Algorithm Works</a></li>
+              <li><a href="#support" onClick={(e) => { e.preventDefault(); alert('Support portal: support@lexrating.et'); }}>MoJ Verification Support</a></li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* Browse Locations & Practice Areas */}
+      {/* ─── Browse Locations & Practice Areas ──────────────────────── */}
       <section className="about-browse-strip">
         <div className="about-browse-container">
           <div className="about-browse-block">
-            <h4>Popular Locations</h4>
+            <h4>Popular Regional Locations</h4>
             <div className="about-browse-tags">
               {ETHIOPIAN_CITIES.map(c => (
                 <span
@@ -280,18 +346,18 @@ export default function AboutPage({ onNavigate, onSearch, onOpenAuth }) {
                     onNavigate('directory');
                   }}
                 >
-                  {c} Lawyers
+                  {c} Advocates
                 </span>
               ))}
             </div>
           </div>
 
           <div className="about-browse-block">
-            <h4>Popular Practice Areas</h4>
+            <h4>Practice Areas &amp; Specializations</h4>
             <div className="about-browse-tags">
               {[
-                'Criminal Defense', 'Corporate & Business', 'Family & Divorce', 'Civil Litigation',
-                'Employment & Labor', 'Immigration Law', 'Estate & Land Rights', 'Personal Injury'
+                'Criminal Defense', 'Corporate & Commercial', 'Family & Inheritance', 'Civil Litigation',
+                'Labor & Employment', 'Land & Property Rights', 'Taxation & Customs', 'Constitutional Law'
               ].map(p => (
                 <span
                   key={p}
