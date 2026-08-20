@@ -9,7 +9,8 @@
     "start": "concurrently \"vite\" \"node server/server.js\"",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed": "node server/scripts/seed.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

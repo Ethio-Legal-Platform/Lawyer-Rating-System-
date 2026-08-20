@@ -1,27 +1,71 @@
-import path from "path";
-import { fileURLToPath } from "url";
-import { readJSON } from "../lib/db.js";
+import { mongoose } from "../lib/mongoose.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const QUESTIONS_FILE = path.resolve(__dirname, "../data/questions.json");
-const COURT_CASES_FILE = path.resolve(__dirname, "../data/court_cases.json");
-const USERS_FILE = path.resolve(__dirname, "../data/users.json");
+// ── Lazy model imports (only resolved when MongoDB is connected) ──────────────
+
+async function getUserModel() {
+  return (await import("../models/User.js")).default;
+}
+
+async function getQuestionModel() {
+  return (await import("../models/Questions.js")).default;
+}
+
+async function getCourtCaseModel() {
+  return (await import("../models/CourtCase.js")).default;
+}
+
+// ── Data access helpers ───────────────────────────────────────────────────────
+
+function isMongoConnected() {
+  return mongoose.connection.readyState === 1;
+}
+
+async function fetchUsers() {
+  if (isMongoConnected()) {
+    const User = await getUserModel();
+    return User.find({ role: "lawyer", verified: true }).lean();
+  }
+  const { readJSON } = await import("../lib/db.js");
+  const { USERS_PATH } = await import("../config/paths.js");
+  const all = readJSON(USERS_PATH, []);
+  return all.filter((u) => u.role === "lawyer" && u.verified);
+}
+
+async function fetchQuestions() {
+  if (isMongoConnected()) {
+    const Question = await getQuestionModel();
+    return Question.find().lean();
+  }
+  const { readJSON } = await import("../lib/db.js");
+  const { QUESTIONS_PATH } = await import("../config/paths.js");
+  return readJSON(QUESTIONS_PATH, []);
+}
+
+async function fetchCourtCases() {
+  if (isMongoConnected()) {
+    const CourtCase = await getCourtCaseModel();
+    return CourtCase.find().lean();
+  }
+  const { readJSON } = await import("../lib/db.js");
+  const { COURT_CASES_PATH } = await import("../config/paths.js");
+  return readJSON(COURT_CASES_PATH, []);
+}
+
+// ── Main export ───────────────────────────────────────────────────────────────
 
 /**
- * Calculates real-time interaction metrics and bestows awards to the most interactive advocates.
+ * Calculates real-time interaction metrics and bestows awards to the most
+ * interactive advocates.  Works with both MongoDB and the JSON fallback layer.
  */
-export function calculateLawyerInteractions() {
-  const users = readJSON(USERS_FILE, []);
-  const questions = readJSON(QUESTIONS_FILE, []);
-  const courtCases = readJSON(COURT_CASES_FILE, []);
+export async function calculateLawyerInteractions() {
+  const [lawyers, questions, courtCases] = await Promise.all([
+    fetchUsers(),
+    fetchQuestions(),
+    fetchCourtCases(),
+  ]);
 
-  // Filter verified lawyers
-  const lawyers = users.filter((u) => u.role === "lawyer" && u.verified);
-
-  // Map to accumulate metrics per lawyer (by licenseNumber and id)
+  // Build a map keyed by lawyer id for O(1) accumulation
   const lawyerMap = {};
-
   lawyers.forEach((l) => {
     lawyerMap[l.id] = {
       id: l.id,
@@ -38,59 +82,58 @@ export function calculateLawyerInteractions() {
     };
   });
 
-  // 1. Calculate Q&A answers & helpful upvotes
+  // ── 1. Q&A answers & helpful upvotes ───────────────────────────────────────
   questions.forEach((q) => {
-    if (Array.isArray(q.answers)) {
-      q.answers.forEach((ans) => {
-        if (ans.isLawyer && ans.authorId && lawyerMap[ans.authorId]) {
-          lawyerMap[ans.authorId].qaAnswersCount += 1;
-          lawyerMap[ans.authorId].helpfulVotesReceived += ans.upvotes || 0;
-        } else if (ans.isLawyer && ans.licenseNumber) {
-          // Match by licenseNumber if authorId didn't match
-          const foundId = Object.keys(lawyerMap).find(
-            (id) => lawyerMap[id].licenseNumber === ans.licenseNumber,
-          );
-          if (foundId) {
-            lawyerMap[foundId].qaAnswersCount += 1;
-            lawyerMap[foundId].helpfulVotesReceived += ans.upvotes || 0;
-          }
-        }
-      });
-    }
+    if (!Array.isArray(q.answers)) return;
+    q.answers.forEach((ans) => {
+      if (!ans.isLawyer) return;
+
+      // Prefer matching by authorId, fall back to licenseNumber
+      let entry = ans.authorId ? lawyerMap[ans.authorId] : null;
+      if (!entry && ans.licenseNumber) {
+        const found = Object.values(lawyerMap).find(
+          (l) => l.licenseNumber === ans.licenseNumber,
+        );
+        entry = found || null;
+      }
+
+      if (entry) {
+        entry.qaAnswersCount += 1;
+        entry.helpfulVotesReceived += ans.upvotes || 0;
+      }
+    });
   });
 
-  // 2. Calculate court cases handled
+  // ── 2. Court cases handled ─────────────────────────────────────────────────
   courtCases.forEach((c) => {
+    // Match by license number (plaintiff / defendant sides)
     [c.plaintiffLawyerLicense, c.defendantLawyerLicense]
       .filter(Boolean)
       .forEach((lic) => {
-        const foundId = Object.keys(lawyerMap).find(
-          (id) => lawyerMap[id].licenseNumber === lic,
+        const entry = Object.values(lawyerMap).find(
+          (l) => l.licenseNumber === lic,
         );
-        if (foundId) {
-          lawyerMap[foundId].casesCount += 1;
-        }
+        if (entry) entry.casesCount += 1;
       });
+
+    // Also handle legacy single-lawyer cases stored with lawyerId
     if (c.lawyerId && lawyerMap[c.lawyerId]) {
       lawyerMap[c.lawyerId].casesCount += 1;
     }
   });
 
-  // 3. Compute total interaction score
-  // Formula: Answers * 15 + Helpful Upvotes * 5 + Cases Handled * 2
-  const rankedList = Object.values(lawyerMap).map((l) => {
-    const score =
-      l.qaAnswersCount * 15 + l.helpfulVotesReceived * 5 + l.casesCount * 2;
-    return {
-      ...l,
-      interactionScore: score,
-    };
-  });
+  // ── 3. Compute interaction score ───────────────────────────────────────────
+  // Formula: Answers × 15 + Helpful Upvotes × 5 + Cases × 2
+  const rankedList = Object.values(lawyerMap).map((l) => ({
+    ...l,
+    interactionScore:
+      l.qaAnswersCount * 15 + l.helpfulVotesReceived * 5 + l.casesCount * 2,
+  }));
 
-  // Sort descending by score
+  // Sort descending
   rankedList.sort((a, b) => b.interactionScore - a.interactionScore);
 
-  // 4. Assign ranks and prestige awards
+  // ── 4. Assign ranks and prestige awards ────────────────────────────────────
   rankedList.forEach((lawyer, index) => {
     lawyer.interactionRank = index + 1;
     const awards = [];
@@ -139,7 +182,7 @@ export function calculateLawyerInteractions() {
     lawyer.awards = awards;
   });
 
-  // Build lookup map by id and license
+  // ── 5. Build a dual-key lookup map (by id and by licenseNumber) ────────────
   const interactionMap = {};
   rankedList.forEach((l) => {
     interactionMap[l.id] = l;
