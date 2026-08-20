@@ -132,6 +132,22 @@ export const api = {
     });
     const data = await res.json();
     return { ok: res.ok, status: res.status, data };
+  },
+
+  getMe: async (userId) => {
+    const params = userId ? `?userId=${encodeURIComponent(userId)}` : '';
+    const res = await authFetch(`/auth/me${params}`);
+    const data = await res.json();
+    return { ok: res.ok, status: res.status, data };
+  },
+
+  updateProfile: async (payload) => {
+    const res = await authFetch('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    return { ok: res.ok, status: res.status, data };
   }
 };
 

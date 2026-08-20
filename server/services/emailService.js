@@ -36,7 +36,10 @@ export async function sendBrevoEmail(toEmail, code) {
     console.log(`\n📧 Email sent via Brevo to: ${toEmail} — Message ID: ${data.messageId}\n`);
     return true;
   } catch (err) {
-    console.error('[emailService] Brevo SDK error:', err);
+    const errorMsg = err?.response?.body?.message || err?.response?.text || err.message || err;
+    console.error('\n❌ [emailService] Brevo API error:', errorMsg);
+    console.log(`\n=== FALLBACK OTP LOG ===\nOTP for ${toEmail}: ${code}\n========================\n`);
     return false;
   }
 }
+

@@ -64,15 +64,15 @@ router.post('/cases', requireAuth, requireRole('judge', 'admin'), (req, res) => 
     plaintiffClientName:     plaintiffClientName     || 'Plaintiff Litigant',
     plaintiffLawyerLicense:  plaintiffLawyerLicense  || null,
     plaintiffLawyerName:     plaintiffLawyerName     || 'Plaintiff Advocate',
-    judgeRatingPlaintiff:    judgeRatingPlaintiff  !== undefined ? Number(judgeRatingPlaintiff)  : 5.0,
-    clientRatingPlaintiff:   clientRatingPlaintiff !== undefined ? Number(clientRatingPlaintiff) : 5.0,
+    judgeRatingPlaintiff:    judgeRatingPlaintiff  !== undefined && judgeRatingPlaintiff !== null && judgeRatingPlaintiff !== '' ? Number(judgeRatingPlaintiff)  : 5.0,
+    clientRatingPlaintiff:   clientRatingPlaintiff !== undefined && clientRatingPlaintiff !== null && clientRatingPlaintiff !== '' ? Number(clientRatingPlaintiff) : null,
 
     defendantClientId:       defendantClientId       || 'client-2',
     defendantClientName:     defendantClientName     || 'Defendant Litigant',
     defendantLawyerLicense:  defendantLawyerLicense  || null,
     defendantLawyerName:     defendantLawyerName     || 'Defendant Advocate',
-    judgeRatingDefendant:    judgeRatingDefendant  !== undefined ? Number(judgeRatingDefendant)  : 4.0,
-    clientRatingDefendant:   clientRatingDefendant !== undefined ? Number(clientRatingDefendant) : 4.0,
+    judgeRatingDefendant:    judgeRatingDefendant  !== undefined && judgeRatingDefendant !== null && judgeRatingDefendant !== '' ? Number(judgeRatingDefendant)  : 4.0,
+    clientRatingDefendant:   clientRatingDefendant !== undefined && clientRatingDefendant !== null && clientRatingDefendant !== '' ? Number(clientRatingDefendant) : null,
 
     verdict: verdict || 'Decided'
   };

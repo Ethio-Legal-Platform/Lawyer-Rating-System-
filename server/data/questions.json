@@ -16,6 +16,23 @@
     "publishedAt": "2026-08-17T07:02:01.756Z",
     "answers": [
       {
+        "id": "ans-1787162252988",
+        "authorId": "lawyer-1003",
+        "authorName": "Dawit Girma Tadesse",
+        "authorUsername": "dawit_girma",
+        "authorRole": "lawyer",
+        "isLawyer": true,
+        "licenseNumber": null,
+        "specialization": null,
+        "elo": null,
+        "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+        "city": "Ethiopia",
+        "content": "Under Article 49 and 51 of the Ethiopian Criminal Procedure Code (CrPC), arrest without warrant is an exception permitted only for flagrant offenses (እጅ ከፍንጅ) or where the suspect is reasonably suspected of a grave offense punishable by rigorous imprisonment exceeding 3 years and is likely to abscond. Under FDRE Constitution Article 19, the suspect must be informed immediately in a language they understand of the reasons for arrest and must be brought before a court within 48 hours. Evidence obtained as direct fruit of unlawful arbitrary arrest can be challenged and suppressed under constitutional due process standards.",
+        "createdAt": "2026-08-19T17:57:32.988Z",
+        "upvotes": 0,
+        "upvotedBy": []
+      },
+      {
         "id": "ans-warrant-1",
         "authorId": "lawyer-1001",
         "authorName": "Kebede Haile Mariam",
@@ -50,6 +67,25 @@
         "upvotes": 11,
         "upvotedBy": [
           "client-104"
+        ]
+      },
+      {
+        "id": "ans-1787162306780",
+        "authorId": "client-1787154786989",
+        "authorName": "Dagim",
+        "authorUsername": "dagi",
+        "authorRole": "client",
+        "isLawyer": false,
+        "licenseNumber": null,
+        "specialization": null,
+        "elo": null,
+        "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+        "city": "Ethiopia",
+        "content": "helpful",
+        "createdAt": "2026-08-19T17:58:26.780Z",
+        "upvotes": 1,
+        "upvotedBy": [
+          "lawyer-1003"
         ]
       }
     ]
@@ -136,6 +172,23 @@
           "client-101",
           "client-103"
         ]
+      },
+      {
+        "id": "ans-1787161742932",
+        "authorId": "client-1787154786989",
+        "authorName": "Dagim",
+        "authorUsername": "dagi",
+        "authorRole": "client",
+        "isLawyer": false,
+        "licenseNumber": null,
+        "specialization": null,
+        "elo": null,
+        "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+        "city": "Ethiopia",
+        "content": "very helpful",
+        "createdAt": "2026-08-19T17:49:02.932Z",
+        "upvotes": 0,
+        "upvotedBy": []
       }
     ]
   },

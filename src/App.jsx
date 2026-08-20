@@ -14,6 +14,7 @@ import AboutPage from './pages/AboutPage';
 
 // Feature Modals
 import AuthModal from './features/auth/AuthModal';
+import ProfileModal from './features/profile/ProfileModal';
 import LawyerModal from './features/directory/LawyerModal';
 import GuideModal from './features/guides/GuideModal';
 import QuestionThreadModal from './features/qa/QuestionThreadModal';
@@ -24,10 +25,20 @@ import { api } from './services/api';
 import { getStoredUser, storeUser, clearStoredUser, clearToken } from './utils/storage';
 
 export default function App() {
+  // State: Theme (Dark / Light Mode)
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('lex-theme') || 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
   // State: Navigation & Authentication
   const [user, setUser] = useState(getStoredUser);
   const [page, setPage] = useState('home');
   const [authConfig, setAuthConfig] = useState({ open: false, tab: 'login', role: 'client' });
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   // State: Directory & Lawyers
   const [lawyers, setLawyers] = useState([]);
@@ -50,6 +61,18 @@ export default function App() {
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [showAskModal, setShowAskModal] = useState(false);
   const [consultLawyer, setConsultLawyer] = useState(null);
+
+  // Theme Sync Effect
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('lex-theme', theme);
+    } catch {}
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   // Data Fetching: Lawyers
   const fetchLawyers = useCallback(async (spec = searchSpec, city = searchCity) => {
@@ -121,7 +144,14 @@ export default function App() {
     clearToken();
     clearStoredUser();
     setUser(null);
+    setShowProfileModal(false);
     setPage('home');
+  };
+
+  const handleProfileUpdated = (updatedUser) => {
+    setUser(updatedUser);
+    storeUser(updatedUser);
+    fetchLawyers();
   };
 
   // Search Handler
@@ -160,9 +190,12 @@ export default function App() {
       <Navbar
         user={user}
         page={page}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         onNavigate={setPage}
         onSignIn={handleOpenAuth}
         onSignOut={handleLogout}
+        onOpenProfile={() => setShowProfileModal(true)}
       />
 
       {/* Pages */}
@@ -200,7 +233,7 @@ export default function App() {
           onSetQaSearchTerm={setQaSearchTerm}
           onSelectQuestion={setSelectedQuestionId}
           onOpenAskModal={() => setShowAskModal(true)}
-          onOpenAuth={() => setShowAuth(true)}
+          onOpenAuth={handleOpenAuth}
         />
       )}
 
@@ -273,6 +306,16 @@ export default function App() {
         />
       )}
 
+      {/* Profile Management Modal */}
+      {showProfileModal && user && (
+        <ProfileModal
+          currentUser={user}
+          onClose={() => setShowProfileModal(false)}
+          onProfileUpdated={handleProfileUpdated}
+        />
+      )}
+
+      {/* Authentication Modal */}
       {authConfig.open && (
         <AuthModal
           initialTab={authConfig.tab}

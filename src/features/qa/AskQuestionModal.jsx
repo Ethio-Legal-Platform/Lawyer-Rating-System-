@@ -77,7 +77,7 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
 
           <form onSubmit={handleSubmit}>
             {/* Privacy Mode Selector */}
-            <div className="form-group" style={{ background: '#0e131b', border: '1px solid var(--border)', borderRadius: 8, padding: '1.6rem', marginBottom: '2rem' }}>
+            <div className="form-group" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 8, padding: '1.6rem', marginBottom: '2rem' }}>
               <label className="form-label" style={{ marginBottom: '1rem', fontWeight: 800, color: 'var(--gold)' }}>
                 Inquiry Visibility Mode
               </label>

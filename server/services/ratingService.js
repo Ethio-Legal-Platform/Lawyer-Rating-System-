@@ -33,11 +33,20 @@ export function calculateLawyerRatings(users, courtCases) {
       if (!eloMap[lic])   eloMap[lic]   = 1000;
       if (!statsMap[lic]) statsMap[lic] = { casesWon: 0, casesLost: 0, totalCases: 0, ratings: [] };
 
-      const jRating  = typeof c.judgeRatingPlaintiff  === 'number' ? c.judgeRatingPlaintiff  : 5.0;
-      const cRating  = typeof c.clientRatingPlaintiff === 'number' ? c.clientRatingPlaintiff : jRating;
-      const caseScore = (jRating + cRating) / 2.0;
+      const jRating = typeof c.judgeRatingPlaintiff === 'number' && !isNaN(c.judgeRatingPlaintiff) ? c.judgeRatingPlaintiff : null;
+      const cRating = typeof c.clientRatingPlaintiff === 'number' && !isNaN(c.clientRatingPlaintiff) ? c.clientRatingPlaintiff : null;
 
-      statsMap[lic].ratings.push(jRating, cRating);
+      const availableRatings = [];
+      if (jRating !== null) availableRatings.push(jRating);
+      if (cRating !== null) availableRatings.push(cRating);
+
+      // If client rating (or judge rating) doesn't exist, calculate with whatever ratings are available
+      let caseScore = 5.0;
+      if (availableRatings.length > 0) {
+        caseScore = availableRatings.reduce((sum, r) => sum + r, 0) / availableRatings.length;
+        statsMap[lic].ratings.push(...availableRatings);
+      }
+
       statsMap[lic].totalCases += 1;
 
       if (c.verdict === 'Plaintiff') statsMap[lic].casesWon  += 1;
@@ -52,11 +61,20 @@ export function calculateLawyerRatings(users, courtCases) {
       if (!eloMap[lic])   eloMap[lic]   = 1000;
       if (!statsMap[lic]) statsMap[lic] = { casesWon: 0, casesLost: 0, totalCases: 0, ratings: [] };
 
-      const jRating  = typeof c.judgeRatingDefendant  === 'number' ? c.judgeRatingDefendant  : 4.0;
-      const cRating  = typeof c.clientRatingDefendant === 'number' ? c.clientRatingDefendant : jRating;
-      const caseScore = (jRating + cRating) / 2.0;
+      const jRating = typeof c.judgeRatingDefendant === 'number' && !isNaN(c.judgeRatingDefendant) ? c.judgeRatingDefendant : null;
+      const cRating = typeof c.clientRatingDefendant === 'number' && !isNaN(c.clientRatingDefendant) ? c.clientRatingDefendant : null;
 
-      statsMap[lic].ratings.push(jRating, cRating);
+      const availableRatings = [];
+      if (jRating !== null) availableRatings.push(jRating);
+      if (cRating !== null) availableRatings.push(cRating);
+
+      // If client rating (or judge rating) doesn't exist, calculate with whatever ratings are available
+      let caseScore = 4.0;
+      if (availableRatings.length > 0) {
+        caseScore = availableRatings.reduce((sum, r) => sum + r, 0) / availableRatings.length;
+        statsMap[lic].ratings.push(...availableRatings);
+      }
+
       statsMap[lic].totalCases += 1;
 
       if (c.verdict === 'Defendant') statsMap[lic].casesWon  += 1;

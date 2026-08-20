@@ -126,7 +126,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                       <span
                         key={idx}
                         style={{
-                          background: '#0e131b',
+                          background: 'var(--bg-card-alt)',
                           border: '1px solid var(--gold-border)',
                           color: 'var(--text-white)',
                           fontSize: '1.3rem',
@@ -145,7 +145,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               {/* Law Office & Consultation Information */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.4rem', marginTop: '1.6rem' }}>
                 {lawyer.officeAddress && (
-                  <div className="modal-section" style={{ background: '#0e131b', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
+                  <div className="modal-section" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
                     <div className="modal-section-title" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.4rem' }}>
                       Chambers & Office Address
                     </div>
@@ -156,7 +156,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                 )}
 
                 {lawyer.consultationFee && (
-                  <div className="modal-section" style={{ background: '#0e131b', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
+                  <div className="modal-section" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
                     <div className="modal-section-title" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.4rem' }}>
                       Consultation & Engagement
                     </div>
@@ -203,7 +203,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
               {lawyer.education && (
                 <div className="modal-section">
                   <div className="modal-section-title">Academic Qualifications & Degrees</div>
-                  <div style={{ background: '#0e131b', border: '1px solid var(--border)', borderLeft: '3px solid var(--gold)', borderRadius: 'var(--radius-sm)', padding: '1.4rem 1.6rem' }}>
+                  <div style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderLeft: '3px solid var(--gold)', borderRadius: 'var(--radius-sm)', padding: '1.4rem 1.6rem' }}>
                     <p style={{ fontSize: '1.45rem', color: 'var(--text-white)', fontWeight: 600 }}>
                       {lawyer.education}
                     </p>
@@ -220,7 +220,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                       <div
                         key={idx}
                         style={{
-                          background: '#0e131b',
+                          background: 'var(--bg-card-alt)',
                           border: '1px solid var(--border)',
                           borderRadius: 'var(--radius-sm)',
                           padding: '1rem 1.4rem',
@@ -286,7 +286,7 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                     ['Algorithmic ELO Rating', lawyer.elo],
                     ['Quality Score', `${avvoRating} / 10`]
                   ].map(([k, v]) => (
-                    <div key={k} style={{ background: '#0e131b', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.2rem 1.4rem' }}>
+                    <div key={k} style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.2rem 1.4rem' }}>
                       <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.4rem' }}>
                         {k}
                       </div>

@@ -39,7 +39,7 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
   const quickFill = (userType) => {
     clear();
     if (userType === 'advocate') {
-      setLoginForm({ username: 'kebede', password: 'password123' });
+      setLoginForm({ username: 'kebede_haile', password: 'password123' });
     } else {
       setLoginForm({ username: 'dawit', password: 'password123' });
     }
@@ -162,8 +162,8 @@ export default function AuthModal({ onClose, onLogin, initialTab = 'login', init
       >
         {/* Header */}
         <div className="auth-header">
-          <div className="auth-header-icon-box">
-            <span className="auth-header-icon">⚖️</span>
+          <div className="auth-header-icon-box" style={{ background: 'transparent', padding: 0 }}>
+            <img src="/images/lex-logo.png" alt="LEX Logo" style={{ width: 48, height: 48, objectFit: 'contain' }} />
           </div>
           <div className="auth-header-text">
             <h2 className="auth-title">

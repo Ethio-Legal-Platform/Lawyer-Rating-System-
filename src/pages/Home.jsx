@@ -10,7 +10,6 @@ export default function Home({
   const [specInput, setSpecInput] = useState('');
   const [cityInput, setCityInput] = useState('');
   const [activeFaq, setActiveFaq] = useState(0);
-  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const advocateQuotes = [
     {
@@ -101,8 +100,8 @@ export default function Home({
             <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
               Find Top Advocates &rarr;
             </button>
-            <button className="btn btn-dark-outline btn-lg" onClick={() => setShowVideoModal(true)}>
-              <span className="play-icon-circle">&#9658;</span> Watch System Tour
+            <button className="btn btn-dark-outline btn-lg" onClick={() => onNavigate('qa')}>
+              Ask a Legal Question
             </button>
           </div>
 
@@ -169,46 +168,48 @@ export default function Home({
         </div>
       </section>
 
-      {/* ─── Quote 1: "The Real Ones" (Full Screen Strip) ──────────────── */}
+      {/* ─── Quote 1: "The Real Champions of Justice" (Full Screen Strip) ───────── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip">
-          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
-          <div
-            className="xtra-quote-image-side"
-            style={{ backgroundImage: `url(${advocateQuotes[0].image})` }}
-          >
-            <div className="xtra-quote-image-overlay" />
-            <div className="xtra-quote-badge-floating">
-              <span>{advocateQuotes[0].accent}</span>
+          {/* Side Image Column with Title Outside Below */}
+          <div className="xtra-quote-image-column">
+            <div
+              className="xtra-quote-image-side"
+              style={{ backgroundImage: `url(${advocateQuotes[2].image})` }}
+            >
+              <div className="xtra-quote-image-overlay" />
+            </div>
+            <div className="xtra-quote-photo-caption">
+              <span className="xtra-quote-photo-accent">{advocateQuotes[2].accent}</span>
             </div>
           </div>
 
           {/* High-Contrast Typography & Inline Header Side */}
           <div className="xtra-quote-content-side">
             <div className="xtra-quote-inline-header">
-              <span className="xtra-quote-inline-tag">Voices of the Bar</span>
-              <h2 className="xtra-quote-inline-title">The Real Ones</h2>
+              <span className="xtra-quote-inline-tag">Public Interest Advocacy</span>
+              <h2 className="xtra-quote-inline-title">The Real Champions of Justice</h2>
               <p className="xtra-quote-inline-sub">
-                Advocates with steadfast dedication to client rights, constitutional justice, and courtroom integrity.
+                Championing equal accessibility, human dignity, and pro bono community representation.
               </p>
             </div>
 
             <div className="xtra-quote-mark">“</div>
             <blockquote className="xtra-quote-text">
-              {advocateQuotes[0].quote}
+              {advocateQuotes[2].quote}
             </blockquote>
 
             <div className="xtra-quote-attribution">
               <div className="xtra-quote-author-name">
-                {advocateQuotes[0].author}
+                {advocateQuotes[2].author}
               </div>
               <div className="xtra-quote-author-role">
-                {advocateQuotes[0].title}
+                {advocateQuotes[2].title}
               </div>
               <div className="xtra-quote-author-meta">
-                <span>{advocateQuotes[0].location}</span>
+                <span>{advocateQuotes[2].location}</span>
                 <span>·</span>
-                <span className="xtra-quote-stat-tag">{advocateQuotes[0].stat}</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[2].stat}</span>
               </div>
             </div>
           </div>
@@ -250,14 +251,16 @@ export default function Home({
       {/* ─── Quote 2: "The Old Gems" (Full Screen Strip) ─────────────────── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip reverse">
-          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
-          <div
-            className="xtra-quote-image-side"
-            style={{ backgroundImage: `url(${advocateQuotes[1].image})` }}
-          >
-            <div className="xtra-quote-image-overlay" />
-            <div className="xtra-quote-badge-floating">
-              <span>{advocateQuotes[1].accent}</span>
+          {/* Side Image Column with Title Outside Below */}
+          <div className="xtra-quote-image-column">
+            <div
+              className="xtra-quote-image-side"
+              style={{ backgroundImage: `url(${advocateQuotes[1].image})` }}
+            >
+              <div className="xtra-quote-image-overlay" />
+            </div>
+            <div className="xtra-quote-photo-caption">
+              <span className="xtra-quote-photo-accent">{advocateQuotes[1].accent}</span>
             </div>
           </div>
 
@@ -332,46 +335,48 @@ export default function Home({
         </div>
       </section>
 
-      {/* ─── Quote 3: "The Pillars of Justice" (Full Screen Strip) ───────── */}
+      {/* ─── Quote 3: "The Real Ones" (Full Screen Strip) ──────────────── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip">
-          {/* Side Image with Edge-to-Edge Contrast Gradient Overlay */}
-          <div
-            className="xtra-quote-image-side"
-            style={{ backgroundImage: `url(${advocateQuotes[2].image})` }}
-          >
-            <div className="xtra-quote-image-overlay" />
-            <div className="xtra-quote-badge-floating">
-              <span>{advocateQuotes[2].accent}</span>
+          {/* Side Image Column with Title Outside Below */}
+          <div className="xtra-quote-image-column">
+            <div
+              className="xtra-quote-image-side"
+              style={{ backgroundImage: `url(${advocateQuotes[0].image})` }}
+            >
+              <div className="xtra-quote-image-overlay" />
+            </div>
+            <div className="xtra-quote-photo-caption">
+              <span className="xtra-quote-photo-accent">{advocateQuotes[0].accent}</span>
             </div>
           </div>
 
           {/* High-Contrast Typography & Inline Header Side */}
           <div className="xtra-quote-content-side">
             <div className="xtra-quote-inline-header">
-              <span className="xtra-quote-inline-tag">Public Interest Advocacy</span>
-              <h2 className="xtra-quote-inline-title">The Real Champions of Justice</h2>
+              <span className="xtra-quote-inline-tag">Voices of the Bar</span>
+              <h2 className="xtra-quote-inline-title">The Real Ones</h2>
               <p className="xtra-quote-inline-sub">
-                Championing equal accessibility, human dignity, and pro bono community representation.
+                Advocates with steadfast dedication to client rights, constitutional justice, and courtroom integrity.
               </p>
             </div>
 
             <div className="xtra-quote-mark">“</div>
             <blockquote className="xtra-quote-text">
-              {advocateQuotes[2].quote}
+              {advocateQuotes[0].quote}
             </blockquote>
 
             <div className="xtra-quote-attribution">
               <div className="xtra-quote-author-name">
-                {advocateQuotes[2].author}
+                {advocateQuotes[0].author}
               </div>
               <div className="xtra-quote-author-role">
-                {advocateQuotes[2].title}
+                {advocateQuotes[0].title}
               </div>
               <div className="xtra-quote-author-meta">
-                <span>{advocateQuotes[2].location}</span>
+                <span>{advocateQuotes[0].location}</span>
                 <span>·</span>
-                <span className="xtra-quote-stat-tag">{advocateQuotes[2].stat}</span>
+                <span className="xtra-quote-stat-tag">{advocateQuotes[0].stat}</span>
               </div>
             </div>
           </div>
@@ -466,37 +471,6 @@ export default function Home({
           </div>
         </div>
       </section>
-
-      {/* ─── Video Tour Modal ────────────────────────────────────────────── */}
-      {showVideoModal && (
-        <div className="modal-backdrop" onClick={() => setShowVideoModal(false)}>
-          <div className="xtra-video-modal" onClick={e => e.stopPropagation()}>
-            <div className="xtra-video-header">
-              <h3>LEX-RATING System Tour & Judicial Workflow</h3>
-              <button className="modal-close" onClick={() => setShowVideoModal(false)}>X</button>
-            </div>
-            <div className="xtra-video-content">
-              <div className="xtra-video-preview-box">
-                <img
-                  src="/images/ethiopia-court-gavel.jpg"
-                  alt="Ethiopian Judicial System Architecture"
-                  style={{ width: '100%', maxHeight: 320, objectFit: 'cover', borderRadius: 8 }}
-                />
-                <div className="xtra-video-play-banner">
-                  <h4>Federal Ministry of Justice B2G Architecture</h4>
-                  <p>
-                    Demonstrating real-time ELO rating updates upon verdict registration, 
-                    MoJ barcode license verification, and litigant Q&A consulting.
-                  </p>
-                  <button className="btn btn-gold btn-sm" style={{ marginTop: '1.2rem' }} onClick={() => setShowVideoModal(false)}>
-                    Close Tour & Explore System
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

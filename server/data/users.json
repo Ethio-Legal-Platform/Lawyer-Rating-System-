@@ -14,7 +14,11 @@
     "bio": "Senior criminal defense attorney with over 15 years of experience before the Federal High Court and Supreme Court. Specializes in white-collar crime, homicide defense, constitutional bail petitions, and cassation appeal proceedings.",
     "yearsExperience": 15,
     "education": "LLB – Addis Ababa University (2008), LLM Criminal Law – Haramaya University (2012)",
-    "languages": ["Amharic", "English", "Oromiffa"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Oromiffa"
+    ],
     "officeAddress": "Bole Medhanialem, Mega Center, 5th Floor, Suite 504, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court of Ethiopia",
@@ -51,7 +55,11 @@
     "bio": "Leading corporate and commercial law practitioner advising multinational companies, state enterprises, and high-growth technology ventures on mergers, acquisitions, regulatory compliance, and cross-border commercial arbitration.",
     "yearsExperience": 12,
     "education": "LLB – Addis Ababa University (2010), LLM Commercial Law – University of London (2014)",
-    "languages": ["Amharic", "English", "French"],
+    "languages": [
+      "Amharic",
+      "English",
+      "French"
+    ],
     "officeAddress": "Kazanchis, ECA Road, Zequala Complex, 8th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court of Ethiopia",
@@ -88,7 +96,11 @@
     "bio": "Civil litigation expert based in Hawassa handling property rights, municipal land lease disputes, tort claims, and administrative law matters across Southern Ethiopia regional courts.",
     "yearsExperience": 10,
     "education": "LLB – Hawassa University (2012), LLM Civil Procedure – Addis Ababa University (2016)",
-    "languages": ["Amharic", "English", "Sidamigna"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Sidamigna"
+    ],
     "officeAddress": "Hawassa City Center, Haile Resort Road, Lake View Tower, 3rd Floor",
     "courtAdmissions": [
       "Sidama Regional Supreme Court",
@@ -124,7 +136,12 @@
     "bio": "Compassionate family law specialist with vast experience in contested divorce, marital asset division, child custody battles, inheritance succession, and guardianship proceedings.",
     "yearsExperience": 9,
     "education": "LLB – Dire Dawa University (2014), LLM Family Law – Bahir Dar University (2018)",
-    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
+    "languages": [
+      "Amharic",
+      "Oromiffa",
+      "Somali",
+      "English"
+    ],
     "officeAddress": "Dire Dawa Kebele 02, Station Road, Ras Hotel Plaza, Suite 12",
     "courtAdmissions": [
       "Dire Dawa City Administration Court of Appeal",
@@ -160,7 +177,10 @@
     "bio": "Senior advocate at Amhara Regional Supreme Court. Specializes in complex land lease disputes, contract enforcement, and commercial construction litigation.",
     "yearsExperience": 14,
     "education": "LLB – Bahir Dar University (2008), LLM Business Law – Addis Ababa University (2013)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Bahir Dar, Papyrus Hotel Avenue, Tana Commercial Building, 4th Floor",
     "courtAdmissions": [
       "Amhara Regional Supreme Court",
@@ -196,7 +216,11 @@
     "bio": "Dedicated criminal defense lawyer with deep expertise in anti-corruption defense, customs contraventions, cybercrime allegations, and trial representation.",
     "yearsExperience": 8,
     "education": "LLB – Jimma University (2015), LLM Criminal Justice – Addis Ababa University (2019)",
-    "languages": ["Amharic", "English", "Oromiffa"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Oromiffa"
+    ],
     "officeAddress": "Mexico Square, Genete Commercial Center, 6th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal High Court (Lideta Bench)",
@@ -232,7 +256,11 @@
     "bio": "Adama-based business lawyer counseling manufacturing enterprises, agro-processors, and transport logistics firms on supply contracts and shareholder disputes.",
     "yearsExperience": 11,
     "education": "LLB – Haramaya University (2011), LLM International Business Law – University of Western Cape (2015)",
-    "languages": ["Amharic", "Oromiffa", "English"],
+    "languages": [
+      "Amharic",
+      "Oromiffa",
+      "English"
+    ],
     "officeAddress": "Adama Expressway Gateway, Rift Valley Tower, 2nd Floor, Adama",
     "courtAdmissions": [
       "Oromia Regional Supreme Court",
@@ -268,7 +296,11 @@
     "bio": "Specialist in international cross-border divorce, inter-country child adoption compliance, prenuptial agreements, and matrimonial wealth planning in Addis Ababa.",
     "yearsExperience": 13,
     "education": "LLB – Addis Ababa University (2009), LLM Private International Law – Georgetown University Law Center (2013)",
-    "languages": ["Amharic", "English", "Italian"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Italian"
+    ],
     "officeAddress": "Old Airport, Sarbet Area, Gibson Plaza, Suite 301, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court of Ethiopia",
@@ -304,7 +336,10 @@
     "bio": "Trial lawyer seasoned in criminal appellate advocacy, military tribunal proceedings, forensic evidence challenges, and judicial review across North Gondar benches.",
     "yearsExperience": 16,
     "education": "LLB – Gondar University (2006), LLM Criminal Law & Criminology – Addis Ababa University (2010)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Gondar Arada, Fasil Castle Avenue, Gondar Heritage Mall, 2nd Floor",
     "courtAdmissions": [
       "Amhara Regional Supreme Court (Gondar Bench)",
@@ -340,7 +375,10 @@
     "bio": "Partner at leading Addis law firm specializing in capital markets, Ethiopian Securities Exchange (ESX) regulatory compliance, fintech licensing, and venture capital financing.",
     "yearsExperience": 15,
     "education": "LLB – Addis Ababa University (2007), LLM Corporate Finance Law – Harvard Law School (2011)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Churchill Road, Eliana Tower, 11th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court of Ethiopia",
@@ -377,7 +415,12 @@
     "bio": "Civil law specialist in Harari Regional Courts with expertise in land tenure, customary rights, inter-regional trade disputes, and enforcement of cross-border obligations.",
     "yearsExperience": 12,
     "education": "LLB – Haramaya University (2010), LLM – Ethiopian Civil Service University (2014)",
-    "languages": ["Amharic", "Harari", "Somali", "English"],
+    "languages": [
+      "Amharic",
+      "Harari",
+      "Somali",
+      "English"
+    ],
     "officeAddress": "Harar Jugol Gate Road, Amir Commercial Center, Suite 204, Harar",
     "courtAdmissions": [
       "Harari Regional Supreme Court",
@@ -413,7 +456,10 @@
     "bio": "Family law advocate with focus on women's property rights, alimony recovery, and gender-based legal protections. Founding member of the EWLA Dessie chapter.",
     "yearsExperience": 10,
     "education": "LLB – Wollo University (2012), LLM Gender and Law – Addis Ababa University (2016)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Dessie Peda Road, Wollo Plaza, 2nd Floor, Suite 208, Dessie",
     "courtAdmissions": [
       "Amhara Regional High Court (Dessie Bench)",
@@ -449,7 +495,11 @@
     "bio": "Distinguished employment & labor relations advocate representing trade unions, corporate employers, and civil servants in collective bargaining disputes and wrongful termination arbitrations under Proclamation No. 1156/2019.",
     "yearsExperience": 11,
     "education": "LLB – Addis Ababa University (2011), LLM Labour & Employment Law – Hawassa University (2015)",
-    "languages": ["Amharic", "English", "Oromiffa"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Oromiffa"
+    ],
     "officeAddress": "Gotera, Ethio-China Friendship Avenue, Worku Tower, 7th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court Cassation Bench",
@@ -485,7 +535,10 @@
     "bio": "Senior land tenure, agricultural leasehold, and municipal real estate litigation specialist practicing across the Amhara Regional Supreme Court and Federal Cassation Bench under Proclamation No. 1161/2019.",
     "yearsExperience": 14,
     "education": "LLB – Bahir Dar University (2009), LLM Land Governance – Addis Ababa University (2013)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Bahir Dar Felege Hiwot Hospital Avenue, Nile Commercial Hub, 3rd Floor",
     "courtAdmissions": [
       "Amhara Regional Supreme Court",
@@ -521,7 +574,11 @@
     "bio": "Tax controversy and customs duties specialist advising domestic manufacturers, exporters, and foreign investors on Ministry of Revenues (MOR) tax audits, VAT disputes, and transfer pricing compliance.",
     "yearsExperience": 9,
     "education": "LLB – Addis Ababa University (2013), LLM International Taxation – University of Pretoria (2017)",
-    "languages": ["Amharic", "Tigrigna", "English"],
+    "languages": [
+      "Amharic",
+      "Tigrigna",
+      "English"
+    ],
     "officeAddress": "Meskel Square, Sunshine Building, 4th Floor, Suite 402, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court",
@@ -557,7 +614,10 @@
     "bio": "Top-tier banking, structured finance, and fintech regulatory attorney handling National Bank of Ethiopia compliance, syndicated loans, letters of credit, and statutory mortgage foreclosures under Proclamation No. 97/1998.",
     "yearsExperience": 13,
     "education": "LLB – Addis Ababa University (2010), LLM Banking & Financial Law – London School of Economics (2014)",
-    "languages": ["Amharic", "English"],
+    "languages": [
+      "Amharic",
+      "English"
+    ],
     "officeAddress": "Financial District, Ras Abebe Aregay Avenue, Nib Bank Building, 9th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal Supreme Court of Ethiopia",
@@ -593,7 +653,11 @@
     "bio": "Intellectual property & technology lawyer representing software developers, creative artists, and pharmaceutical enterprises before the Ethiopian Intellectual Property Authority (EIPA) and Federal High Court.",
     "yearsExperience": 8,
     "education": "LLB – Jimma University (2014), LLM IP & Digital Economy – Munich IP Law Center (2018)",
-    "languages": ["Amharic", "English", "Oromiffa"],
+    "languages": [
+      "Amharic",
+      "English",
+      "Oromiffa"
+    ],
     "officeAddress": "Bole Atlas, Namibian Street, Aster Plaza, 5th Floor, Addis Ababa",
     "courtAdmissions": [
       "Federal High Court IP & Commercial Bench",
@@ -629,7 +693,12 @@
     "bio": "Immigration and cross-border mobility expert handling work permits, diplomatic visas, permanent residency status, asylum hearings, and nationality retention proceedings in Eastern Ethiopia.",
     "yearsExperience": 10,
     "education": "LLB – Haramaya University (2012), LLM International Human Rights & Migration – Addis Ababa University (2016)",
-    "languages": ["Amharic", "Oromiffa", "Somali", "English"],
+    "languages": [
+      "Amharic",
+      "Oromiffa",
+      "Somali",
+      "English"
+    ],
     "officeAddress": "Dire Dawa International Airport Corridor, Horizon Plaza, 1st Floor",
     "courtAdmissions": [
       "Federal High Court (Eastern Bench)",
@@ -665,7 +734,11 @@
     "bio": "Industrial park and labor relations attorney specializing in manufacturing labor compliance, occupational safety disputes, workforce restructuring, and severance negotiations in Hawassa and Yirgalem.",
     "yearsExperience": 12,
     "education": "LLB – Hawassa University (2011), LLM – Addis Ababa University (2015)",
-    "languages": ["Amharic", "Sidamigna", "English"],
+    "languages": [
+      "Amharic",
+      "Sidamigna",
+      "English"
+    ],
     "officeAddress": "Hawassa Industrial Park Zone, Park Gate Commercial Arcade, Suite 105",
     "courtAdmissions": [
       "Sidama Regional High Court",
@@ -701,7 +774,11 @@
     "bio": "Veteran land and constitutional litigation advocate with 16 years of courtroom practice in commercial property repossession, municipal expropriation, compensation valuation, and boundary delimitations.",
     "yearsExperience": 16,
     "education": "LLB – Mekelle University (2007), LLM Public Law – Addis Ababa University (2011)",
-    "languages": ["Amharic", "Tigrigna", "English"],
+    "languages": [
+      "Amharic",
+      "Tigrigna",
+      "English"
+    ],
     "officeAddress": "Mekelle Romanat Square, Axum Hotel Avenue, Red Sea Tower, 5th Floor",
     "courtAdmissions": [
       "Tigray Regional Supreme Court",
@@ -787,5 +864,40 @@
     "verified": true,
     "city": "Addis Ababa",
     "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": "client-1787154786989",
+    "name": "Dagim",
+    "username": "dagi",
+    "email": "kalalewtere@gmail.com",
+    "role": "client",
+    "password": "$2b$10$XGKy6TLtrDOcmleUoRzdMO4wPHwN2VD7JGFj68zoLBGWK9DbJkckC",
+    "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+    "licenseNumber": null,
+    "specialization": null,
+    "city": "Addis Ababa",
+    "phone": "+251955282973",
+    "bio": null,
+    "yearsExperience": null,
+    "languages": [
+      "Amharic",
+      "English"
+    ],
+    "education": null,
+    "elo": null,
+    "verified": true
+  },
+  {
+    "id": "client-106",
+    "name": "Dawit Tesfaye",
+    "username": "dawit",
+    "password": "password123",
+    "email": "dawit.tesfaye@example.et",
+    "role": "client",
+    "verified": true,
+    "city": "Hawassa",
+    "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    "phone": "+251911998877",
+    "bio": "Experienced real estate litigant in Hawassa."
   }
 ]
