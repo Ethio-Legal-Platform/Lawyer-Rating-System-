@@ -1,0 +1,13 @@
+/* Global reset & base — App.css handles design tokens */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  isolation: isolate;
+}

@@ -102,7 +102,7 @@ export const LEGAL_GUIDES = [
       }
     ]
   },
-{
+  {
     id: 'register-business',
     cat: 'Corporate Law',
     color: '#52a304',
