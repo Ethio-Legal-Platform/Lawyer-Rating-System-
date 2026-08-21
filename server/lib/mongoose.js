@@ -18,8 +18,8 @@ export async function connectDB() {
     isConnected = true;
     console.log("  MongoDB connected successfully.\n");
   } catch (err) {
-    console.error("  MongoDB connection failed:", err.message);
-    process.exit(1);
+    console.warn("  MongoDB connection failed:", err.message);
+    console.warn("  Falling back to JSON file storage.\n");
   }
 }
 
