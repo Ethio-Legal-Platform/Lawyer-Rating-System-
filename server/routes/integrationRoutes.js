@@ -155,8 +155,23 @@ router.post('/court/cases', requireGovApiKey, async (req, res) => {
     const { eloMap } = calculateLawyerRatings(allUsers, allCases);
 
     if (db.isMongo) {
-      for (const [lic, elo] of Object.entries(eloMap)) {
-        await db.User.updateOne({ licenseNumber: lic }, { $set: { elo } });
+      const dbUsersByLicense = new Set(
+        allUsers
+          .filter(user => user.role === 'lawyer' && user.licenseNumber)
+          .map(user => String(user.licenseNumber).trim().toUpperCase())
+      );
+      const eloUpdates = Object.entries(eloMap)
+        .map(([licenseNumber, elo]) => [String(licenseNumber).trim().toUpperCase(), elo])
+        .filter(([licenseNumber]) => dbUsersByLicense.has(licenseNumber))
+        .map(([licenseNumber, elo]) => ({
+          updateOne: {
+            filter: { licenseNumber },
+            update: { $set: { elo } }
+          }
+        }));
+
+      if (eloUpdates.length > 0) {
+        await db.User.bulkWrite(eloUpdates);
       }
     } else {
       let updatedUsers = false;

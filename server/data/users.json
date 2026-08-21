@@ -38,8 +38,11 @@
     ],
     "consultationFee": "Free initial 20-minute preliminary assessment / Pro bono quota available",
     "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1280,
-    "showRating": true
+    "elo": 1034,
+    "showRating": true,
+    "themePreference": "dark",
+    "createdAt": "2026-08-20T06:40:44.971Z",
+    "updatedAt": "2026-08-21T11:44:13.461Z"
   },
   {
     "id": "lawyer-1002",
@@ -80,7 +83,9 @@
     ],
     "consultationFee": "Standard corporate advisory rates / Initial strategic consultation",
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-    "elo": 1310
+    "elo": 1016,
+    "createdAt": "2026-08-20T06:40:46.021Z",
+    "updatedAt": "2026-08-21T11:44:13.798Z"
   },
   {
     "id": "lawyer-1003",
@@ -120,7 +125,9 @@
     ],
     "consultationFee": "Hourly civil advisory / Sliding scale consultation",
     "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1195
+    "elo": 1042,
+    "createdAt": "2026-08-20T06:40:46.745Z",
+    "updatedAt": "2026-08-21T11:44:14.089Z"
   },
   {
     "id": "lawyer-1004",
@@ -161,7 +168,9 @@
     ],
     "consultationFee": "Confidential initial family consultation available",
     "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
-    "elo": 1210
+    "elo": 1009,
+    "createdAt": "2026-08-20T06:40:46.989Z",
+    "updatedAt": "2026-08-21T11:44:14.367Z"
   },
   {
     "id": "lawyer-1005",
@@ -200,7 +209,9 @@
     ],
     "consultationFee": "Standard retainer and litigation consultation",
     "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
-    "elo": 1150
+    "elo": 989,
+    "createdAt": "2026-08-20T06:40:47.202Z",
+    "updatedAt": "2026-08-21T11:44:14.638Z"
   },
   {
     "id": "lawyer-1006",
@@ -240,7 +251,9 @@
     ],
     "consultationFee": "Emergency bail and trial advisory fee structure",
     "profilePic": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1225
+    "elo": 971,
+    "createdAt": "2026-08-20T06:40:47.421Z",
+    "updatedAt": "2026-08-21T11:44:14.923Z"
   },
   {
     "id": "lawyer-1007",
@@ -280,7 +293,9 @@
     ],
     "consultationFee": "Corporate monthly retainer / Project-based",
     "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1280
+    "elo": 963,
+    "createdAt": "2026-08-20T06:40:47.654Z",
+    "updatedAt": "2026-08-21T11:44:15.205Z"
   },
   {
     "id": "lawyer-1008",
@@ -320,7 +335,9 @@
     ],
     "consultationFee": "Confidential matrimonial advisory",
     "profilePic": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-    "elo": 1245
+    "elo": 986,
+    "createdAt": "2026-08-20T06:40:47.909Z",
+    "updatedAt": "2026-08-21T11:44:15.497Z"
   },
   {
     "id": "lawyer-1009",
@@ -359,7 +376,9 @@
     ],
     "consultationFee": "Trial consultation and case assessment",
     "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1170
+    "elo": 1023,
+    "createdAt": "2026-08-20T06:40:48.144Z",
+    "updatedAt": "2026-08-21T11:44:15.792Z"
   },
   {
     "id": "lawyer-1010",
@@ -399,7 +418,9 @@
     ],
     "consultationFee": "Institutional and enterprise advisory",
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-    "elo": 1340
+    "elo": 997,
+    "createdAt": "2026-08-20T06:40:48.405Z",
+    "updatedAt": "2026-08-21T11:44:16.196Z"
   },
   {
     "id": "lawyer-1011",
@@ -440,7 +461,9 @@
     ],
     "consultationFee": "Fixed initial assessment fee",
     "profilePic": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=200",
-    "elo": 1140
+    "elo": 973,
+    "createdAt": "2026-08-20T06:40:48.626Z",
+    "updatedAt": "2026-08-21T11:44:16.489Z"
   },
   {
     "id": "lawyer-1012",
@@ -479,7 +502,9 @@
     ],
     "consultationFee": "Sliding-scale fee / Pro bono support for vulnerable litigants",
     "profilePic": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=200",
-    "elo": 1160
+    "elo": 1024,
+    "createdAt": "2026-08-20T06:40:48.843Z",
+    "updatedAt": "2026-08-21T11:44:16.766Z"
   },
   {
     "id": "lawyer-1013",
@@ -519,7 +544,9 @@
     ],
     "consultationFee": "Initial employment claim assessment",
     "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
-    "elo": 1240
+    "elo": 1024,
+    "createdAt": "2026-08-20T06:40:49.082Z",
+    "updatedAt": "2026-08-21T11:44:17.056Z"
   },
   {
     "id": "lawyer-1014",
@@ -558,7 +585,9 @@
     ],
     "consultationFee": "Comprehensive land title review & assessment",
     "profilePic": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200",
-    "elo": 1290
+    "elo": 1022,
+    "createdAt": "2026-08-20T06:40:49.355Z",
+    "updatedAt": "2026-08-21T11:44:17.348Z"
   },
   {
     "id": "lawyer-1015",
@@ -598,7 +627,9 @@
     ],
     "consultationFee": "Tax controversy review / Hourly advisory",
     "profilePic": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
-    "elo": 1220
+    "elo": 1007,
+    "createdAt": "2026-08-20T06:40:49.592Z",
+    "updatedAt": "2026-08-21T11:44:17.619Z"
   },
   {
     "id": "lawyer-1016",
@@ -637,7 +668,9 @@
     ],
     "consultationFee": "Financial institutions advisory / High-stake borrower defense",
     "profilePic": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-    "elo": 1305
+    "elo": 1022,
+    "createdAt": "2026-08-20T06:40:49.828Z",
+    "updatedAt": "2026-08-21T11:44:17.955Z"
   },
   {
     "id": "lawyer-1017",
@@ -677,7 +710,9 @@
     ],
     "consultationFee": "IP portfolio assessment / Infringement notice consultation",
     "profilePic": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
-    "elo": 1210
+    "elo": 1023,
+    "createdAt": "2026-08-20T06:40:50.076Z",
+    "updatedAt": "2026-08-21T11:44:18.229Z"
   },
   {
     "id": "lawyer-1018",
@@ -718,7 +753,9 @@
     ],
     "consultationFee": "Immigration eligibility review / Visa advisory",
     "profilePic": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
-    "elo": 1185
+    "elo": 1021,
+    "createdAt": "2026-08-20T06:40:50.306Z",
+    "updatedAt": "2026-08-21T11:44:18.505Z"
   },
   {
     "id": "lawyer-1019",
@@ -758,7 +795,9 @@
     ],
     "consultationFee": "Workplace dispute consultation / Retainer",
     "profilePic": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=200",
-    "elo": 1260
+    "elo": 1000,
+    "createdAt": "2026-08-20T06:40:50.545Z",
+    "updatedAt": "2026-08-21T11:44:18.777Z"
   },
   {
     "id": "lawyer-1020",
@@ -798,7 +837,9 @@
     ],
     "consultationFee": "High-complexity land litigation evaluation",
     "profilePic": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-    "elo": 1340
+    "elo": 1000,
+    "createdAt": "2026-08-20T06:40:50.775Z",
+    "updatedAt": "2026-08-21T11:44:19.084Z"
   },
   {
     "id": "client-101",
@@ -809,7 +850,22 @@
     "role": "client",
     "verified": true,
     "city": "Addis Ababa",
-    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:51.013Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:41.109Z",
+    "yearsExperience": null
   },
   {
     "id": "client-102",
@@ -820,7 +876,22 @@
     "role": "client",
     "verified": true,
     "city": "Addis Ababa",
-    "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:51.295Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:41.414Z",
+    "yearsExperience": null
   },
   {
     "id": "client-103",
@@ -831,7 +902,22 @@
     "role": "client",
     "verified": true,
     "city": "Hawassa",
-    "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:51.608Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:41.706Z",
+    "yearsExperience": null
   },
   {
     "id": "client-104",
@@ -842,7 +928,22 @@
     "role": "client",
     "verified": true,
     "city": "Addis Ababa",
-    "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:51.878Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:41.968Z",
+    "yearsExperience": null
   },
   {
     "id": "client-105",
@@ -853,7 +954,22 @@
     "role": "client",
     "verified": true,
     "city": "Dire Dawa",
-    "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:52.112Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:42.260Z",
+    "yearsExperience": null
   },
   {
     "id": "client-1786541946657",
@@ -864,7 +980,22 @@
     "role": "client",
     "verified": true,
     "city": "Addis Ababa",
-    "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200"
+    "profilePic": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200",
+    "associationMemberships": [],
+    "bio": null,
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:52.365Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "phone": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:42.532Z",
+    "yearsExperience": null
   },
   {
     "id": "client-1787154786989",
@@ -886,7 +1017,14 @@
     ],
     "education": null,
     "elo": null,
-    "verified": true
+    "verified": true,
+    "associationMemberships": [],
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:52.630Z",
+    "officeAddress": null,
+    "practiceAreasDetailed": [],
+    "updatedAt": "2026-08-20T07:33:42.820Z"
   },
   {
     "id": "client-106",
@@ -899,6 +1037,19 @@
     "city": "Hawassa",
     "profilePic": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
     "phone": "+251911998877",
-    "bio": "Experienced real estate litigant in Hawassa."
+    "bio": "Experienced real estate litigant in Hawassa.",
+    "associationMemberships": [],
+    "consultationFee": null,
+    "courtAdmissions": [],
+    "createdAt": "2026-08-20T06:40:52.862Z",
+    "education": null,
+    "elo": null,
+    "languages": [],
+    "licenseNumber": null,
+    "officeAddress": null,
+    "practiceAreasDetailed": [],
+    "specialization": null,
+    "updatedAt": "2026-08-20T07:33:43.089Z",
+    "yearsExperience": null
   }
 ]

@@ -10,15 +10,18 @@
     "plaintiffClientName": "Awash International Bank S.C.",
     "plaintiffLawyerLicense": "LAW-1001",
     "plaintiffLawyerName": "Kebede Haile Mariam",
-    "judgeRatingPlaintiff": 5.0,
-    "clientRatingPlaintiff": 5.0,
+    "judgeRatingPlaintiff": 5,
+    "clientRatingPlaintiff": 5,
     "defendantClientId": "client-blue-nile",
     "defendantClientName": "Blue Nile Holdings PLC",
     "defendantLawyerLicense": "LAW-1002",
     "defendantLawyerName": "Tigist Alemu Bekele",
-    "judgeRatingDefendant": 3.0,
+    "judgeRatingDefendant": 3,
     "clientRatingDefendant": 3.2,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:57.659Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:49.171Z"
   },
   {
     "caseId": "CASE-2026-001",
@@ -31,15 +34,18 @@
     "plaintiffClientName": "Federal Prosecutor Office",
     "plaintiffLawyerLicense": "LAW-1001",
     "plaintiffLawyerName": "Kebede Haile Mariam",
-    "judgeRatingPlaintiff": 5.0,
+    "judgeRatingPlaintiff": 5,
     "clientRatingPlaintiff": 4.8,
     "defendantClientId": "client-2",
     "defendantClientName": "Abebe Tekle",
     "defendantLawyerLicense": "LAW-1009",
     "defendantLawyerName": "Abrham Wolde Selassie",
     "judgeRatingDefendant": 4.2,
-    "clientRatingDefendant": 4.0,
-    "verdict": "Plaintiff"
+    "clientRatingDefendant": 4,
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:57.867Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:49.464Z"
   },
   {
     "caseId": "CASE-2026-002",
@@ -60,7 +66,10 @@
     "defendantLawyerName": "Fikirte Demissie Assefa",
     "judgeRatingDefendant": 4.5,
     "clientRatingDefendant": 4.6,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:58.075Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:49.740Z"
   },
   {
     "caseId": "CASE-2026-003",
@@ -81,7 +90,10 @@
     "defendantLawyerName": "Solomon Desta Tsegaye",
     "judgeRatingDefendant": 3.8,
     "clientRatingDefendant": 3.5,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:58.282Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:50.050Z"
   },
   {
     "caseId": "CASE-2026-004",
@@ -94,15 +106,18 @@
     "plaintiffClientName": "Almaz Tadesse",
     "plaintiffLawyerLicense": "LAW-1004",
     "plaintiffLawyerName": "Mekdes Tesfaye Wolde",
-    "judgeRatingPlaintiff": 5.0,
-    "clientRatingPlaintiff": 5.0,
+    "judgeRatingPlaintiff": 5,
+    "clientRatingPlaintiff": 5,
     "defendantClientId": "client-tesfaye",
     "defendantClientName": "Tesfaye Almaz",
     "defendantLawyerLicense": "LAW-1008",
     "defendantLawyerName": "Hiwot Negash Tesfaye",
-    "judgeRatingDefendant": 4.0,
+    "judgeRatingDefendant": 4,
     "clientRatingDefendant": 3.8,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:58.490Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:50.339Z"
   },
   {
     "caseId": "CASE-2026-005",
@@ -123,7 +138,10 @@
     "defendantLawyerName": "Tigist Alemu Bekele",
     "judgeRatingDefendant": 4.8,
     "clientRatingDefendant": 4.9,
-    "verdict": "Defendant"
+    "verdict": "Defendant",
+    "createdAt": "2026-08-20T06:40:58.690Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:50.628Z"
   },
   {
     "caseId": "CASE-2026-006",
@@ -144,7 +162,10 @@
     "defendantLawyerName": "Kebede Haile Mariam",
     "judgeRatingDefendant": 4.3,
     "clientRatingDefendant": 4.1,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:58.907Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:50.890Z"
   },
   {
     "caseId": "CASE-2026-007",
@@ -165,7 +186,10 @@
     "defendantLawyerName": "Dawit Girma Tadesse",
     "judgeRatingDefendant": 4.7,
     "clientRatingDefendant": 4.8,
-    "verdict": "Defendant"
+    "verdict": "Defendant",
+    "createdAt": "2026-08-20T06:40:59.088Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:51.168Z"
   },
   {
     "caseId": "CASE-2026-008",
@@ -179,14 +203,17 @@
     "plaintiffLawyerLicense": "LAW-1012",
     "plaintiffLawyerName": "Rahel Mekonnen Girma",
     "judgeRatingPlaintiff": 4.9,
-    "clientRatingPlaintiff": 5.0,
+    "clientRatingPlaintiff": 5,
     "defendantClientId": "client-bereket",
     "defendantClientName": "Bereket Hailu",
     "defendantLawyerLicense": "LAW-1004",
     "defendantLawyerName": "Mekdes Tesfaye Wolde",
     "judgeRatingDefendant": 4.1,
-    "clientRatingDefendant": 4.0,
-    "verdict": "Plaintiff"
+    "clientRatingDefendant": 4,
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:59.308Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:51.450Z"
   },
   {
     "caseId": "CASE-2026-009",
@@ -199,7 +226,7 @@
     "plaintiffClientName": "Anti-Corruption Commission",
     "plaintiffLawyerLicense": "LAW-1009",
     "plaintiffLawyerName": "Abrham Wolde Selassie",
-    "judgeRatingPlaintiff": 5.0,
+    "judgeRatingPlaintiff": 5,
     "clientRatingPlaintiff": 4.9,
     "defendantClientId": "client-tsegaye",
     "defendantClientName": "Tsegaye Miruts",
@@ -207,7 +234,10 @@
     "defendantLawyerName": "Selam Tadesse Negash",
     "judgeRatingDefendant": 3.5,
     "clientRatingDefendant": 3.2,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:59.526Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:51.730Z"
   },
   {
     "caseId": "CASE-2026-010",
@@ -226,9 +256,12 @@
     "defendantClientName": "Addis Freight Solutions",
     "defendantLawyerLicense": "LAW-1007",
     "defendantLawyerName": "Biruk Mengesha Haile",
-    "judgeRatingDefendant": 4.0,
+    "judgeRatingDefendant": 4,
     "clientRatingDefendant": 3.9,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:59.750Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:52.010Z"
   },
   {
     "caseId": "CASE-2026-011",
@@ -242,14 +275,17 @@
     "plaintiffLawyerLicense": "LAW-1013",
     "plaintiffLawyerName": "Amanuel Getachew Belay",
     "judgeRatingPlaintiff": 4.9,
-    "clientRatingPlaintiff": 5.0,
+    "clientRatingPlaintiff": 5,
     "defendantClientId": "client-bole-garment",
     "defendantClientName": "Bole Garment PLC",
     "defendantLawyerLicense": "LAW-1002",
     "defendantLawyerName": "Tigist Alemu Bekele",
     "judgeRatingDefendant": 4.1,
     "clientRatingDefendant": 4.2,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:40:59.966Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:52.300Z"
   },
   {
     "caseId": "CASE-2026-012",
@@ -269,8 +305,11 @@
     "defendantLawyerLicense": "LAW-1011",
     "defendantLawyerName": "Solomon Desta Tsegaye",
     "judgeRatingDefendant": 4.3,
-    "clientRatingDefendant": 4.0,
-    "verdict": "Plaintiff"
+    "clientRatingDefendant": 4,
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:41:00.149Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:52.569Z"
   },
   {
     "caseId": "CASE-2026-013",
@@ -291,7 +330,10 @@
     "defendantLawyerName": "Ephrem Hailu Berhe",
     "judgeRatingDefendant": 4.6,
     "clientRatingDefendant": 4.7,
-    "verdict": "Settled"
+    "verdict": "Settled",
+    "createdAt": "2026-08-20T06:41:00.448Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:52.849Z"
   },
   {
     "caseId": "CASE-2026-014",
@@ -304,15 +346,18 @@
     "plaintiffClientName": "Awash International Bank",
     "plaintiffLawyerLicense": "LAW-1016",
     "plaintiffLawyerName": "Meron Worku Asfaw",
-    "judgeRatingPlaintiff": 5.0,
+    "judgeRatingPlaintiff": 5,
     "clientRatingPlaintiff": 4.9,
     "defendantClientId": "client-zemen-re",
     "defendantClientName": "Zemen Real Estate",
     "defendantLawyerLicense": "LAW-1007",
     "defendantLawyerName": "Biruk Mengesha Haile",
     "judgeRatingDefendant": 4.1,
-    "clientRatingDefendant": 4.0,
-    "verdict": "Plaintiff"
+    "clientRatingDefendant": 4,
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:41:00.672Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:53.163Z"
   },
   {
     "caseId": "CASE-2026-015",
@@ -333,7 +378,10 @@
     "defendantLawyerName": "Fikirte Demissie Assefa",
     "judgeRatingDefendant": 4.2,
     "clientRatingDefendant": 4.1,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:41:00.861Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:53.438Z"
   },
   {
     "caseId": "CASE-2026-016",
@@ -354,6 +402,33 @@
     "defendantLawyerName": "Selam Tadesse Negash",
     "judgeRatingDefendant": 4.3,
     "clientRatingDefendant": 4.2,
-    "verdict": "Plaintiff"
+    "verdict": "Plaintiff",
+    "createdAt": "2026-08-20T06:41:01.081Z",
+    "status": "Decided",
+    "updatedAt": "2026-08-20T07:33:53.733Z"
+  },
+  {
+    "caseId": "CASE-1787300342312",
+    "caseTitle": "Commercial",
+    "caseType": "Commercial & Contract",
+    "clientRatingDefendant": null,
+    "clientRatingPlaintiff": 4.8,
+    "createdAt": "2026-08-21T11:44:12.001Z",
+    "dateDecided": "2026-08-21",
+    "defendantClientId": "0901457490",
+    "defendantClientName": "Leil",
+    "defendantLawyerLicense": "LAW-1002",
+    "defendantLawyerName": "Advocate Tigist Assefa",
+    "judgeId": "JUDGE-001",
+    "judgeName": "Hon. Judge Solomon Desta",
+    "judgeRatingDefendant": 4,
+    "judgeRatingPlaintiff": 5,
+    "plaintiffClientId": "0924050557",
+    "plaintiffClientName": "Lemi",
+    "plaintiffLawyerLicense": "LAW-1001",
+    "plaintiffLawyerName": "Kebede Haile Mariam",
+    "status": "Decided",
+    "updatedAt": "2026-08-21T11:44:12.001Z",
+    "verdict": "Claim Granted in Full"
   }
 ]
