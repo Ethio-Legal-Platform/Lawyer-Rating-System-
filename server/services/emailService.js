@@ -42,3 +42,4 @@ export async function sendBrevoEmail(toEmail, code) {
     return false;
   }
 }
+
