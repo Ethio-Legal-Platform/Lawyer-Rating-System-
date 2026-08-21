@@ -1,0 +1,147 @@
+{
+  "lawyers": [
+    {
+      "id": "lawyer-1",
+      "username": "advocate_smith",
+      "password": "password123",
+      "email": "smith@gov.ae",
+      "verified": true,
+      "licenseNumber": "LAW-1001",
+      "mojCasesCount": 18,
+      "accolades": 1,
+      "elo": 1100,
+      "casesWon": 12,
+      "casesLost": 6,
+      "clientRatings": [
+        5,
+        4,
+        5,
+        5,
+        4,
+        5,
+        5,
+        4,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "lawyer-2",
+      "username": "advocate_jones",
+      "password": "password123",
+      "email": "jones@gov.ae",
+      "verified": true,
+      "licenseNumber": "LAW-1002",
+      "mojCasesCount": 55,
+      "accolades": 2,
+      "elo": 1200,
+      "casesWon": 40,
+      "casesLost": 15,
+      "clientRatings": [
+        3,
+        4,
+        4,
+        5,
+        4,
+        3,
+        5,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "lawyer-3",
+      "username": "advocate_davis",
+      "password": "password123",
+      "email": "davis@gov.ae",
+      "verified": true,
+      "licenseNumber": "LAW-1003",
+      "mojCasesCount": 5,
+      "accolades": 0,
+      "elo": 1000,
+      "casesWon": 2,
+      "casesLost": 3,
+      "clientRatings": []
+    }
+  ],
+  "clients": [
+    {
+      "id": "client-1",
+      "username": "litigant_corp",
+      "password": "password123",
+      "email": "contact@litigant.ae",
+      "verified": true
+    },
+    {
+      "id": "client-2",
+      "username": "litigant_john",
+      "password": "password123",
+      "email": "john@litigant.ae",
+      "verified": true
+    },
+    {
+      "id": "client-1786541946657",
+      "username": "kalalew",
+      "password": "1234",
+      "email": "qalalewtere@gmail.com",
+      "verified": true
+    }
+  ],
+  "judges": [
+    {
+      "id": "judge-1",
+      "username": "judge_al_maktoum",
+      "password": "password123",
+      "email": "judge.maktoum@court.gov.ae",
+      "verified": true,
+      "licenseId": "JUDGE-GOV-001"
+    },
+    {
+      "id": "judge-2",
+      "username": "judge_al_nahyan",
+      "password": "password123",
+      "email": "judge.nahyan@court.gov.ae",
+      "verified": true,
+      "licenseId": "JUDGE-GOV-002"
+    }
+  ],
+  "cases": [
+    {
+      "id": "case-1",
+      "pairingCode": "CASE-7281-9123",
+      "plaintiffName": "Litigant Corp",
+      "plaintiffLawyerId": "lawyer-1",
+      "defendantLawyerId": "lawyer-2",
+      "complexity": "Standard",
+      "verdict": "Plaintiff",
+      "status": "Decided",
+      "judgeId": "judge-1",
+      "judgePlaintiffRating": 5,
+      "judgeDefendantRating": 3,
+      "description": "Commercial contract dispute regarding logistics."
+    },
+    {
+      "id": "case-2",
+      "pairingCode": "CASE-1082-8321",
+      "plaintiffName": "John Doe",
+      "plaintiffLawyerId": "lawyer-3",
+      "defendantLawyerId": "lawyer-1",
+      "complexity": "Simple",
+      "verdict": "Defendant",
+      "status": "Decided",
+      "judgeId": "judge-2",
+      "judgePlaintiffRating": 3,
+      "judgeDefendantRating": 4,
+      "description": "Property lease damage claim."
+    }
+  ],
+  "verificationCodes": {},
+  "validJudgeLicenses": [
+    "JUDGE-GOV-001",
+    "JUDGE-GOV-002",
+    "JUDGE-GOV-003",
+    "JUDGE-GOV-004",
+    "JUDGE-GOV-005"
+  ]
+}

@@ -1,175 +1,394 @@
-import React, { useState } from "react";
-import ModalBackdrop from "../common/ModalBackdrop";
-import { api } from "../../services/api";
-import { storeUser } from "../../utils/storage";
+import React, { useState } from 'react';
+import ModalBackdrop from '../../components/common/ModalBackdrop';
+import { ETHIOPIAN_CITIES, SPECIALIZATION_LIST } from '../../data/constants';
+import { api } from '../../services/api';
 
-export default function ProfileModal({
-  currentUser,
-  onClose,
-  onProfileUpdated,
-}) {
-  const [name, setName] = useState(currentUser?.name || "");
-  const [city, setCity] = useState(currentUser?.city || "");
-  const [bio, setBio] = useState(currentUser?.bio || "");
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+const PRESET_AVATARS = [
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200',
+  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
+];
 
-  const handleSave = async () => {
-    setSaving(true);
-    setError("");
-    setSuccess("");
+const AVAILABLE_LANGUAGES = [
+  'Amharic', 'English', 'Oromiffa', 'Tigrigna', 'Sidamigna', 'Somaligna', 'Afar', 'Guragigna'
+];
+
+export default function ProfileModal({ currentUser, onClose, onProfileUpdated }) {
+  const [formData, setFormData] = useState({
+    name: currentUser?.name || '',
+    email: currentUser?.email || '',
+    phone: currentUser?.phone || '',
+    city: currentUser?.city || 'Addis Ababa',
+    bio: currentUser?.bio || '',
+    profilePic: currentUser?.profilePic || PRESET_AVATARS[0],
+    specialization: currentUser?.specialization || 'Corporate',
+    yearsExperience: currentUser?.yearsExperience || 5,
+    education: currentUser?.education || '',
+    officeAddress: currentUser?.officeAddress || '',
+    consultationFee: currentUser?.consultationFee || '',
+    languages: Array.isArray(currentUser?.languages) ? currentUser.languages : ['Amharic', 'English'],
+    showRating: currentUser?.showRating !== false,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [showCustomAvatar, setShowCustomAvatar] = useState(false);
+
+  const isLawyer = currentUser?.role === 'lawyer';
+
+  const handleChange = (key, value) => {
+    setError('');
+    setSuccess('');
+    setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleToggleLanguage = (lang) => {
+    setFormData(prev => {
+      const current = prev.languages || [];
+      const updated = current.includes(lang)
+        ? current.filter(l => l !== lang)
+        : [...current, lang];
+      return { ...prev, languages: updated };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!formData.name.trim()) {
+      setError('Full name is required.');
+      return;
+    }
+    if (!formData.email.trim()) {
+      setError('Email address is required.');
+      return;
+    }
+
+    setLoading(true);
     try {
-      const res = await api.updateProfile({
-        userId: currentUser.id,
-        name,
-        city,
-        bio,
-      });
-      if (res.ok) {
-        const updated = { ...currentUser, name, city, bio };
-        storeUser(updated);
-        setSuccess("Profile updated successfully.");
-        if (onProfileUpdated) onProfileUpdated(updated);
+      const payload = {
+        id: currentUser.id,
+        ...formData
+      };
+
+      const res = await api.updateProfile(payload);
+      if (res.ok && res.data?.user) {
+        setSuccess('Profile updated successfully!');
+        if (onProfileUpdated) {
+          onProfileUpdated(res.data.user);
+        }
+        setTimeout(() => {
+          onClose();
+        }, 1200);
       } else {
-        setError(res.data?.error || "Failed to update profile.");
+        setError(res.data?.error || 'Failed to update profile.');
       }
-    } catch {
-      setError("Network error. Please try again.");
+    } catch (err) {
+      setError(err.message || 'An unexpected error occurred.');
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
   return (
-    <ModalBackdrop onClose={onClose}>
-      <div
-        className="modal-card"
-        style={{ maxWidth: 480 }}
-        onClick={(e) => e.stopPropagation()}
+    <ModalBackdrop className="auth-backdrop" style={{ zIndex: 2000 }} onClose={onClose}>
+      <div 
+        className="profile-modal-dialog" 
+        role="dialog" 
+        aria-modal="true"
+        onClick={e => e.stopPropagation()}
       >
-        <div className="modal-header">
-          <h2 className="modal-title">My Profile</h2>
-          <button
-            className="modal-close-btn"
-            onClick={onClose}
-            aria-label="Close"
-          >
+        {/* Header */}
+        <div className="profile-modal-header">
+          <div className="profile-modal-user-preview">
+            <div className="profile-avatar-wrapper">
+              <img 
+                src={formData.profilePic} 
+                alt={formData.name} 
+                className="profile-modal-avatar"
+                onError={e => {
+                  e.target.src = PRESET_AVATARS[0];
+                }}
+              />
+              <span className="profile-avatar-badge">{isLawyer ? '⚖️' : '👤'}</span>
+            </div>
+            <div>
+              <h2 className="profile-modal-title">{formData.name || 'Your Profile'}</h2>
+              <div className="profile-modal-tags">
+                <span className={`profile-role-tag ${isLawyer ? 'lawyer' : 'client'}`}>
+                  {isLawyer ? 'Ministry of Justice Verified Advocate' : 'Registered Litigant'}
+                </span>
+                {isLawyer && currentUser?.licenseNumber && (
+                  <span className="profile-license-tag">
+                    🛡️ {currentUser.licenseNumber}
+                  </span>
+                )}
+                {currentUser?.username && (
+                  <span className="profile-username-tag">@{currentUser.username}</span>
+                )}
+              </div>
+            </div>
+          </div>
+          <button className="auth-close-btn" onClick={onClose} aria-label="Close profile modal">
             ✕
           </button>
         </div>
 
-        <div
-          className="modal-body"
-          style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}
-        >
-          {/* Avatar & Role */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1.2rem",
-              marginBottom: "0.4rem",
-            }}
-          >
-            <img
-              src={
-                currentUser?.profilePic ||
-                "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=80"
-              }
-              alt={currentUser?.name}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "2px solid var(--border)",
-              }}
-            />
-            <div>
-              <div style={{ fontWeight: 700, fontSize: "1.5rem" }}>
-                {currentUser?.name}
-              </div>
-              <div
-                style={{
-                  fontSize: "1.2rem",
-                  color: "var(--text-muted)",
-                  textTransform: "capitalize",
-                }}
-              >
-                {currentUser?.role} · {currentUser?.city || "Ethiopia"}
-              </div>
-              {currentUser?.licenseNumber && (
-                <div
-                  style={{
-                    fontSize: "1.1rem",
-                    color: "var(--accent)",
-                    marginTop: 2,
-                  }}
+        {/* Content Body */}
+        <div className="profile-modal-body">
+          {error && (
+            <div className="auth-alert error">
+              <span className="auth-alert-icon">⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+          {success && (
+            <div className="auth-alert success">
+              <span className="auth-alert-icon">✓</span>
+              <span>{success}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="profile-form" noValidate>
+            {/* Avatar Selector */}
+            <div className="profile-section">
+              <label className="profile-section-label">Profile Avatar</label>
+              <div className="profile-avatar-presets">
+                {PRESET_AVATARS.map((url, idx) => (
+                  <img
+                    key={idx}
+                    src={url}
+                    alt={`Preset ${idx + 1}`}
+                    className={`preset-avatar-btn ${formData.profilePic === url ? 'active' : ''}`}
+                    onClick={() => handleChange('profilePic', url)}
+                  />
+                ))}
+                <button
+                  type="button"
+                  className={`preset-custom-toggle ${showCustomAvatar ? 'active' : ''}`}
+                  onClick={() => setShowCustomAvatar(!showCustomAvatar)}
+                  title="Custom Image Link"
                 >
-                  License: {currentUser.licenseNumber}
+                  🔗 Custom URL
+                </button>
+              </div>
+
+              {showCustomAvatar && (
+                <div style={{ marginTop: '1rem' }}>
+                  <input
+                    type="url"
+                    className="auth-input"
+                    placeholder="https://example.com/photo.jpg"
+                    value={formData.profilePic}
+                    onChange={e => handleChange('profilePic', e.target.value)}
+                  />
                 </div>
               )}
             </div>
-          </div>
 
-          <div>
-            <label className="form-label">Display Name</label>
-            <input
-              className="form-input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your full name"
-            />
-          </div>
+            {/* General Information Grid */}
+            <div className="profile-section">
+              <label className="profile-section-label">Personal &amp; Contact Details</label>
+              <div className="profile-grid-2">
+                <div className="auth-field">
+                  <label className="auth-label">Full Name *</label>
+                  <input
+                    type="text"
+                    className="auth-input"
+                    value={formData.name}
+                    onChange={e => handleChange('name', e.target.value)}
+                    required
+                  />
+                </div>
 
-          <div>
-            <label className="form-label">City</label>
-            <input
-              className="form-input"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="e.g. Addis Ababa"
-            />
-          </div>
+                <div className="auth-field">
+                  <label className="auth-label">Email Address *</label>
+                  <input
+                    type="email"
+                    className="auth-input"
+                    value={formData.email}
+                    onChange={e => handleChange('email', e.target.value)}
+                    required
+                  />
+                </div>
 
-          {currentUser?.role === "lawyer" && (
-            <div>
-              <label className="form-label">Bio</label>
-              <textarea
-                className="form-input"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                rows={4}
-                placeholder="Brief professional biography…"
-                style={{ resize: "vertical" }}
-              />
+                <div className="auth-field">
+                  <label className="auth-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    className="auth-input"
+                    placeholder="+251 9XX XXX XXX"
+                    value={formData.phone}
+                    onChange={e => handleChange('phone', e.target.value)}
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label className="auth-label">Primary City / Jurisdiction</label>
+                  <select
+                    className="auth-input"
+                    value={formData.city}
+                    onChange={e => handleChange('city', e.target.value)}
+                  >
+                    {ETHIOPIAN_CITIES.map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="auth-field" style={{ marginTop: '1.4rem' }}>
+                <label className="auth-label">Bio / Profile Summary</label>
+                <textarea
+                  className="auth-input"
+                  rows={3}
+                  placeholder="Share a brief overview of your legal background, focus areas, or consultation style..."
+                  value={formData.bio}
+                  onChange={e => handleChange('bio', e.target.value)}
+                  style={{ resize: 'vertical' }}
+                />
+              </div>
             </div>
-          )}
 
-          {error && (
-            <p style={{ color: "var(--error, #e53e3e)", fontSize: "1.2rem" }}>
-              {error}
-            </p>
-          )}
-          {success && (
-            <p style={{ color: "var(--success, #38a169)", fontSize: "1.2rem" }}>
-              {success}
-            </p>
-          )}
-        </div>
+            {/* Advocate Specific Fields */}
+            {isLawyer && (
+              <div className="profile-section">
+                <label className="profile-section-label">Advocate Credentials &amp; Practice Details</label>
+                <div className="profile-grid-2">
+                  <div className="auth-field">
+                    <label className="auth-label">Primary Legal Specialization</label>
+                    <select
+                      className="auth-input"
+                      value={formData.specialization}
+                      onChange={e => handleChange('specialization', e.target.value)}
+                    >
+                      {SPECIALIZATION_LIST.map(spec => (
+                        <option key={spec} value={spec}>{spec} Law</option>
+                      ))}
+                    </select>
+                  </div>
 
-        <div className="modal-footer">
-          <button className="btn btn-ghost" onClick={onClose}>
-            Cancel
-          </button>
-          <button
-            className="btn btn-gold"
-            onClick={handleSave}
-            disabled={saving}
-          >
-            {saving ? "Saving…" : "Save Changes"}
-          </button>
+                  <div className="auth-field">
+                    <label className="auth-label">Years of Active Bar Experience</label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={50}
+                      className="auth-input"
+                      value={formData.yearsExperience}
+                      onChange={e => handleChange('yearsExperience', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="auth-field" style={{ gridColumn: '1 / -1' }}>
+                    <label className="auth-label">Academic Degrees &amp; Universities</label>
+                    <input
+                      type="text"
+                      className="auth-input"
+                      placeholder="e.g. LLB – Addis Ababa University (2012), LLM – London (2016)"
+                      value={formData.education}
+                      onChange={e => handleChange('education', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="auth-field" style={{ gridColumn: '1 / -1' }}>
+                    <label className="auth-label">Office Chamber Address</label>
+                    <input
+                      type="text"
+                      className="auth-input"
+                      placeholder="e.g. Bole Medhanialem, Mega Center, 5th Floor, Suite 504, Addis Ababa"
+                      value={formData.officeAddress}
+                      onChange={e => handleChange('officeAddress', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="auth-field" style={{ gridColumn: '1 / -1' }}>
+                    <label className="auth-label">Consultation Fee Terms</label>
+                    <input
+                      type="text"
+                      className="auth-input"
+                      placeholder="e.g. Free 20-min initial evaluation / Hourly corporate rate"
+                      value={formData.consultationFee}
+                      onChange={e => handleChange('consultationFee', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Spoken Languages */}
+                <div style={{ marginTop: '1.6rem' }}>
+                  <label className="auth-label">Languages Fluent In</label>
+                  <div className="profile-lang-chips">
+                    {AVAILABLE_LANGUAGES.map(lang => {
+                      const selected = (formData.languages || []).includes(lang);
+                      return (
+                        <button
+                          type="button"
+                          key={lang}
+                          className={`profile-lang-chip ${selected ? 'active' : ''}`}
+                          onClick={() => handleToggleLanguage(lang)}
+                        >
+                          {selected ? '✓ ' : '+ '}{lang}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Privacy Control: Rating Visibility */}
+                <div className="profile-privacy-card" style={{ marginTop: '2rem', padding: '1.6rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.2rem' }}>
+                    <div style={{ flex: 1, minWidth: 240 }}>
+                      <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--text-white)', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                        <span>⚖️ Public Courtroom Rating Visibility</span>
+                        <span style={{ fontSize: '1.15rem', padding: '0.2rem 0.7rem', borderRadius: 4, background: formData.showRating !== false ? 'rgba(217,119,6,0.2)' : 'rgba(255,255,255,0.1)', color: formData.showRating !== false ? 'var(--gold)' : 'var(--text-muted)', fontWeight: 600 }}>
+                          {formData.showRating !== false ? 'Public' : 'Private'}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginTop: '0.4rem', lineHeight: 1.5 }}>
+                        Respecting your privacy: Choose whether your courtroom ELO score, win rate, and star ratings are visible to the public or kept private on your profile.
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className={`btn ${formData.showRating !== false ? 'btn-gold-outline' : 'btn-dark-outline'}`}
+                      onClick={() => handleChange('showRating', formData.showRating === false)}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontSize: '1.3rem', padding: '0.8rem 1.6rem', fontWeight: 600 }}
+                    >
+                      {formData.showRating !== false ? '👁️ Public (Visible)' : '🔒 Private (Hidden)'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Footer Action Buttons */}
+            <div className="profile-modal-actions">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onClose}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="btn btn-gold"
+                disabled={loading}
+                style={{ minWidth: 160 }}
+              >
+                {loading ? 'Saving Changes…' : 'Save Changes'}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </ModalBackdrop>
