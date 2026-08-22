@@ -1527,6 +1527,12 @@ select option {
 
 .xtra-quote-full-strip.reverse .xtra-quote-content-side {
   order: 1;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.xtra-quote-full-strip.reverse .xtra-quote-author-meta {
+  justify-content: flex-end;
 }
 
 .xtra-quote-full-strip.reverse .xtra-quote-image-side {
