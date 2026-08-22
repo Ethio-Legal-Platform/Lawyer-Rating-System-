@@ -23,6 +23,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Security: prevent common header-based attacks
+app.disable('x-powered-by');
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
 // ── Root health check ──────────────────────────────────────────────────────
 app.get('/', (req, res) => {
   res.json({
@@ -47,15 +56,24 @@ app.use('/api/lawyers',      lawyerRoutes);
 app.use('/api/qa',           qaRoutes);
 app.use('/api/integrations', integrationRoutes);
 
+// ── Global error handler ───────────────────────────────────────────────────
+app.use((err, _req, res, _next) => {
+  console.error('[Server Error]', err.message);
+  res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+});
+
 // ── Start ──────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
+
+(async () => {
   await connectDB();
-  console.log(`\n⚖  LEX-RATING Server running on http://localhost:${PORT}`);
-  console.log(`   Auth API:        /api/auth`);
-  console.log(`   MoJ API:         /api/moj`);
-  console.log(`   Court API:       /api/court`);
-  console.log(`   Lawyer API:      /api/lawyers`);
-  console.log(`   Q&A API:         /api/qa`);
-  console.log(`   Integration API: /api/integrations\n`);
-});
+  app.listen(PORT, () => {
+    console.log(`\n⚖  LEX-RATING Server running on http://localhost:${PORT}`);
+    console.log(`   Auth API:        /api/auth`);
+    console.log(`   MoJ API:         /api/moj`);
+    console.log(`   Court API:       /api/court`);
+    console.log(`   Lawyer API:      /api/lawyers`);
+    console.log(`   Q&A API:         /api/qa`);
+    console.log(`   Integration API: /api/integrations\n`);
+  });
+})();
