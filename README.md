@@ -19,16 +19,18 @@
 
 ## 📌 Executive Summary
 
-The **EthioLaw Legal Rating & Judicial Matchmaking System (LEX-RATING)** is an integrated B2G (Business-to-Government) and B2C web platform designed specifically for the Ethiopian legal ecosystem. Inspired by global platforms like *Avvo*, the system is customized to reflect Ethiopian judicial procedures, regional jurisdictions, advocate licensing frameworks, and multi-tier court dispute lifecycles.
+The **EthioLaw Legal Rating & Judicial Matchmaking System (LEX-RATING)** is an integrated B2G (Business-to-Government) and B2C web platform designed specifically for the Ethiopian legal ecosystem. Inspired by global legal directories like *Avvo*, the system is customized to reflect Ethiopian judicial procedures, regional jurisdictions, advocate licensing frameworks, and multi-tier court dispute lifecycles.
 
 ### Key Value Propositions
-* **🛡️ Official Ministry of Justice (MoJ) B2G License Verification**: Real-time verification of practicing licenses against official Ministry registries to prevent unauthorized legal practice.
+* **🛡️ Official Ministry of Justice (MoJ) B2G License Verification**: Real-time verification of practicing licenses against official Ministry registries (`LAW-XXXX`) to prevent unauthorized legal practice.
 * **📈 Real-Time Multi-Party ELO Rating Algorithm**: Dynamic computation of lawyer competence ratings based on verified judicial case outcomes, judge ratings, and client feedback ($K=32$).
 * **🏛️ Judicial Case Management & RBAC Protection**: Federal court case registration protected with Role-Based Access Control (`requireRole('judge', 'admin')`).
+* **🎨 Modern LEX UI Design System**: Tailored dark navy (`#0F172A`) palette, gold balance scale branding, vector SVG icons, advocate photo quote showcases, and clean card elevations (`border: 1px solid #E2E8F0`).
 * **💬 Legal Q&A & Private Consultation Forum**: Confidential client-to-lawyer inquiries with one-click publishing to the public community repository upon resolution.
-* **📚 Ethiopian Legal Guides Knowledge Base**: Contextual resources covering Family Law, Labor Proclamations, Criminal Defense, and Commercial Code.
-* **🔐 Multi-Factor Authentication & JWT Security**: Passwords hashed with `bcrypt` (10 rounds), signed JWT token authorization, and automated OTP verification dispatch via Brevo Transactional Email.
-* **🍃 Scalable MongoDB Persistence Layer**: Mongoose ODM schemas for users, court cases, Q&A consultations, and MoJ license registries.
+* **📚 Ethiopian Legal Guides Knowledge Base**: Contextual plain-language guides covering Family Law, Labor Proclamations, Criminal Defense, and Commercial Code.
+* **🔐 Multi-Factor Authentication & Security**: Passwords hashed with `bcrypt` (10 rounds), signed JWT token authorization, and automated OTP verification dispatch via Brevo Transactional Email.
+* **🍃 MongoDB & JSON Fallback Storage Layer**: Mongoose ODM schemas for users, court cases, Q&A consultations, and MoJ license registries, with seamless local JSON fallback.
+* **🐳 Docker Multi-Stage Containerization**: Orchestrated deployment via Docker Compose (`frontend`, `backend`, `mongodb`).
 
 ---
 
@@ -36,7 +38,7 @@ The **EthioLaw Legal Rating & Judicial Matchmaking System (LEX-RATING)** is an i
 
 ```mermaid
 graph TB
-    subgraph Client_Layer["🖥️ Modular Presentation Layer (React + Vite SPA)"]
+    subgraph Client_Layer["🖥️ Presentation Layer (React + Vite SPA)"]
         UI_Nav["Navbar & Layout (Lemi)"]
         UI_Directory["Lawyer Directory & Profile Modals (Lemi)"]
         UI_QA["Legal Q&A & Consultation Forum (Liel)"]
@@ -92,6 +94,22 @@ graph TB
     S_Interact --> DB_QA
     S_Interact --> DB_Cases
 ```
+
+---
+
+## 🎨 LEX UI Design System & Component Architecture
+
+| Component | Design System Details | Key Features & Restored Elements |
+|---|---|---|
+| **Navbar Header** | Gold Balance Scale Logo + `LEX` title, Dark Navy `#0F172A` buttons | Links (`Home`, `Lawyers`, `Q&A`, `Resources`, `About Us`, `Contact`), Search icon trigger, User Profile badge, Sign Up button |
+| **Home Hero** | Split layout with Courtroom imagery & lowered 3-field Search Card | Search Keyword, Practice Area dropdown, Ethiopian City dropdown, *"Why LEX?"* 4-feature grid |
+| **Advocate Quote Showcase** | Full-width high-contrast photo strips (`advocate-quote-1.jpg`, `2.jpg`, `3.jpg`) | Advocate Tigist Alemu Bekele, Advocate Kebede Haile Mariam, Advocate Yetnebersh Nigussie quotes |
+| **Lawyer Card** | Card shape (`border: 1px solid #E2E8F0`, `border-radius: 14px`) | ELO Rating badge, Cases Handled count, Licensed Tenure, Star Rating score, Location, Specialization, *"View Profile"* button |
+| **Lawyer Profile Drawer** | Dark Navy Header Banner + 4 Stat Cards + 3 Detail Tabs | `Overview & Practice` (ELO Bar, platform score, bio, office address, consultation fee, client reviews), `Admissions & Background` (education, court benches, MoJ table), `Recognition & Activity` |
+| **Directory Page** | 2-column sidebar layout | Sidebar Practice Area & City lists, twin search inputs, quick filter chips (`.lex-chip`), live results counter |
+| **Q&A Forum** | Community Q&A & Private Inquiries tabs | Public & Private tabs, search bar, category chips, question cards, verified advocate response cards, `AskQuestionModal` |
+| **Resources & Guides** | Plain-language Ethiopian Legal Knowledge Base | Category filters, read time chips, statutory proclamation badges, `GuideModal` reader with citizen checklists & FAQs |
+| **About Us Page** | Comprehensive platform guide | Hero section, Meaning of LEX callout box, 3 Core Tenets (TRUST, REVIEW, CHOOSE), Platform Numbers (`100%`, `2,500+`, `11`), 4 Pillars grid, Testimonial cards |
 
 ---
 
@@ -189,12 +207,6 @@ graph TB
   * `src/pages/DirectoryPage.jsx`
   * `src/utils/storage.js`
   * `src/utils/ratingUtils.js`
-* **Key Tasks**:
-  * Build responsive navigation bar, authentication actions, and user role profile display.
-  * Implement search hero banner with dual practice-area and city datalists.
-  * Develop the lawyer directory with multi-keyword search, sidebar filters, and empty states.
-  * Build advocate profile modal displaying live ELO performance, decided cases, client ratings, and background credentials.
-  * Create authentication modal supporting client login, advocate registration with MoJ license verification, and 6-digit OTP verification.
 
 #### 2. Frontend Dev 2 (Liel) — `frontend/qa-guides`
 * **Domain**: Legal Q&A Community Forum, Private Inquiries, Legal Guides Reader & About Platform.
@@ -207,14 +219,7 @@ graph TB
   * `src/pages/GuidesPage.jsx`
   * `src/pages/AboutPage.jsx`
   * `src/data/legalGuides.js`
-  * `src/services/api.js` (Q&A and Inquiries API integration)
-* **Key Tasks**:
-  * Build Legal Q&A forum supporting public discussions, category filters, and search.
-  * Implement "My Private Inquiries" tab allowing litigants to manage private lawyer consultations.
-  * Create interactive `QuestionThreadModal` with verified advocate badge responses, community replies, answer posting, and upvote toggling.
-  * Implement "Publish to Public Forum" one-click action for private inquiry authors.
-  * Build `GuideModal` reader presenting executive summaries, Ethiopian proclamations cited, checklists, and FAQs.
-  * Implement the comprehensive About page detailing platform metrics, 4 pillars, and ELO mathematical calculations.
+  * `src/services/api.js`
 
 ---
 
@@ -403,21 +408,21 @@ $$\text{ELO}_{\text{new}} = \text{ELO}_{\text{old}} + \operatorname{round}\Big(3
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/qalalew/EthioLaw-B2G-Legal-Rating-System.git
-cd EthioLaw-B2G-Legal-Rating-System
+git clone https://github.com/Ethio-Legal-Platform/Lawyer-Rating-System-.git
+cd Lawyer-Rating-System-
 ```
 
 ### 3. Configure Environment Variables
 Create a `.env` file in the project root directory:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/lex_rating
-JWT_SECRET=your_secure_jwt_secret_key_here
+MONGODB_URI=mongodb+srv://app_user:test123@cluster0.vqsc69h.mongodb.net/lexrating?appName=Cluster0
+JWT_SECRET=my_custom_secret_key_849204812398471209384
 
 # Brevo Transactional Email Service
 BREVO_API_KEY=your_brevo_api_key_here
-BREVO_SENDER_EMAIL=noreply@ethiolaw.et
-BREVO_SENDER_NAME="EthioLaw Legal Platform"
+BREVO_SENDER_EMAIL=kalalewtere@gmail.com
+BREVO_SENDER_NAME="LEX-RATING"
 ```
 
 ### 4. Install Dependencies & Launch
@@ -426,44 +431,13 @@ BREVO_SENDER_NAME="EthioLaw Legal Platform"
 npm install
 
 # Start both Express Backend & React Vite Frontend concurrently
-npm start
+npm run server    # Launch Express API Gateway on Port 5000
+npx vite          # Launch Vite Frontend SPA on Port 5173 / 5174
 ```
 
-* **Frontend UI**: `http://localhost:5173`
+* **Frontend UI**: `http://localhost:5174`
 * **Backend API Gateway**: `http://localhost:5000`
 * **API Health Check**: `http://localhost:5000/`
-
----
-
-## 🌿 Collaborative Git Branching Plan
-
-```bash
-# Production release branch
-main
-
-# Feature development branches
-├── backend/auth-court      # Backend Dev 1 (Kalalew): Auth, Court APIs, Rating Engine
-├── backend/qa-moj          # Backend Dev 2 (Maraky): Q&A, MoJ Gateway, MongoDB Architecture
-├── frontend/directory-views # Frontend Dev 1 (Lemi): Layout, Auth Modal, Lawyer Directory
-└── frontend/qa-guides      # Frontend Dev 2 (Liel): Q&A Forum, Legal Guides, About Page
-```
-
-### Standard Workflow:
-```bash
-# 1. Sync main branch
-git checkout main
-git pull origin main
-
-# 2. Checkout your assigned branch
-git checkout your-assigned-branch
-
-# 3. Stage and commit your changes
-git add src/yourFeature/yourFile.jsx
-git commit -m "feat(module): descriptive commit message"
-
-# 4. Push to remote
-git push origin your-assigned-branch
-```
 
 ---
 
@@ -474,14 +448,14 @@ The system is fully containerized using multi-stage Docker builds and Docker Com
 ### Container Architecture
 - **Frontend Container (`frontend`)**: React Vite SPA built and served via Nginx Alpine on Port `80` with SPA fallback and reverse proxying `/api/` traffic to the backend container.
 - **Backend Container (`backend`)**: Express.js REST API running Node 20 Alpine on Port `5000`.
-- **Database Container (`mongodb`)**: MongoDB 6 database on Port `27017` with persistent named volume `mongo_data`.
+- **Database Container (`mongodb`)**: MongoDB database on Port `27017` with persistent volume `mongo_data`.
 
 ### Quick Start with Docker Compose
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/qalalew/EthioLaw-B2G-Legal-Rating-System.git
-cd EthioLaw-B2G-Legal-Rating-System
+git clone https://github.com/Ethio-Legal-Platform/Lawyer-Rating-System-.git
+cd Lawyer-Rating-System-
 
 # 2. Start all services in detached mode
 docker compose up -d --build
@@ -508,4 +482,3 @@ docker compose down -v
 
 ## 📜 Academic Disclaimer
 This software was engineered as an academic demonstration for the **INSA 2026 Legal Technologies Program**. Legal guides, simulated court records, and lawyer profiles are for testing, educational, and matching purposes.
-

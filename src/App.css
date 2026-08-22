@@ -5430,3 +5430,2216 @@ select option {
     padding: 1.8rem;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   LEX NEW UI DESIGN SYSTEM (MOCKUP DESIGN MATCH)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --lex-navy: #0B132B;
+  --lex-navy-dark: #070D1F;
+  --lex-navy-card: #0F172A;
+  --lex-gold: #F59E0B;
+  --lex-gold-hover: #D97706;
+  --lex-gold-light: rgba(245, 158, 11, 0.12);
+  --lex-text-dark: #0F172A;
+  --lex-text-muted: #64748B;
+  --lex-text-light: #94A3B8;
+  --lex-bg-light: #F8FAFC;
+  --lex-border: #E2E8F0;
+  --lex-radius: 10px;
+  --lex-radius-lg: 16px;
+}
+
+/* ─── Navbar ────────────────────────────────────────────────────────────── */
+.lex-navbar {
+  background: var(--lex-navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0.8rem 2rem;
+}
+
+.lex-nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.lex-logo-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0;
+  text-align: left;
+}
+
+.lex-logo-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lex-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.lex-logo-title {
+  font-family: inherit;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.lex-logo-subtitle {
+  font-size: 0.95rem;
+  color: var(--lex-gold);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+.lex-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.lex-nav-link {
+  background: none;
+  border: none;
+  color: #CBD5E1;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  transition: color 0.2s ease;
+}
+
+.lex-nav-link:hover,
+.lex-nav-link.active {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.lex-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.lex-icon-btn,
+.lex-theme-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lex-icon-btn:hover,
+.lex-theme-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.lex-nav-login-btn {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+}
+
+.lex-btn-gold {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 0.7rem 1.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lex-btn-gold:hover {
+  background: #1E293B;
+}
+
+.lex-user-profile-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lex-user-card-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+}
+
+.lex-user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lex-user-name {
+  color: #FFFFFF;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.lex-btn-outline-sm {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ─── Hero Section ──────────────────────────────────────────────────────── */
+.lex-home-page {
+  background: #FFFFFF;
+  color: var(--lex-text-dark);
+}
+
+.lex-hero-section {
+  background: #F8FAFC;
+  padding: 5rem 2rem 8rem 2rem;
+  position: relative;
+}
+
+.lex-hero-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.lex-hero-title {
+  font-family: inherit;
+  font-size: clamp(3.2rem, 4.5vw, 4.8rem);
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.15;
+  margin-bottom: 1.6rem;
+}
+
+.lex-hero-subtitle {
+  font-size: 1.6rem;
+  color: var(--lex-text-muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: 2.8rem;
+}
+
+.lex-hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.lex-btn-dark-lg {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1.2rem 2.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lex-btn-dark-lg:hover {
+  background: #1E293B;
+}
+
+.lex-btn-outline-play {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 1.1rem 2.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lex-play-icon {
+  font-size: 1.2rem;
+  color: #0F172A;
+}
+
+.lex-hero-image-wrap {
+  width: 100%;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+}
+
+.lex-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Floating Search Card */
+.lex-search-card-container {
+  max-width: 1100px;
+  margin: 2.5rem auto 0 auto;
+  position: relative;
+  z-index: 20;
+  padding: 0 2rem;
+}
+
+.lex-search-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  border: 1px solid #E2E8F0;
+  padding: 1.6rem 2.4rem;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr auto;
+  gap: 1.6rem;
+  align-items: end;
+}
+
+.lex-search-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.lex-search-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.lex-input-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lex-input-icon {
+  position: absolute;
+  left: 1.2rem;
+  pointer-events: none;
+}
+
+.lex-search-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3.6rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  outline: none;
+}
+
+.lex-search-select {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  outline: none;
+  background: #FFFFFF;
+  color: #0F172A;
+}
+
+.lex-btn-search-submit {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding: 1rem 2.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  height: 42px;
+}
+
+.lex-btn-search-submit:hover {
+  background: #1E293B;
+}
+
+/* ─── Sections ────────────────────────────────────────────────────────── */
+.lex-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.lex-section-center-title {
+  text-align: center;
+  font-family: inherit;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 4rem;
+}
+
+.lex-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.lex-section-title {
+  font-family: inherit;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.lex-link-view-all {
+  background: none;
+  border: none;
+  color: #2563EB;
+  font-weight: 700;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* Why LEX Grid */
+.lex-why-section {
+  background: #FFFFFF;
+}
+
+.lex-why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.lex-why-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2.4rem 2rem;
+  text-align: left;
+}
+
+.lex-why-icon-box {
+  width: 48px;
+  height: 48px;
+  background: #EFF6FF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.6rem;
+}
+
+.lex-why-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 0.6rem;
+}
+
+.lex-why-card-text {
+  font-size: 1.35rem;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+/* Practice Icons Grid */
+.lex-practice-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1.4rem;
+}
+
+.lex-practice-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+}
+
+.lex-practice-box:hover {
+  border-color: #2563EB;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.1);
+}
+
+.lex-practice-icon {
+  font-size: 2.2rem;
+}
+
+.lex-practice-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #334155;
+  text-align: center;
+}
+
+/* Lawyers Cards Grid */
+.lex-lawyers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.lex-lawyer-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-bookmark-btn {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+}
+
+.lex-card-avatar-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+}
+
+.lex-card-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lex-card-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 0.2rem;
+}
+
+.lex-card-spec {
+  font-size: 1.3rem;
+  color: #64748B;
+  margin-bottom: 0.8rem;
+}
+
+.lex-card-rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.lex-star-icon {
+  color: #F59E0B;
+}
+
+.lex-rating-score {
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.lex-reviews-count {
+  color: #64748B;
+}
+
+.lex-card-location {
+  font-size: 1.25rem;
+  color: #94A3B8;
+  margin-bottom: 1.6rem;
+}
+
+.lex-btn-dark-full {
+  width: 100%;
+  background: #0F172A;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.lex-btn-dark-full:hover {
+  background: #1E293B;
+}
+
+/* How It Works Flow */
+.lex-how-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.lex-how-step {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.lex-how-icon-circle {
+  width: 44px;
+  height: 44px;
+  background: #EFF6FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lex-how-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.lex-how-sub {
+  font-size: 1.25rem;
+  color: #64748B;
+  max-width: 160px;
+}
+
+.lex-step-arrow {
+  font-size: 2.4rem;
+  color: #CBD5E1;
+  font-weight: 300;
+}
+
+/* Are you a lawyer Banner */
+.lex-cta-banner {
+  max-width: 1280px;
+  margin: 4rem auto 6rem auto;
+  background: transparent;
+  border-radius: 0;
+  border-top: 1px solid #CBD5E1;
+  border-bottom: 1px solid #CBD5E1;
+  padding: 4rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #0F172A;
+}
+
+.lex-cta-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.lex-cta-gold-icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #F1F5F9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lex-cta-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.4rem;
+}
+
+.lex-cta-sub {
+  font-size: 1.45rem;
+  color: #64748B;
+  max-width: 540px;
+}
+
+.lex-btn-gold-lg {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 800;
+  padding: 1.2rem 2.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  transition: all 0.2s ease;
+}
+
+.lex-btn-gold-lg:hover {
+  background: #1E293B;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+}
+
+/* Footer */
+.lex-footer {
+  background: #070D1F;
+  color: #94A3B8;
+  padding: 5rem 2rem 2rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lex-footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.lex-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.lex-footer-desc {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  max-width: 320px;
+}
+
+.lex-footer-title {
+  color: #FFFFFF;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.4rem;
+}
+
+.lex-footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.lex-footer-links a {
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 1.35rem;
+}
+
+.lex-footer-links a:hover {
+  color: #FFFFFF;
+}
+
+.lex-footer-socials {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.lex-social-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.lex-footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+/* ─── Lawyer Modal Drawer ────────────────────────────────────────────────── */
+.lex-lawyer-drawer {
+  background: #FFFFFF;
+  width: 95%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  color: #0F172A;
+}
+
+.lex-drawer-close {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #FFFFFF;
+  font-size: 2rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.lex-drawer-header {
+  background: #0B132B;
+  padding: 3.2rem 3.6rem;
+  color: #FFFFFF;
+  display: flex;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+.lex-drawer-avatar-wrap {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #FFFFFF;
+  flex-shrink: 0;
+}
+
+.lex-drawer-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lex-drawer-name {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lex-verified-badge {
+  background: #2563EB;
+  color: #FFFFFF;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.lex-drawer-sub {
+  font-size: 1.4rem;
+  color: #CBD5E1;
+  margin-top: 0.2rem;
+}
+
+.lex-drawer-meta {
+  font-size: 1.3rem;
+  color: #94A3B8;
+  margin: 0.6rem 0 1.6rem 0;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.lex-drawer-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.lex-btn-contact {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lex-btn-save {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lex-drawer-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid #E2E8F0;
+  background: #FFFFFF;
+}
+
+.lex-stat-box {
+  padding: 1.8rem 1rem;
+  text-align: center;
+  border-right: 1px solid #E2E8F0;
+}
+
+.lex-stat-box:last-child {
+  border-right: none;
+}
+
+.lex-stat-score {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #0F172A;
+}
+
+.lex-stat-stars {
+  color: #F59E0B;
+  font-size: 1.2rem;
+}
+
+.lex-stat-sub {
+  font-size: 1.15rem;
+  color: #94A3B8;
+}
+
+.lex-stat-val {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #0F172A;
+  display: block;
+}
+
+.lex-stat-lbl {
+  font-size: 1.2rem;
+  color: #64748B;
+}
+
+.lex-drawer-body {
+  padding: 3rem 3.6rem;
+}
+
+.lex-about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3.6rem;
+}
+
+.lex-section-heading {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 1rem;
+}
+
+.lex-about-text {
+  font-size: 1.4rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.lex-sub-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 0.8rem;
+}
+
+.lex-pills-row {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.lex-pill {
+  background: #EFF6FF;
+  color: #2563EB;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+}
+
+.lex-check-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lex-check-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.35rem;
+  color: #334155;
+}
+
+.lex-check-icon {
+  width: 18px;
+  height: 18px;
+  background: #DCFCE7;
+  color: #16A34A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.lex-reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.lex-btn-write-review {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.lex-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.lex-review-card {
+  display: flex;
+  gap: 1.4rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.lex-review-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lex-reviewer-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.lex-review-date {
+  font-size: 1.2rem;
+  color: #94A3B8;
+  margin-left: 0.8rem;
+}
+
+.lex-review-stars {
+  color: #F59E0B;
+  font-size: 1.2rem;
+  margin: 0.2rem 0;
+}
+
+.lex-review-text {
+  font-size: 1.35rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.lex-view-all-reviews {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.lex-link-btn {
+  background: none;
+  border: none;
+  color: #2563EB;
+  font-weight: 700;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* ─── Advocate Quote Showcase Banner ─────────────────────────────────────── */
+.lex-quote-banner-section {
+  background: #0B132B;
+  color: #FFFFFF;
+  padding: 5rem 2rem;
+  margin: 3rem 0;
+}
+
+.lex-quote-banner-section.lex-quote-alt {
+  background: #070D1F;
+}
+
+.lex-quote-banner-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.lex-quote-banner-container.reverse {
+  grid-template-columns: 1fr 320px;
+}
+
+.lex-quote-img-box {
+  width: 100%;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.lex-quote-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lex-quote-tag {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.lex-quote-body {
+  font-family: inherit;
+  font-size: clamp(1.8rem, 2.2vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.45;
+  color: #F8FAFC;
+  font-style: italic;
+  margin-bottom: 1.6rem;
+}
+
+.lex-quote-author {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.lex-quote-title {
+  font-size: 1.35rem;
+  color: #94A3B8;
+  margin-top: 0.2rem;
+}
+
+/* ─── Lawyer Card & Modal Detail Styles ─────────────────────────────────── */
+.lex-card-elo-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0.4rem 0;
+}
+
+.lex-elo-badge {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.2rem 0.7rem;
+  border-radius: 6px;
+}
+
+.lex-elo-badge.private {
+  background: #E2E8F0;
+  color: #64748B;
+}
+
+.lex-card-tenure {
+  font-size: 1.2rem;
+  color: #64748B;
+}
+
+.lex-card-cases {
+  font-size: 1.2rem;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.lex-drawer-tabs {
+  display: flex;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 0 3.6rem;
+}
+
+.lex-drawer-tab {
+  padding: 1.2rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lex-drawer-tab:hover {
+  color: #0F172A;
+}
+
+.lex-drawer-tab.active {
+  color: #0F172A;
+  font-weight: 800;
+  border-bottom-color: #0F172A;
+  background: #FFFFFF;
+}
+
+.lex-elo-section {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 1.6rem 2rem;
+  margin-bottom: 2.4rem;
+}
+
+.lex-elo-details-row {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.3rem;
+  color: #475569;
+  margin-top: 1rem;
+}
+
+.lex-privacy-notice-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 1.4rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.3rem;
+  color: #64748B;
+  margin-bottom: 2.4rem;
+}
+
+.lex-contact-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.6rem;
+  margin: 2rem 0;
+}
+
+.lex-info-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 1.6rem;
+}
+
+.lex-info-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 0.6rem;
+}
+
+.lex-info-card p {
+  font-size: 1.3rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lex-info-card a {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.lex-btn-consult-lg {
+  margin: 1rem 0 2.4rem 0;
+  padding: 1.2rem;
+  font-size: 1.4rem;
+}
+
+.lex-registry-table {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.lex-registry-table div {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  padding: 1rem 1.4rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lex-registry-table span {
+  font-size: 1.15rem;
+  color: #64748B;
+}
+
+.lex-registry-table strong {
+  font-size: 1.3rem;
+  color: #0F172A;
+}
+
+.lex-simple-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  color: #334155;
+}
+
+/* ─── Directory Page LEX UI Styling ────────────────────────────────────── */
+.lex-directory-page {
+  padding: 4rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-directory-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3.2rem;
+  align-items: start;
+}
+
+.lex-dir-sidebar {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 1.2rem;
+}
+
+.lex-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lex-sidebar-item {
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1.35rem;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lex-sidebar-item:hover {
+  background: #F8FAFC;
+  color: #0F172A;
+}
+
+.lex-sidebar-item.active {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.lex-sidebar-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.lex-sidebar-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  color: #475569;
+  cursor: pointer;
+}
+
+.lex-sidebar-radio-label:hover {
+  background: #F8FAFC;
+}
+
+.lex-sidebar-radio-label.selected {
+  background: #F1F5F9;
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.lex-radio-input {
+  accent-color: #0F172A;
+}
+
+.lex-dir-search-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2.4rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-dir-search-row {
+  display: flex;
+  gap: 1.6rem;
+  align-items: flex-end;
+  margin-bottom: 1.6rem;
+}
+
+.lex-dir-search-field {
+  flex: 1;
+}
+
+.lex-filter-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.lex-chip {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lex-chip:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.lex-chip.active {
+  background: #0F172A;
+  color: #FFFFFF;
+  border-color: #0F172A;
+}
+
+.lex-chip-divider {
+  width: 1px;
+  height: 24px;
+  background: #E2E8F0;
+  margin: 0 0.4rem;
+}
+
+.lex-results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.lex-results-text {
+  font-size: 1.5rem;
+  color: #475569;
+}
+
+.lex-results-text strong {
+  color: #0F172A;
+}
+
+.lex-lawyers-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.lex-loading-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 4rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #64748B;
+}
+
+.lex-empty-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.lex-empty-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.8rem;
+}
+
+.lex-empty-sub {
+  font-size: 1.4rem;
+  color: #64748B;
+  margin-bottom: 2rem;
+}
+
+/* ─── Guides & Resources Page LEX UI Styling ───────────────────────────── */
+.lex-guides-page {
+  padding: 4rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-guides-hero {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 4rem auto;
+}
+
+.lex-guide-tag {
+  display: inline-block;
+  background: #F1F5F9;
+  color: #0F172A;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.4rem 1.4rem;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lex-guides-title {
+  font-size: clamp(3rem, 4vw, 4.2rem);
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+}
+
+.lex-guides-sub {
+  font-size: 1.6rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 2.4rem;
+}
+
+.lex-guides-search-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 1rem 1.6rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-search-clear-btn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.lex-guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 2.4rem;
+}
+
+.lex-guide-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lex-guide-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
+}
+
+.lex-guide-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.lex-guide-cat-badge {
+  background: #F1F5F9;
+  color: #0F172A;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+}
+
+.lex-guide-read-time {
+  font-size: 1.2rem;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.lex-guide-card-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.35;
+  margin-bottom: 0.8rem;
+}
+
+.lex-guide-card-sub {
+  font-size: 1.35rem;
+  color: #475569;
+  line-height: 1.55;
+  margin-bottom: 1.6rem;
+  flex-grow: 1;
+}
+
+.lex-guide-proclamations-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.6rem;
+  font-size: 1.2rem;
+}
+
+.lex-proclamation-lbl {
+  color: #64748B;
+  font-weight: 600;
+}
+
+.lex-proclamation-tag {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.lex-proclamation-more {
+  color: #94A3B8;
+}
+
+.lex-guide-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.6rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.lex-guide-author-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.lex-guide-date {
+  font-size: 1.15rem;
+  color: #94A3B8;
+}
+
+.lex-btn-dark-sm {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.lex-btn-dark-sm:hover {
+  background: #1E293B;
+}
+
+/* Guide Reader Modal */
+.lex-guide-reader-modal {
+  background: #FFFFFF;
+  border-radius: 16px;
+  max-width: 820px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.lex-guide-modal-header {
+  background: #0B132B;
+  color: #FFFFFF;
+  padding: 3.2rem 3.6rem 2.4rem 3.6rem;
+  border-radius: 16px 16px 0 0;
+}
+
+.lex-guide-modal-top-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.lex-guide-modal-header .lex-guide-cat-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.lex-guide-modal-header .lex-guide-read-time {
+  color: #CBD5E1;
+}
+
+.lex-guide-modal-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  line-height: 1.25;
+  margin-bottom: 0.8rem;
+}
+
+.lex-guide-modal-sub {
+  font-size: 1.45rem;
+  color: #94A3B8;
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
+}
+
+.lex-guide-modal-meta {
+  font-size: 1.3rem;
+  color: #CBD5E1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.lex-guide-modal-body {
+  padding: 3.2rem 3.6rem;
+}
+
+/* ─── About Us Page LEX UI Styling ─────────────────────────────────────── */
+.lex-about-page {
+  padding-bottom: 4rem;
+}
+
+.lex-about-hero-section {
+  background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.lex-about-hero-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.lex-about-hero-title {
+  font-size: clamp(3rem, 4.2vw, 4.4rem);
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.15;
+  margin-top: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.lex-about-hero-sub {
+  font-size: 1.6rem;
+  color: #475569;
+  line-height: 1.65;
+  margin-bottom: 2.8rem;
+}
+
+.lex-about-hero-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.lex-about-card-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 3.6rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-about-callout-header {
+  font-size: clamp(2.2rem, 3vw, 3rem);
+  font-weight: 900;
+  color: #0F172A;
+  margin-bottom: 1.6rem;
+}
+
+.lex-badge-tag-dark {
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 0.2rem 1rem;
+  border-radius: 8px;
+}
+
+.lex-about-lead-text {
+  font-size: 1.5rem;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.4rem;
+}
+
+.lex-about-dims-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-top: 2.8rem;
+}
+
+.lex-dim-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.lex-dim-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.6rem;
+}
+
+.lex-dim-text {
+  font-size: 1.35rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.lex-section-header-center {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3.6rem auto;
+}
+
+.lex-motto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-motto-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 2.8rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-motto-tag {
+  display: inline-block;
+  background: #F1F5F9;
+  color: #0F172A;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+.lex-motto-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.8rem;
+}
+
+.lex-motto-desc {
+  font-size: 1.4rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.lex-numbers-strip {
+  background: #0B132B;
+  color: #FFFFFF;
+  padding: 5rem 2rem;
+  margin: 4rem 0;
+}
+
+.lex-numbers-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.lex-numbers-heading {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin-bottom: 0.6rem;
+}
+
+.lex-numbers-sub {
+  font-size: 1.5rem;
+  color: #94A3B8;
+  margin-bottom: 3.6rem;
+}
+
+.lex-numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+}
+
+.lex-number-val {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.lex-number-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin-bottom: 0.6rem;
+}
+
+.lex-number-desc {
+  font-size: 1.35rem;
+  color: #94A3B8;
+  line-height: 1.5;
+}
+
+.lex-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-pillar-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 2.8rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-pillar-badge {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2563EB;
+  margin-bottom: 1rem;
+}
+
+.lex-pillar-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.8rem;
+}
+
+.lex-pillar-desc {
+  font-size: 1.35rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.lex-pillar-split {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid #E2E8F0;
+  font-size: 1.25rem;
+  color: #64748B;
+}
+
+.lex-pillar-for strong {
+  color: #0F172A;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
+.lex-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-testimonial-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.lex-testimonial-quote {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 1.2rem 0;
+}
+
+.lex-testimonial-author {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+/* ─── Q&A Forum Page LEX UI Styling ────────────────────────────────────── */
+.lex-qa-page {
+  padding: 4rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lex-qa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3.2rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.lex-qa-title {
+  font-size: clamp(3rem, 4vw, 4.2rem);
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.15;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.lex-qa-sub {
+  font-size: 1.6rem;
+  color: #64748B;
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+.lex-qa-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lex-qa-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 2.4rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lex-qa-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
+}
+
+.lex-qa-card.private {
+  border-left: 4px solid #2563EB;
+}
+
+.lex-qa-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.lex-qa-badge-verified {
+  background: #DCFCE7;
+  color: #15803D;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+}
+
+.lex-qa-badge-open {
+  background: #F1F5F9;
+  color: #475569;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+}
+
+.lex-qa-badge-private {
+  background: #DBEAFE;
+  color: #1D4ED8;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+}
+
+.lex-qa-card-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.3;
+  margin-bottom: 0.8rem;
+}
+
+.lex-qa-card-desc {
+  font-size: 1.4rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.6rem;
+}
+
+.lex-qa-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid #E2E8F0;
+  font-size: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.lex-qa-footer-count {
+  color: #0F172A;
+}
+
+.lex-qa-footer-meta {
+  color: #94A3B8;
+  flex-grow: 1;
+}
+
+.lex-qa-footer-action {
+  color: #2563EB;
+  font-weight: 700;
+}
+
+
+
+
+
+

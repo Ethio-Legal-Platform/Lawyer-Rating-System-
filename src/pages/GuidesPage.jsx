@@ -33,42 +33,50 @@ export default function GuidesPage({ guides = LEGAL_GUIDES, onSelectGuide }) {
   }, [guides, guideCat, searchQuery]);
 
   return (
-    <section className="guides-page-section">
-      <div className="container">
+    <section className="lex-guides-page">
+      <div className="lex-guides-container">
         {/* Header Hero */}
-        <div className="guides-hero-block">
-          <span className="section-label">Ethiopian Legal Knowledge Base</span>
-          <h1 className="guides-page-title">Legal Guides & Citizen Resources</h1>
-          <p className="guides-page-sub">
+        <div className="lex-guides-hero">
+          <span className="lex-guide-tag">Ethiopian Legal Knowledge Base</span>
+          <h1 className="lex-guides-title">Legal Guides & Citizen Resources</h1>
+          <p className="lex-guides-sub">
             Plain-language statutory guides, constitutional explanations, and procedural handbooks authored by licensed Ethiopian advocates.
           </p>
 
           {/* Search Bar */}
-          <div className="guides-search-wrap">
-            <input
-              type="text"
-              className="guides-search-input"
-              placeholder="Search guides by legal topic, proclamation number, or keyword (e.g. arrest rights, severance, divorce, lease)..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button
-                className="guides-search-clear"
-                onClick={() => setSearchQuery('')}
-                aria-label="Clear search"
-              >
-                ✕
-              </button>
-            )}
+          <div className="lex-guides-search-card">
+            <div className="lex-input-icon-wrap">
+              <svg className="lex-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="text"
+                className="lex-search-input"
+                placeholder="Search guides by legal topic, proclamation number, or keyword (e.g. arrest rights, severance, divorce)..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="lex-search-clear-btn"
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Category Filter Chips */}
-          <div className="guides-filter-chips">
+          <div className="lex-filter-chips-wrap" style={{ justifyContent: 'center', marginTop: '1.6rem' }}>
             {categories.map(cat => (
               <button
                 key={cat}
-                className={`guide-filter-chip${guideCat === cat ? ' active' : ''}`}
+                type="button"
+                className={`lex-chip${guideCat === cat ? ' active' : ''}`}
                 onClick={() => setGuideCat(cat)}
               >
                 {cat}
@@ -77,56 +85,64 @@ export default function GuidesPage({ guides = LEGAL_GUIDES, onSelectGuide }) {
           </div>
         </div>
 
-        {/* Guides Grid */}
+        {/* Guides Cards Grid */}
         {filteredGuides.length > 0 ? (
-          <div className="guides-grid">
+          <div className="lex-guides-grid">
             {filteredGuides.map(g => (
               <div
                 key={g.id}
-                className="guide-card"
+                className="lex-guide-card"
                 onClick={() => onSelectGuide(g)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={e => { if (e.key === 'Enter') onSelectGuide(g); }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onSelectGuide(g); }}
               >
-                <div className="guide-card-top-bar">
-                  <span className="guide-cat-badge">{g.cat}</span>
-                  <span className="guide-read-chip">⏱ {g.read}</span>
+                <div className="lex-guide-card-header">
+                  <span className="lex-guide-cat-badge">{g.cat}</span>
+                  <span className="lex-guide-read-time">{g.read} read</span>
                 </div>
 
-                <h3 className="guide-card-title">{g.title}</h3>
-                <p className="guide-card-subtitle">{g.subtitle}</p>
+                <h3 className="lex-guide-card-title">{g.title}</h3>
+                <p className="lex-guide-card-sub">{g.subtitle}</p>
 
-                {/* Proclamations Preview */}
+                {/* Proclamations Tag */}
                 {g.proclamations && g.proclamations.length > 0 && (
-                  <div className="guide-card-proclamations">
-                    <span className="guide-proclamation-label">Key Law:</span>
-                    <span className="guide-proclamation-tag">{g.proclamations[0]}</span>
+                  <div className="lex-guide-proclamations-row">
+                    <span className="lex-proclamation-lbl">Key Law:</span>
+                    <span className="lex-proclamation-tag">{g.proclamations[0]}</span>
                     {g.proclamations.length > 1 && (
-                      <span className="guide-proclamation-more">+{g.proclamations.length - 1} more</span>
+                      <span className="lex-proclamation-more">+{g.proclamations.length - 1} more</span>
                     )}
                   </div>
                 )}
 
-                {/* Card Footer */}
-                <div className="guide-card-footer">
-                  <div className="guide-card-meta">
-                    <div className="guide-card-author">{g.author}</div>
-                    <div className="guide-card-date">{g.updated}</div>
+                {/* Footer Meta & Action */}
+                <div className="lex-guide-card-footer">
+                  <div className="lex-guide-author-info">
+                    <div className="lex-guide-author-name">{g.author}</div>
+                    <div className="lex-guide-date">{g.updated}</div>
                   </div>
-                  <button className="btn btn-gold btn-sm guide-read-btn">
-                    Read Guide &rarr;
+                  <button 
+                    type="button" 
+                    className="lex-btn-dark-sm"
+                    onClick={e => {
+                      e.stopPropagation();
+                      onSelectGuide(g);
+                    }}
+                  >
+                    Read Guide →
                   </button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="guides-empty-state">
-            <h3>No Legal Guides Found</h3>
-            <p>No guides match your query "{searchQuery}". Try searching with different keywords or choosing another category.</p>
+          <div className="lex-empty-box">
+            <h3 className="lex-empty-title">No Legal Guides Found</h3>
+            <p className="lex-empty-sub">No guides match your search query "{searchQuery}". Try searching with different keywords or resetting filters.</p>
             <button
-              className="btn btn-gold btn-sm"
+              type="button"
+              className="lex-btn-dark-lg"
               onClick={() => {
                 setSearchQuery('');
                 setGuideCat('All');

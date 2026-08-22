@@ -42,174 +42,178 @@ export default function DirectoryPage({
   };
 
   return (
-    <div className="directory-layout container">
-      {/* Sidebar */}
-      <aside className="dir-sidebar">
-        <h3>Practice Area</h3>
-        <ul className="sidebar-spec-list">
-          <li
-            className={`sidebar-spec-item${!searchSpec ? ' active' : ''}`}
-            onClick={() => {
-              setSpecInput('');
-              if (onSearch) onSearch('', searchCity);
-            }}
-          >
-            All Practice Areas
-          </li>
-          {SPECIALIZATION_LIST.map(spec => (
+    <div className="lex-directory-page">
+      <div className="lex-directory-container">
+        {/* Sidebar Filters */}
+        <aside className="lex-dir-sidebar">
+          <h3 className="lex-sidebar-title">Practice Area</h3>
+          <ul className="lex-sidebar-list">
             <li
-              key={spec}
-              className={`sidebar-spec-item${searchSpec === spec ? ' active' : ''}`}
+              className={`lex-sidebar-item${!searchSpec ? ' active' : ''}`}
               onClick={() => {
-                setSpecInput(spec);
-                if (onSearch) onSearch(spec, searchCity);
+                setSpecInput('');
+                if (onSearch) onSearch('', searchCity);
               }}
             >
-              {spec} Law
+              All Practice Areas
             </li>
-          ))}
-        </ul>
+            {SPECIALIZATION_LIST.map(spec => (
+              <li
+                key={spec}
+                className={`lex-sidebar-item${searchSpec === spec ? ' active' : ''}`}
+                onClick={() => {
+                  setSpecInput(spec);
+                  if (onSearch) onSearch(spec, searchCity);
+                }}
+              >
+                {spec} Law
+              </li>
+            ))}
+          </ul>
 
-        <h3 style={{ marginTop: '2rem' }}>City</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-          {['', ...ETHIOPIAN_CITIES].map(city => (
-            <label
-              key={city}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                fontSize: '1.35rem',
-                cursor: 'pointer',
-                padding: '0.4rem 0.6rem',
-                borderRadius: 4,
-                background: searchCity === city && city ? '#fff4f0' : 'transparent',
-                color: searchCity === city && city ? '#f55d25' : '#555',
-                fontWeight: searchCity === city && city ? 700 : 400
-              }}
-            >
-              <input
-                type="radio"
-                name="city"
-                checked={searchCity === city}
-                onChange={() => {
-                  setCityInput(city);
-                  if (onSearch) onSearch(searchSpec, city);
-                }}
-                style={{ accentColor: '#f55d25' }}
-              />
-              {city || 'All Cities'}
-            </label>
-          ))}
-        </div>
-      </aside>
+          <h3 className="lex-sidebar-title" style={{ marginTop: '2.4rem' }}>City / Location</h3>
+          <div className="lex-sidebar-radio-group">
+            {['', ...ETHIOPIAN_CITIES].map(city => (
+              <label
+                key={city}
+                className={`lex-sidebar-radio-label${searchCity === city ? ' selected' : ''}`}
+              >
+                <input
+                  type="radio"
+                  name="city"
+                  checked={searchCity === city}
+                  onChange={() => {
+                    setCityInput(city);
+                    if (onSearch) onSearch(searchSpec, city);
+                  }}
+                  className="lex-radio-input"
+                />
+                {city || 'All Cities'}
+              </label>
+            ))}
+          </div>
+        </aside>
 
-      {/* Main */}
-      <div className="dir-main-content">
-        {/* Search bar */}
-        <div className="dir-search-wrap">
-          <div className="dir-search-row">
-            <div className="dir-search-field" style={{ flex: 2 }}>
-              <input
-                type="text"
-                placeholder="Practice area or advocate name…"
-                value={specInput}
-                list="dir-spec-list"
-                onChange={e => {
-                  const val = e.target.value;
-                  setSpecInput(val);
-                  if (onSearch) onSearch(val, cityInput);
-                }}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
-                }}
-              />
-              <datalist id="dir-spec-list">
-                {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
-              </datalist>
+        {/* Main Content Area */}
+        <main className="lex-dir-main">
+          {/* Search Inputs */}
+          <div className="lex-dir-search-card">
+            <div className="lex-dir-search-row">
+              <div className="lex-dir-search-field">
+                <label className="lex-search-label">Advocate / Practice Area</label>
+                <input
+                  type="text"
+                  className="lex-search-input"
+                  placeholder="Practice area or advocate name…"
+                  value={specInput}
+                  list="dir-spec-list"
+                  onChange={e => {
+                    const val = e.target.value;
+                    setSpecInput(val);
+                    if (onSearch) onSearch(val, cityInput);
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
+                  }}
+                />
+                <datalist id="dir-spec-list">
+                  {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
+                </datalist>
+              </div>
+
+              <div className="lex-dir-search-field">
+                <label className="lex-search-label">Location</label>
+                <input
+                  type="text"
+                  className="lex-search-input"
+                  placeholder="City…"
+                  value={cityInput}
+                  list="dir-city-list"
+                  onChange={e => {
+                    const val = e.target.value;
+                    setCityInput(val);
+                    if (onSearch) onSearch(specInput, val);
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
+                  }}
+                />
+                <datalist id="dir-city-list">
+                  {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
+                </datalist>
+              </div>
+
+              {hasFilter && (
+                <button type="button" className="lex-btn-outline-sm-dark" onClick={clearFilters}>
+                  Clear
+                </button>
+              )}
             </div>
-            <div className="dir-search-field" style={{ flex: 2 }}>
-              <input
-                type="text"
-                placeholder="City…"
-                value={cityInput}
-                list="dir-city-list"
-                onChange={e => {
-                  const val = e.target.value;
-                  setCityInput(val);
-                  if (onSearch) onSearch(specInput, val);
-                }}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && onSearch) onSearch(specInput, cityInput);
-                }}
-              />
-              <datalist id="dir-city-list">
-                {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
-              </datalist>
+
+            {/* Quick Filter Chips */}
+            <div className="lex-filter-chips-wrap">
+              {SPECIALIZATION_LIST.map(s => (
+                <button
+                  key={s}
+                  type="button"
+                  className={`lex-chip${searchSpec === s ? ' active' : ''}`}
+                  onClick={() => handleSpecChip(s)}
+                >
+                  {s}
+                </button>
+              ))}
+              <span className="lex-chip-divider" />
+              {ETHIOPIAN_CITIES.map(c => (
+                <button
+                  key={c}
+                  type="button"
+                  className={`lex-chip city${searchCity === c ? ' active' : ''}`}
+                  onClick={() => handleCityChip(c)}
+                >
+                  {c}
+                </button>
+              ))}
             </div>
+          </div>
+
+          {/* Results Bar */}
+          <div className="lex-results-bar">
+            <p className="lex-results-text">
+              <strong>{lawyers.length}</strong> advocates found{searchCity ? ` in ${searchCity}` : ''}{searchSpec ? ` · ${searchSpec}` : ''}
+            </p>
             {hasFilter && (
-              <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
-                Clear
+              <button type="button" className="lex-link-btn" onClick={clearFilters}>
+                Clear all filters
               </button>
             )}
           </div>
 
-          <div className="filter-chips">
-            {SPECIALIZATION_LIST.map(s => (
-              <button
-                key={s}
-                className={`filter-chip${searchSpec === s ? ' active' : ''}`}
-                onClick={() => handleSpecChip(s)}
-              >
-                {s}
+          {/* Advocates Grid */}
+          {loading ? (
+            <div className="lex-loading-box">
+              Loading advocates from database...
+            </div>
+          ) : lawyers.length > 0 ? (
+            <div className="lex-lawyers-list-grid">
+              {lawyers.map(lawyer => (
+                <LawyerCard
+                  key={lawyer.id}
+                  lawyer={lawyer}
+                  variant="horizontal"
+                  onClick={() => onSelectLawyer(lawyer)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="lex-empty-box">
+              <h3 className="lex-empty-title">No advocates found</h3>
+              <p className="lex-empty-sub">Try broadening your search query or clearing city/practice area filters.</p>
+              <button type="button" className="lex-btn-dark-lg" onClick={clearFilters}>
+                Clear Filters
               </button>
-            ))}
-            <span style={{ borderLeft: '1px solid #e0e0e0', margin: '0 0.4rem', alignSelf: 'stretch' }} />
-            {ETHIOPIAN_CITIES.map(c => (
-              <button
-                key={c}
-                className={`filter-chip city${searchCity === c ? ' active' : ''}`}
-                onClick={() => handleCityChip(c)}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="results-header">
-          <p className="results-count">
-            <strong>{lawyers.length}</strong> advocates found{searchCity ? ` in ${searchCity}` : ''}{searchSpec ? ` · ${searchSpec}` : ''}
-          </p>
-          {hasFilter && (
-            <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
-              Clear all filters
-            </button>
+            </div>
           )}
-        </div>
-
-        {loading ? (
-          <div className="loading-state">
-            Loading advocates <span className="loading-dots"><span/><span/><span/></span>
-          </div>
-        ) : lawyers.length > 0 ? (
-          <div className="dir-lawyers-list">
-            {lawyers.map(lawyer => (
-              <LawyerCard
-                key={lawyer.id}
-                lawyer={lawyer}
-                variant="horizontal"
-                onClick={() => onSelectLawyer(lawyer)}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <p className="empty-title">No advocates found</p>
-            <p className="empty-sub">Try broadening your search or clearing filters.</p>
-            <button className="btn btn-primary" onClick={clearFilters}>Clear Filters</button>
-          </div>
-        )}
+        </main>
       </div>
     </div>
   );

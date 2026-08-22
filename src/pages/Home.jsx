@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { ETHIOPIAN_CITIES, PRACTICE_AREAS, SPECIALIZATION_LIST } from '../data/constants';
-import { LEGAL_GUIDES } from '../data/legalGuides';
+import { ETHIOPIAN_CITIES, SPECIALIZATION_LIST } from '../data/constants';
+import LawyerCard from '../features/directory/LawyerCard';
 
 export default function Home({
+  lawyers = [],
   onSearch,
   onSelectGuide,
-  onNavigate
+  onNavigate,
+  onSelectLawyer
 }) {
   const [specInput, setSpecInput] = useState('');
   const [cityInput, setCityInput] = useState('');
-  const [activeFaq, setActiveFaq] = useState(0);
+  const [keywordInput, setKeywordInput] = useState('');
 
   const advocateQuotes = [
     {
@@ -45,133 +47,213 @@ export default function Home({
   ];
 
   const doSearch = () => {
-    if (onSearch) onSearch(specInput, cityInput);
+    if (onSearch) onSearch(specInput || keywordInput, cityInput);
     if (onNavigate) onNavigate('directory');
   };
 
-  const handlePracticeCard = (area) => {
-    if (onSearch) onSearch(area.spec, '');
+  const handlePracticeCard = (spec) => {
+    if (onSearch) onSearch(spec, '');
     if (onNavigate) onNavigate('directory');
   };
 
-  const faqs = [
+  // Real Database Lawyers fallback to Mock
+  const fallbackLawyers = [
     {
-      q: 'How is an advocate’s ELO performance rating calculated in Ethiopia?',
-      a: 'The ELO rating engine starts all licensed advocates at 1000 base points. Every verified court case recorded by Federal High Court and Supreme Court judges dynamically updates ratings based on case complexity, opposing advocate strength, and final verdict outcome.'
+      id: 'l1',
+      name: 'Mesfin Tadesse',
+      specialization: 'Criminal',
+      rating: 4.8,
+      reviewsCount: 128,
+      city: 'Addis Ababa',
+      yearsExperience: 8,
+      profilePic: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300'
     },
     {
-      q: 'Is Ministry of Justice (MoJ) license verification live and mandatory?',
-      a: 'Yes. Only advocates holding active, unexpired licenses from the Federal Ministry of Justice of Ethiopia can register and appear on the directory. Registrations are automatically verified against the MoJ national database.'
+      id: 'l2',
+      name: 'Hanan Abdella',
+      specialization: 'Family',
+      rating: 4.7,
+      reviewsCount: 96,
+      city: 'Addis Ababa',
+      yearsExperience: 6,
+      profilePic: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300'
     },
     {
-      q: 'Can citizens ask legal questions and consult lawyers for free?',
-      a: 'Yes! Litigants and businesses can post questions anonymously in the Legal Q&A Forum. Verified advocates provide initial legal insights, and users can upvote helpful advice or reach out directly for private consultations.'
+      id: 'l3',
+      name: 'Daniel Reda',
+      specialization: 'Contract',
+      rating: 4.9,
+      reviewsCount: 96,
+      city: 'Addis Ababa',
+      yearsExperience: 10,
+      profilePic: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'
     },
     {
-      q: 'How are judicial court cases submitted and authenticated?',
-      a: 'Court cases are entered directly by authorized judicial officers and court registrars using encrypted MoJ credentials. Every record includes docket numbers, presiding bench, counsel on record, and certified outcome.'
-    },
-    {
-      q: 'Which regions and court jurisdictions are covered?',
-      a: 'LEX-RATING covers Federal First Instance, Federal High Court, and Federal Supreme Court benches across Addis Ababa, Dire Dawa, Hawassa, Bahir Dar, Mekelle, Gondar, Jimma, Adama, Dessie, and Harar.'
+      id: 'l4',
+      name: 'Lydia Gebre',
+      specialization: 'Property',
+      rating: 4.5,
+      reviewsCount: 74,
+      city: 'Addis Ababa',
+      yearsExperience: 5,
+      profilePic: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300'
     }
   ];
 
+  const displayLawyers = lawyers && lawyers.length > 0 ? lawyers.slice(0, 4) : fallbackLawyers;
+
   return (
-    <div className="xtra-home-page">
-      {/* ─── Hero Section (XTRA Dark Gradient & Gold Theme) ────────────── */}
-      <section className="xtra-hero">
-        <div className="xtra-hero-glow" />
-        <div className="container xtra-hero-container">
-          {/* Main Headline */}
-          <h1 className="xtra-hero-title">
-            Empowering Justice with <br />
-            <span className="xtra-gold-gradient">Verified Advocate Ratings</span> & Insights
-          </h1>
-
-          {/* Subtitle */}
-          <p className="xtra-hero-subtitle">
-            Find Ministry of Justice-verified Ethiopian lawyers across 10 regions. 
-            Evaluate transparent courtroom ELO ratings, read legal guides, and connect directly.
-          </p>
-
-          {/* Action CTAs */}
-          <div className="xtra-hero-actions">
-            <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
-              Find Top Advocates &rarr;
-            </button>
-            <button className="btn btn-dark-outline btn-lg" onClick={() => onNavigate('qa')}>
-              Ask a Legal Question
-            </button>
+    <div className="lex-home-page">
+      {/* ─── Hero Section ─────────────────────────────────────────────── */}
+      <section className="lex-hero-section">
+        <div className="lex-hero-container">
+          {/* Left Text & CTA */}
+          <div className="lex-hero-content">
+            <h1 className="lex-hero-title">
+              Find Trusted Lawyers.<br />
+              Share Real Experiences.
+            </h1>
+            <p className="lex-hero-subtitle">
+              LEX helps you find qualified legal professionals in Ethiopia and makes legal services more transparent.
+            </p>
+            <div className="lex-hero-buttons">
+              <button 
+                type="button"
+                className="lex-btn-dark-lg"
+                onClick={() => onNavigate('directory')}
+              >
+                Find a Lawyer
+              </button>
+              <button 
+                type="button"
+                className="lex-btn-outline-play"
+                onClick={() => onNavigate('about')}
+              >
+                How It Works <span className="lex-play-icon">▷</span>
+              </button>
+            </div>
           </div>
 
-          {/* Dual Search Bar */}
-          <div className="xtra-search-card">
-            <div className="xtra-search-field">
-              <span className="xtra-field-label">Practice Area / Advocate Name</span>
-              <input
-                className="xtra-search-input"
-                type="text"
-                list="home-spec-list"
-                placeholder="e.g. Criminal, Corporate, Kebede…"
+          {/* Right Hero Image */}
+          <div className="lex-hero-image-wrap">
+            <img 
+              src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800" 
+              alt="Gavel and scale of justice"
+              className="lex-hero-img"
+            />
+          </div>
+        </div>
+
+        {/* Floating Search Bar Card (Lowered slightly) */}
+        <div className="lex-search-card-container">
+          <div className="lex-search-card">
+            <div className="lex-search-col">
+              <label className="lex-search-label">Search Lawyer</label>
+              <div className="lex-input-icon-wrap">
+                <svg className="lex-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  className="lex-search-input"
+                  placeholder="Name, practice area or keyword..."
+                  value={keywordInput}
+                  onChange={e => setKeywordInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
+                />
+              </div>
+            </div>
+
+            <div className="lex-search-col">
+              <label className="lex-search-label">Practice Area</label>
+              <select
+                className="lex-search-select"
                 value={specInput}
                 onChange={e => setSpecInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
-              />
-              <datalist id="home-spec-list">
-                {SPECIALIZATION_LIST.map(s => <option key={s} value={s} />)}
-              </datalist>
+              >
+                <option value="">All Practice Areas</option>
+                {SPECIALIZATION_LIST.map(s => (
+                  <option key={s} value={s}>{s} Law</option>
+                ))}
+              </select>
             </div>
 
-            <div className="xtra-search-divider" />
-
-            <div className="xtra-search-field">
-              <span className="xtra-field-label">City / Jurisdiction</span>
-              <input
-                className="xtra-search-input"
-                type="text"
-                list="home-city-list"
-                placeholder="e.g. Addis Ababa, Hawassa…"
+            <div className="lex-search-col">
+              <label className="lex-search-label">Location</label>
+              <select
+                className="lex-search-select"
                 value={cityInput}
                 onChange={e => setCityInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
-              />
-              <datalist id="home-city-list">
-                {ETHIOPIAN_CITIES.map(c => <option key={c} value={c} />)}
-              </datalist>
+              >
+                <option value="">All Ethiopia</option>
+                {ETHIOPIAN_CITIES.map(c => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
             </div>
 
-            <button className="btn btn-gold xtra-search-submit" onClick={doSearch}>
-              Search Lawyers
-            </button>
+            <div className="lex-search-btn-col">
+              <button type="button" className="lex-btn-search-submit" onClick={doSearch}>
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Client Metrics & Trust Bar ─────────────────────────────────── */}
-      <section className="xtra-metrics-section">
-        <div className="container">
-          <div className="xtra-metrics-grid">
-            {[
-              ['20+', 'MoJ-Verified Advocates', 'Active practicing advocates on the national registry'],
-              ['16+', 'Decided Court Cases', 'Judicially validated trial records across federal courts'],
-              ['10', 'Regional Benches', 'Courts covered across Addis Ababa & regional states'],
-              ['1-10', 'Performance Scale', 'Transparent ELO algorithmic advocate ranking score'],
-            ].map(([num, title, desc]) => (
-              <div key={title} className="xtra-metric-item">
-                <div className="xtra-metric-num">{num}</div>
-                <div className="xtra-metric-title">{title}</div>
-                <div className="xtra-metric-desc">{desc}</div>
-              </div>
-            ))}
+      {/* ─── Why LEX? Section ────────────────────────────────────────── */}
+      <section className="lex-section lex-why-section">
+        <h2 className="lex-section-center-title">Why LEX?</h2>
+
+        <div className="lex-why-grid">
+          <div className="lex-why-card">
+            <div className="lex-why-icon-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <h3 className="lex-why-card-title">Verified Lawyers</h3>
+            <p className="lex-why-card-text">We verify licenses and credentials for trust.</p>
+          </div>
+
+          <div className="lex-why-card">
+            <div className="lex-why-icon-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <h3 className="lex-why-card-title">Real Reviews</h3>
+            <p className="lex-why-card-text">Clients share real experiences and ratings.</p>
+          </div>
+
+          <div className="lex-why-card">
+            <div className="lex-why-icon-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <path d="M12 3V21M12 3L4 7M12 3L20 7M4 7V11C4 13.2091 7.58172 15 12 15C16.4183 15 20 13.2091 20 11V7M4 7L12 11M20 7L12 11"></path>
+              </svg>
+            </div>
+            <h3 className="lex-why-card-title">Ethiopia Focused</h3>
+            <p className="lex-why-card-text">Designed for the Ethiopian legal ecosystem.</p>
+          </div>
+
+          <div className="lex-why-card">
+            <div className="lex-why-icon-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h3 className="lex-why-card-title">Safe & Transparent</h3>
+            <p className="lex-why-card-text">Fair ratings. No fake reviews. No hidden agendas.</p>
           </div>
         </div>
       </section>
 
-      {/* ─── Quote 1: "The Real Champions of Justice" (Full Screen Strip) ───────── */}
+      {/* ─── Quote 1: "The Real Champions of Justice" (Previous Exact Layout) ─── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip">
-          {/* Side Image Column with Title Outside Below */}
           <div className="xtra-quote-image-column">
             <div
               className="xtra-quote-image-side"
@@ -184,7 +266,6 @@ export default function Home({
             </div>
           </div>
 
-          {/* High-Contrast Typography & Inline Header Side */}
           <div className="xtra-quote-content-side">
             <div className="xtra-quote-inline-header">
               <span className="xtra-quote-inline-tag">Public Interest Advocacy</span>
@@ -216,42 +297,117 @@ export default function Home({
         </div>
       </section>
 
-      {/* ─── Practice Areas (Pre-Built Demo Style Grid) ────────────────── */}
-      <section className="xtra-section">
-        <div className="container">
-          <div className="xtra-section-header">
-            <span className="xtra-section-tag">Explore Legal Specialties</span>
-            <h2 className="xtra-section-title">Specialized Legal Practice Areas</h2>
-            <p className="xtra-section-sub">
-              Browse top-rated advocates by specific category for your civil, criminal, or corporate matters.
-            </p>
-          </div>
+      {/* ─── Popular Practice Areas ──────────────────────────────────── */}
+      <section className="lex-section">
+        <div className="lex-section-header">
+          <h2 className="lex-section-title">Popular Practice Areas</h2>
+          <button 
+            type="button" 
+            className="lex-link-view-all"
+            onClick={() => onNavigate('directory')}
+          >
+            View All
+          </button>
+        </div>
 
-          <div className="xtra-practice-grid">
-            {PRACTICE_AREAS.map(area => (
-              <div
-                key={area.label}
-                className="xtra-practice-card"
-                onClick={() => handlePracticeCard(area)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={e => { if (e.key === 'Enter') handlePracticeCard(area); }}
-              >
-                <div className="xtra-practice-icon-box">
-                  <span className="xtra-practice-dot" />
-                </div>
-                <h3 className="xtra-practice-title">{area.label}</h3>
-                <span className="xtra-practice-arrow">&rarr;</span>
-              </div>
-            ))}
-          </div>
+        <div className="lex-practice-icons-grid">
+          {[
+            {
+              name: 'Criminal Law', spec: 'Criminal',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <path d="M12 3V21M12 3L4 7M12 3L20 7M4 7V11C4 13.2091 7.58172 15 12 15C16.4183 15 20 13.2091 20 11V7M4 7L12 11M20 7L12 11"></path>
+                </svg>
+              )
+            },
+            {
+              name: 'Family Law', spec: 'Family',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              )
+            },
+            {
+              name: 'Contract Law', spec: 'Contract',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+              )
+            },
+            {
+              name: 'Property Law', spec: 'Property',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              )
+            },
+            {
+              name: 'Employment Law', spec: 'Employment',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              )
+            },
+            {
+              name: 'Business Law', spec: 'Corporate',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              )
+            },
+            {
+              name: 'Immigration Law', spec: 'Immigration',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              )
+            },
+            {
+              name: 'More', spec: '',
+              icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2">
+                  <circle cx="12" cy="12" r="1"></circle>
+                  <circle cx="19" cy="12" r="1"></circle>
+                  <circle cx="5" cy="12" r="1"></circle>
+                </svg>
+              )
+            }
+          ].map(p => (
+            <div
+              key={p.name}
+              className="lex-practice-box"
+              onClick={() => handlePracticeCard(p.spec)}
+              role="button"
+              tabIndex={0}
+            >
+              <div className="lex-practice-icon-svg">{p.icon}</div>
+              <span className="lex-practice-name">{p.name}</span>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ─── Quote 2: "The Old Gems" (Full Screen Strip) ─────────────────── */}
+      {/* ─── Quote 2: "The Old Gems" (Previous Exact Layout) ────────────────── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip reverse">
-          {/* Side Image Column with Title Outside Below */}
           <div className="xtra-quote-image-column">
             <div
               className="xtra-quote-image-side"
@@ -264,7 +420,6 @@ export default function Home({
             </div>
           </div>
 
-          {/* High-Contrast Typography & Inline Header Side */}
           <div className="xtra-quote-content-side">
             <div className="xtra-quote-inline-header">
               <span className="xtra-quote-inline-tag">Mastery & Tradition</span>
@@ -296,49 +451,36 @@ export default function Home({
         </div>
       </section>
 
-      {/* ─── Core Platform Highlights (High-Contrast Tech Grid) ─────────── */}
-      <section className="xtra-section xtra-section-darker">
-        <div className="container">
-          <div className="xtra-section-header">
-            <span className="xtra-section-tag">B2G Architecture</span>
-            <h2 className="xtra-section-title">Why Ethiopia Trusts LEX-RATING</h2>
-            <p className="xtra-section-sub">
-              Bridging the gap between citizens, advocates, and the judicial court system.
-            </p>
-          </div>
+      {/* ─── Top Rated Lawyers ──────────────────────────────────────── */}
+      <section className="lex-section">
+        <div className="lex-section-header">
+          <h2 className="lex-section-title">Top Rated Lawyers</h2>
+          <button 
+            type="button" 
+            className="lex-link-view-all"
+            onClick={() => onNavigate('directory')}
+          >
+            View All Lawyers →
+          </button>
+        </div>
 
-          <div className="xtra-features-grid">
-            <div className="xtra-feature-card">
-              <div className="xtra-feature-number">01</div>
-              <h3 className="xtra-feature-title">Verified MoJ Credentials</h3>
-              <p className="xtra-feature-text">
-                Every advocate profile is cross-checked with the Federal Ministry of Justice roll of advocates. No unverified legal practitioners.
-              </p>
-            </div>
-
-            <div className="xtra-feature-card gold-border">
-              <div className="xtra-feature-number gold">02</div>
-              <h3 className="xtra-feature-title">Courtroom ELO Ratings</h3>
-              <p className="xtra-feature-text">
-                Live mathematical ELO calculations based on win/loss records, opponent strength, case complexity, and certified judicial scores.
-              </p>
-            </div>
-
-            <div className="xtra-feature-card">
-              <div className="xtra-feature-number">03</div>
-              <h3 className="xtra-feature-title">Free Citizen Q&A Forum</h3>
-              <p className="xtra-feature-text">
-                Litigants can ask legal questions and receive answers from advocates across criminal, family, land, and corporate law.
-              </p>
-            </div>
-          </div>
+        <div className="lex-lawyers-grid">
+          {displayLawyers.map(lawyer => (
+            <LawyerCard
+              key={lawyer.id}
+              lawyer={lawyer}
+              onClick={() => {
+                if (onSelectLawyer) onSelectLawyer(lawyer);
+                else onNavigate('directory');
+              }}
+            />
+          ))}
         </div>
       </section>
 
-      {/* ─── Quote 3: "The Real Ones" (Full Screen Strip) ──────────────── */}
+      {/* ─── Quote 3: "The Real Ones" (Previous Exact Layout) ──────────────── */}
       <section className="xtra-quote-showcase-section">
         <div className="xtra-quote-full-strip">
-          {/* Side Image Column with Title Outside Below */}
           <div className="xtra-quote-image-column">
             <div
               className="xtra-quote-image-side"
@@ -351,7 +493,6 @@ export default function Home({
             </div>
           </div>
 
-          {/* High-Contrast Typography & Inline Header Side */}
           <div className="xtra-quote-content-side">
             <div className="xtra-quote-inline-header">
               <span className="xtra-quote-inline-tag">Voices of the Bar</span>
@@ -383,92 +524,95 @@ export default function Home({
         </div>
       </section>
 
-      {/* ─── Accordion FAQ Component (Standard High-Contrast Accordion) ──── */}
-      <section className="xtra-section">
-        <div className="container xtra-faq-container">
-          <div className="xtra-section-header">
-            <span className="xtra-section-tag">Frequently Asked Questions</span>
-            <h2 className="xtra-section-title">Got Questions? We’ve Got Answers</h2>
-            <p className="xtra-section-sub">
-              Learn how the LEX-RATING rating methodology and verified legal network work.
+      {/* ─── How It Works ───────────────────────────────────────────── */}
+      <section className="lex-section lex-how-section">
+        <h2 className="lex-section-center-title">How It Works</h2>
+
+        <div className="lex-how-steps">
+          <div className="lex-how-step">
+            <div className="lex-how-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <div className="lex-how-text">
+              <h3 className="lex-how-title">Search</h3>
+              <p className="lex-how-sub">Find lawyers by practice area or location.</p>
+            </div>
+          </div>
+
+          <span className="lex-step-arrow">›</span>
+
+          <div className="lex-how-step">
+            <div className="lex-how-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div className="lex-how-text">
+              <h3 className="lex-how-title">Compare</h3>
+              <p className="lex-how-sub">Compare profiles, ratings, and reviews.</p>
+            </div>
+          </div>
+
+          <span className="lex-step-arrow">›</span>
+
+          <div className="lex-how-step">
+            <div className="lex-how-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div className="lex-how-text">
+              <h3 className="lex-how-title">Connect</h3>
+              <p className="lex-how-sub">Contact the lawyer that fits your needs.</p>
+            </div>
+          </div>
+
+          <span className="lex-step-arrow">›</span>
+
+          <div className="lex-how-step">
+            <div className="lex-how-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <div className="lex-how-text">
+              <h3 className="lex-how-title">Review</h3>
+              <p className="lex-how-sub">Share your experience to help others.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Are you a lawyer? Banner ────────────────────────────────── */}
+      <section className="lex-cta-banner">
+        <div className="lex-cta-left">
+          <div className="lex-cta-gold-icon-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3V21M12 3L4 7M12 3L20 7M4 7V11C4 13.2091 7.58172 15 12 15C16.4183 15 20 13.2091 20 11V7M4 7L12 11M20 7L12 11" stroke="#0F172A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div className="lex-cta-info">
+            <h2 className="lex-cta-title">Are you a lawyer?</h2>
+            <p className="lex-cta-sub">
+              Join LEX and build your professional profile. Get trusted by clients and grow your practice.
             </p>
           </div>
-
-          <div className="xtra-accordion">
-            {faqs.map((faq, index) => {
-              const isOpen = activeFaq === index;
-              return (
-                <div
-                  key={index}
-                  className={`xtra-accordion-item${isOpen ? ' active' : ''}`}
-                >
-                  <button
-                    className="xtra-accordion-header"
-                    onClick={() => setActiveFaq(isOpen ? -1 : index)}
-                    aria-expanded={isOpen}
-                  >
-                    <span className="xtra-accordion-title">{faq.q}</span>
-                    <span className="xtra-accordion-icon">{isOpen ? '−' : '+'}</span>
-                  </button>
-                  {isOpen && (
-                    <div className="xtra-accordion-body">
-                      <p>{faq.a}</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
         </div>
-      </section>
 
-      {/* ─── Legal Guides Showcase ──────────────────────────────────────── */}
-      <section className="xtra-section xtra-section-darker">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.6rem', marginBottom: '3.2rem' }}>
-            <div>
-              <span className="xtra-section-tag">Knowledge Base</span>
-              <h2 className="xtra-section-title" style={{ marginBottom: '0.4rem' }}>Ethiopian Legal Guides</h2>
-              <p className="xtra-section-sub" style={{ marginBottom: 0 }}>Plain-language explanations of Ethiopian proclamations and court procedures.</p>
-            </div>
-            <button className="btn btn-dark-outline btn-sm" onClick={() => onNavigate('guides')}>
-              View All Guides &rarr;
-            </button>
-          </div>
-
-          <div className="xtra-guides-grid">
-            {LEGAL_GUIDES.slice(0, 3).map(g => (
-              <div key={g.id} className="xtra-guide-card" onClick={() => onSelectGuide(g)}>
-                <div className="xtra-guide-header">
-                  <span className="xtra-guide-tag">{g.cat}</span>
-                  <span className="xtra-guide-read">{g.read}</span>
-                </div>
-                <h3 className="xtra-guide-title">{g.title}</h3>
-                <p className="xtra-guide-sub">{g.subtitle}</p>
-                <div className="xtra-guide-footer">
-                  <span>Read Article &rarr;</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Final High-Impact Gold CTA Strip ─────────────────────────────── */}
-      <section className="xtra-cta-strip">
-        <div className="container xtra-cta-inner">
-          <div className="xtra-cta-text">
-            <h2>Need Legal Counsel or Representation?</h2>
-            <p>Connect with top-rated Ethiopian advocates verified by the Ministry of Justice.</p>
-          </div>
-          <div className="xtra-cta-actions">
-            <button className="btn btn-gold btn-lg" onClick={() => onNavigate('directory')}>
-              Browse All Advocates &rarr;
-            </button>
-            <button className="btn btn-dark-outline btn-lg" onClick={() => onNavigate('qa')}>
-              Ask a Legal Question
-            </button>
-          </div>
+        <div className="lex-cta-right">
+          <button 
+            type="button"
+            className="lex-btn-gold-lg"
+            onClick={() => onNavigate('directory')}
+          >
+            Create Lawyer Account
+          </button>
         </div>
       </section>
     </div>

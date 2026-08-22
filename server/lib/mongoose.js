@@ -17,7 +17,7 @@ export async function connectDB() {
     console.log('  MongoDB connected successfully.\n');
   } catch (err) {
     console.error('  MongoDB connection failed:', err.message);
-    process.exit(1);
+    console.warn('  Falling back to local JSON file storage.\n');
   }
 }
 
