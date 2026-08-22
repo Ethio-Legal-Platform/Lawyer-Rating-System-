@@ -467,5 +467,45 @@ git push origin your-assigned-branch
 
 ---
 
+## 🐳 Docker Deployment & Containerization
+
+The system is fully containerized using multi-stage Docker builds and Docker Compose for production deployment.
+
+### Container Architecture
+- **Frontend Container (`frontend`)**: React Vite SPA built and served via Nginx Alpine on Port `80` with SPA fallback and reverse proxying `/api/` traffic to the backend container.
+- **Backend Container (`backend`)**: Express.js REST API running Node 20 Alpine on Port `5000`.
+- **Database Container (`mongodb`)**: MongoDB 6 database on Port `27017` with persistent named volume `mongo_data`.
+
+### Quick Start with Docker Compose
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/qalalew/EthioLaw-B2G-Legal-Rating-System.git
+cd EthioLaw-B2G-Legal-Rating-System
+
+# 2. Start all services in detached mode
+docker compose up -d --build
+
+# 3. Verify running containers
+docker compose ps
+```
+
+### Accessing Containers
+- **Web Application UI**: `http://localhost`
+- **Backend API Gateway**: `http://localhost:5000`
+- **MongoDB Connection**: `mongodb://localhost:27017/lex_rating`
+
+### Stop & Cleanup
+```bash
+# Stop containers without removing volumes
+docker compose down
+
+# Stop containers and remove volumes
+docker compose down -v
+```
+
+---
+
 ## 📜 Academic Disclaimer
 This software was engineered as an academic demonstration for the **INSA 2026 Legal Technologies Program**. Legal guides, simulated court records, and lawyer profiles are for testing, educational, and matching purposes.
+

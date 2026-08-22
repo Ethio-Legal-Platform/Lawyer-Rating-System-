@@ -667,16 +667,23 @@
 /* Buttons */
 [data-theme="light"] .btn-secondary,
 [data-theme="light"] .btn-dark-outline {
-  background: #f1f5f9;
-  color: #1e293b;
-  border-color: rgba(15, 23, 42, 0.15);
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
 }
 
 [data-theme="light"] .btn-secondary:hover,
 [data-theme="light"] .btn-dark-outline:hover {
-  background: #e2e8f0;
-  color: var(--gold);
-  border-color: var(--gold);
+  background: #1e293b;
+  color: #ffffff;
+  border-color: #1e293b;
+}
+
+[data-theme="light"] .btn-dark-outline:focus-visible,
+[data-theme="light"] .btn-dark-outline:active {
+  background: #020617;
+  color: #ffffff;
+  border-color: #020617;
 }
 
 [data-theme="light"] .btn-ghost {

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:6-jammy
+    container_name: lex_rating_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: lex_rating
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Express API Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: lex_rating_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/lex_rating
+      - JWT_SECRET=docker_secure_jwt_secret_key_lex_rating_2026
+      - BREVO_API_KEY=${BREVO_API_KEY:-}
+      - BREVO_SENDER_EMAIL=${BREVO_SENDER_EMAIL:-lawyer@example.com}
+      - BREVO_SENDER_NAME=${BREVO_SENDER_NAME:-Lawyer Platform}
+    volumes:
+      - server_data:/app/server/data
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  # Nginx Frontend Web Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: lex_rating_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+    driver: local
+  server_data:
+    driver: local

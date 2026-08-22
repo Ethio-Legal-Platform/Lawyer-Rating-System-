@@ -164,6 +164,11 @@ export default function App() {
     setPage('home');
   };
 
+  const handleNavigate = (nextPage) => {
+    setPage(nextPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleProfileUpdated = (updatedUser) => {
     setUser(updatedUser);
     storeUser(updatedUser);
@@ -211,7 +216,7 @@ export default function App() {
         page={page}
         theme={theme}
         onToggleTheme={toggleTheme}
-        onNavigate={setPage}
+        onNavigate={handleNavigate}
         onSignIn={handleOpenAuth}
         onSignOut={handleLogout}
         onOpenProfile={() => setShowProfileModal(true)}
