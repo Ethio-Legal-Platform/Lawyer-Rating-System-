@@ -112,7 +112,17 @@ router.get('/search', async (req, res) => {
     });
 
     results.sort((a, b) => b.elo - a.elo);
-    res.json(results);
+
+    // Pagination
+    const page  = Math.max(1, parseInt(req.query.page  || '1', 10));
+    const limit = Math.min(50, Math.max(1, parseInt(req.query.limit || '20', 10)));
+    const total = results.length;
+    const paginated = results.slice((page - 1) * limit, page * limit);
+
+    res.json({
+      data: paginated,
+      pagination: { page, limit, total, pages: Math.ceil(total / limit) }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

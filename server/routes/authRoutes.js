@@ -5,8 +5,12 @@ import { mongoose } from '../lib/mongoose.js';
 import { sendBrevoEmail } from '../services/emailService.js';
 import { readJSON, writeJSON } from '../lib/db.js';
 import { USERS_PATH, MOJ_LICENSES_PATH } from '../config/paths.js';
+import { requireFields, sanitizeBody, validatePassword, validateEmail } from '../middleware/validate.js';
 
 const router = Router();
+
+// Apply body sanitization to all routes in this router
+router.use(sanitizeBody);
 const SALT_ROUNDS = 10;
 const pendingRegistrations = {};
 
@@ -17,7 +21,7 @@ function getUserModel() {
   return null;
 }
 
-router.post('/register', async (req, res) => {
+router.post('/register', requireFields('name', 'username', 'password', 'email', 'role'), validateEmail, validatePassword, async (req, res) => {
   const {
     name, username, password, email, role,
     licenseNumber, specialization,
@@ -126,7 +130,7 @@ router.post('/resend-otp', async (req, res) => {
   res.json({ message: 'A new verification code has been sent to your email.' });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', requireFields('username', 'password'), async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'Username and password are required' });
 

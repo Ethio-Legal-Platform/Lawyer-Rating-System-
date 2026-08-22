@@ -15,7 +15,15 @@ const router = Router();
 router.get('/questions', async (req, res) => {
   try {
     const { category, search, city, includePrivate } = req.query;
-    res.json(await getQuestions({ category, search, city, includePrivate: includePrivate === 'true' }));
+    const all = await getQuestions({ category, search, city, includePrivate: includePrivate === 'true' });
+
+    // Pagination
+    const page  = Math.max(1, parseInt(req.query.page  || '1', 10));
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit || '20', 10)));
+    const total = all.length;
+    const data  = all.slice((page - 1) * limit, page * limit);
+
+    res.json({ data, pagination: { page, limit, total, pages: Math.ceil(total / limit) } });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
