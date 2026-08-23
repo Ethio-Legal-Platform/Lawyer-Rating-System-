@@ -13,7 +13,7 @@ export default function Navbar({
   return (
     <header className="lex-navbar">
       <div className="lex-nav-container">
-        {/* Brand Logo */}
+        {/* a Brand Logo */}
         <button
           type="button"
           className="lex-logo-btn"
