@@ -60,7 +60,17 @@ export default function QAPage({
               }
             }}
           >
-            My Private Inquiries {user && privateInquiries.length > 0 ? `(${privateInquiries.length})` : ''}
+            <span>My Private Inquiries</span>
+            {user && privateInquiries.length > 0 && (
+              <span className="lex-tab-counter" style={{ color: '#64748B', fontWeight: 600, marginLeft: '0.4rem' }}>
+                ({privateInquiries.length})
+              </span>
+            )}
+            {user?.role === 'client' && privateInquiries.some(q => q.publicRequestStatus === 'requested') && (
+              <span className="lex-tab-action-badge">
+                🔔 Action Needed
+              </span>
+            )}
           </button>
         </div>
 
@@ -192,14 +202,31 @@ export default function QAPage({
                 {privateInquiries.map(q => (
                   <div
                     key={q.id}
-                    className="lex-qa-card private"
+                    className={`lex-qa-card private${q.publicRequestStatus === 'requested' ? ' has-request' : ''}`}
                     onClick={() => onSelectQuestion(q.id)}
                     role="button"
                     tabIndex={0}
                   >
+                    {user?.role === 'client' && q.publicRequestStatus === 'requested' && (
+                      <div className="lex-qa-card-alert-banner">
+                        <span className="lex-qa-card-alert-icon">🔔</span>
+                        <div>
+                          <strong>Action Required: Advocate Requested Public Release</strong>
+                          <p>Advocate {q.publicRequestedBy?.lawyerName || 'Your Advocate'} requested permission to share this legal consultation on the public forum. Click to review and approve.</p>
+                        </div>
+                      </div>
+                    )}
                     <div className="lex-qa-card-header">
                       <span className="lex-guide-cat-badge">{q.category} Law</span>
-                      <span className="lex-qa-badge-private">Private Consultation</span>
+                      <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                        {q.publicRequestStatus === 'requested' && (
+                          <span className="lex-qa-badge-pending-request">Public Request Pending</span>
+                        )}
+                        {q.publicRequestStatus === 'declined' && (
+                          <span className="lex-qa-badge-declined">Kept Private</span>
+                        )}
+                        <span className="lex-qa-badge-private">Private Consultation</span>
+                      </div>
                     </div>
                     <h3 className="lex-qa-card-title">{q.title}</h3>
                     <p className="lex-qa-card-desc">{q.description}</p>
