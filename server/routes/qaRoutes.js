@@ -5,6 +5,8 @@ import {
   getPrivateInquiries,
   createQuestion,
   publishQuestionToPublic,
+  requestPublicApproval,
+  respondPublicRequest,
   addAnswer,
   upvoteAnswer,
 } from '../services/qaService.js';
@@ -47,6 +49,27 @@ router.post('/questions', requireAuth, async (req, res) => {
   try {
     const q = await createQuestion(req.body);
     res.status(201).json({ message: 'Question posted successfully', question: q });
+  } catch (err) { res.status(400).json({ error: err.message }); }
+});
+
+router.post('/questions/:id/request-public', requireAuth, async (req, res) => {
+  try {
+    const { lawyerId, lawyerName } = req.body;
+    if (!lawyerId) return res.status(401).json({ error: 'lawyerId is required' });
+    const q = await requestPublicApproval(req.params.id, { lawyerId, lawyerName });
+    res.json({ message: 'Public request sent to client', question: q });
+  } catch (err) { res.status(400).json({ error: err.message }); }
+});
+
+router.post('/questions/:id/respond-public-request', requireAuth, async (req, res) => {
+  try {
+    const { userId, approve } = req.body;
+    if (!userId) return res.status(401).json({ error: 'userId is required' });
+    const q = await respondPublicRequest(req.params.id, userId, Boolean(approve));
+    res.json({
+      message: approve ? 'Question approved and published to public forum' : 'Public request declined',
+      question: q
+    });
   } catch (err) { res.status(400).json({ error: err.message }); }
 });
 

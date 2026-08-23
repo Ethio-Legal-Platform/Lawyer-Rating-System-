@@ -80,6 +80,24 @@ export const api = {
     return res.json();
   },
 
+  requestPublicApproval: async (questionId, lawyerId, lawyerName) => {
+    const res = await authFetch(`/qa/questions/${questionId}/request-public`, {
+      method: 'POST',
+      body: JSON.stringify({ lawyerId, lawyerName })
+    });
+    const data = await res.json();
+    return { ok: res.ok, status: res.status, data };
+  },
+
+  respondPublicRequest: async (questionId, userId, approve) => {
+    const res = await authFetch(`/qa/questions/${questionId}/respond-public-request`, {
+      method: 'POST',
+      body: JSON.stringify({ userId, approve })
+    });
+    const data = await res.json();
+    return { ok: res.ok, status: res.status, data };
+  },
+
   addAnswer: async (questionId, payload) => {
     const res = await authFetch(`/qa/questions/${questionId}/answers`, {
       method: 'POST',

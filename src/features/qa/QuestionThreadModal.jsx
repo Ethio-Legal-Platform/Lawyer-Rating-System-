@@ -15,6 +15,8 @@ export default function QuestionThreadModal({
   const [replyText, setReplyText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [requestingPublic, setRequestingPublic] = useState(false);
+  const [respondingPublic, setRespondingPublic] = useState(false);
 
   const loadQuestion = useCallback(async () => {
     try {
@@ -67,6 +69,38 @@ export default function QuestionThreadModal({
       console.error(e);
     } finally {
       setPublishing(false);
+    }
+  };
+
+  const handleRequestPublic = async () => {
+    if (!currentUser || currentUser.role !== 'lawyer') return;
+    setRequestingPublic(true);
+    try {
+      const { ok } = await api.requestPublicApproval(questionId, currentUser.id, currentUser.name);
+      if (ok) {
+        await loadQuestion();
+        if (onRefreshList) onRefreshList();
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setRequestingPublic(false);
+    }
+  };
+
+  const handleRespondPublicRequest = async (approve) => {
+    if (!currentUser || currentUser.id !== question?.authorId) return;
+    setRespondingPublic(true);
+    try {
+      const { ok } = await api.respondPublicRequest(questionId, currentUser.id, approve);
+      if (ok) {
+        await loadQuestion();
+        if (onRefreshList) onRefreshList();
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setRespondingPublic(false);
     }
   };
 
@@ -124,6 +158,7 @@ export default function QuestionThreadModal({
   const answers = Array.isArray(question.answers) ? question.answers : [];
   const lawyerAnswers = answers.filter(a => a.isLawyer || a.authorRole === 'lawyer');
   const isAuthor = currentUser && currentUser.id === question.authorId;
+  const isLawyerUser = currentUser && currentUser.role === 'lawyer';
 
   return (
     <ModalBackdrop onClose={onClose}>
@@ -159,23 +194,97 @@ export default function QuestionThreadModal({
             <p className="qa-question-desc">{question.description}</p>
           </div>
 
-          {/* Author Publish-to-Public Banner for Private Inquiries */}
+          {/* ─── Private Consultation Public Approval / Request Banners ─── */}
           {question.isPrivate && isAuthor && (
-            <div className="qa-publish-banner">
-              <div>
-                <div className="qa-publish-title">Share this Legal Guidance with the Public?</div>
-                <div className="qa-publish-sub">
-                  Once published, this question and advocate replies will help other citizens with similar legal questions.
+            <>
+              {question.publicRequestStatus === 'requested' ? (
+                <div className="lex-qa-approval-banner">
+                  <div className="lex-qa-approval-header">
+                    <span className="lex-qa-badge-verified">Advocate Request</span>
+                    <h4 className="lex-qa-approval-title">
+                      Advocate {question.publicRequestedBy?.lawyerName || 'Your Advocate'} Requested Permission to Publish This to the Public Q&A Forum
+                    </h4>
+                    <p className="lex-qa-approval-desc">
+                      The advocate suggests making this legal analysis public so other citizens can learn from the legal guidance. Your sensitive personal contact information remains confidential. Do you approve publishing this case to the public community forum?
+                    </p>
+                  </div>
+                  <div className="lex-qa-approval-actions">
+                    <button
+                      type="button"
+                      className="lex-btn-dark-sm"
+                      onClick={() => handleRespondPublicRequest(true)}
+                      disabled={respondingPublic}
+                    >
+                      {respondingPublic ? 'Publishing…' : '✓ Approve & Publish to Public Forum'}
+                    </button>
+                    <button
+                      type="button"
+                      className="lex-btn-ghost-sm"
+                      onClick={() => handleRespondPublicRequest(false)}
+                      disabled={respondingPublic}
+                    >
+                      ✕ Decline (Keep Private)
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <button
-                className="btn btn-gold btn-sm"
-                onClick={handlePublish}
-                disabled={publishing}
-              >
-                {publishing ? 'Publishing…' : 'Publish to Public Forum'}
-              </button>
-            </div>
+              ) : (
+                <div className="lex-qa-publish-card">
+                  <div>
+                    <div className="lex-qa-publish-title">Share this Legal Guidance with the Public?</div>
+                    <div className="lex-qa-publish-sub">
+                      You can make this consultation public whenever you wish to help other citizens with similar legal questions.
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="lex-btn-dark-sm"
+                    onClick={handlePublish}
+                    disabled={publishing}
+                  >
+                    {publishing ? 'Publishing…' : 'Publish to Public Forum'}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {question.isPrivate && isLawyerUser && !isAuthor && (
+            <>
+              {question.publicRequestStatus === 'requested' ? (
+                <div className="lex-qa-status-banner pending">
+                  <span className="lex-qa-status-icon">⏳</span>
+                  <div>
+                    <strong>Public Request Pending Client Approval</strong>
+                    <p>You requested the client's permission to publish this consultation. The question will be made public once the client approves.</p>
+                  </div>
+                </div>
+              ) : question.publicRequestStatus === 'declined' ? (
+                <div className="lex-qa-status-banner declined">
+                  <span className="lex-qa-status-icon">🔒</span>
+                  <div>
+                    <strong>Private Consultation Retained</strong>
+                    <p>The client preferred to keep this consultation private. Only you and the client can view this thread.</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="lex-qa-request-banner">
+                  <div>
+                    <div className="lex-qa-publish-title">Suggest Publishing to Public Forum</div>
+                    <div className="lex-qa-publish-sub">
+                      If this legal guidance would benefit other citizens, ask the client for permission to publish this consultation to the public Q&A forum.
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="lex-btn-outline-sm-dark"
+                    onClick={handleRequestPublic}
+                    disabled={requestingPublic}
+                  >
+                    {requestingPublic ? 'Sending Request…' : 'Request Client Approval to Make Public'}
+                  </button>
+                </div>
+              )}
+            </>
           )}
 
           {/* Answers Header */}

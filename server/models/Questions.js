@@ -32,6 +32,8 @@ const questionSchema = new mongoose.Schema(
     targetLawyerId: { type: String, default: null },
     targetLawyerName: { type: String, default: null },
     status: { type: String, default: "public" },
+    publicRequestStatus: { type: String, enum: ['none', 'requested', 'approved', 'declined'], default: 'none' },
+    publicRequestedBy: { type: Object, default: null },
     publishedAt: { type: String, default: null },
     answers: { type: [answerSchema], default: [] },
   },

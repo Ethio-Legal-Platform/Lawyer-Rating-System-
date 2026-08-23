@@ -7644,6 +7644,143 @@ select option {
   font-weight: 700;
 }
 
+/* ─── Private Consultation Public Approval Banners ─────────────────────── */
+.lex-qa-approval-banner {
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 12px;
+  padding: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.lex-qa-approval-header {
+  margin-bottom: 1.6rem;
+}
+
+.lex-qa-approval-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-top: 0.8rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.35;
+}
+
+.lex-qa-approval-desc {
+  font-size: 1.35rem;
+  color: #334155;
+  line-height: 1.55;
+}
+
+.lex-qa-approval-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.lex-qa-publish-card,
+.lex-qa-request-banner {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 2rem 2.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.4rem;
+  flex-wrap: wrap;
+}
+
+.lex-qa-publish-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.4rem;
+}
+
+.lex-qa-publish-sub {
+  font-size: 1.3rem;
+  color: #64748B;
+  line-height: 1.45;
+  max-width: 540px;
+}
+
+.lex-qa-status-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.4rem;
+  padding: 1.8rem 2.2rem;
+  border-radius: 12px;
+  margin-bottom: 2.4rem;
+  font-size: 1.35rem;
+}
+
+.lex-qa-status-banner.pending {
+  background: #FEFCE8;
+  border: 1px solid #FEF08A;
+  color: #854D0E;
+}
+
+.lex-qa-status-banner.declined {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+}
+
+.lex-qa-status-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.lex-qa-status-banner strong {
+  display: block;
+  font-size: 1.45rem;
+  color: #0F172A;
+  margin-bottom: 0.3rem;
+}
+
+.lex-qa-status-banner p {
+  margin: 0;
+  color: #64748B;
+}
+
+.lex-btn-ghost-sm {
+  background: transparent;
+  color: #64748B;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  border: 1px solid #CBD5E1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lex-btn-ghost-sm:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.lex-btn-outline-sm-dark {
+  background: transparent;
+  color: #0F172A;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  border: 1px solid #0F172A;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lex-btn-outline-sm-dark:hover {
+  background: #0F172A;
+  color: #FFFFFF;
+}
+
+
 
 
 

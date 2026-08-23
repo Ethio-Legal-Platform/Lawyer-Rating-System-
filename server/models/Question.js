@@ -30,9 +30,11 @@ const questionSchema = new mongoose.Schema({
   isPrivate:        { type: Boolean, default: false },
   targetLawyerId:   { type: String, default: null },
   targetLawyerName: { type: String, default: null },
-  status:           { type: String, default: 'public' },
-  publishedAt:      { type: String, default: null },
-  answers:          { type: [answerSchema], default: [] },
+  status:              { type: String, default: 'public' },
+  publicRequestStatus: { type: String, enum: ['none', 'requested', 'approved', 'declined'], default: 'none' },
+  publicRequestedBy:   { type: Object, default: null },
+  publishedAt:         { type: String, default: null },
+  answers:             { type: [answerSchema], default: [] },
 }, { timestamps: true });
 
 export default mongoose.models.Question || mongoose.model('Question', questionSchema);

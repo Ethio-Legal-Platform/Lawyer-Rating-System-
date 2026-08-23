@@ -87,17 +87,85 @@ export async function createQuestion({ title, description, category, city, autho
     authorName:       authorName  || 'Anonymous Litigant',
     authorRole:       authorRole  || 'client',
     authorId,
-    isPrivate:        Boolean(isPrivate),
-    targetLawyerId:   targetLawyerId   || null,
-    targetLawyerName: targetLawyerName || null,
-    status:           isPrivate ? 'private_pending' : 'public',
-    createdAt:        new Date().toISOString(),
-    publishedAt:      isPrivate ? null : new Date().toISOString(),
-    answers:          [],
+    isPrivate:           Boolean(isPrivate),
+    targetLawyerId:      targetLawyerId   || null,
+    targetLawyerName:    targetLawyerName || null,
+    status:              isPrivate ? 'private_pending' : 'public',
+    publicRequestStatus: 'none',
+    publicRequestedBy:   null,
+    createdAt:           new Date().toISOString(),
+    publishedAt:         isPrivate ? null : new Date().toISOString(),
+    answers:             [],
   };
 
   await saveQuestion(newQuestion);
   return newQuestion;
+}
+
+export async function requestPublicApproval(questionId, { lawyerId, lawyerName }) {
+  const Model = await getModel();
+  const requestInfo = {
+    lawyerId,
+    lawyerName: lawyerName || 'Verified Advocate',
+    requestedAt: new Date().toISOString()
+  };
+
+  if (Model) {
+    const q = await Model.findOne({ id: questionId }).lean();
+    if (!q) throw new Error('Question not found');
+    if (!q.isPrivate) throw new Error('Question is already public');
+    return Model.findOneAndUpdate(
+      { id: questionId },
+      { publicRequestStatus: 'requested', publicRequestedBy: requestInfo },
+      { new: true }
+    ).lean();
+  }
+
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
+  const q = questions.find(q => q.id === questionId);
+  if (!q) throw new Error('Question not found');
+  if (!q.isPrivate) throw new Error('Question is already public');
+  q.publicRequestStatus = 'requested';
+  q.publicRequestedBy = requestInfo;
+  writeJSON(QUESTIONS_PATH, questions);
+  return q;
+}
+
+export async function respondPublicRequest(questionId, userId, approve) {
+  const Model = await getModel();
+
+  if (Model) {
+    const q = await Model.findOne({ id: questionId }).lean();
+    if (!q) throw new Error('Question not found');
+    if (q.authorId !== userId) throw new Error('Only the client who asked this question can approve or decline');
+
+    const update = approve
+      ? { isPrivate: false, status: 'public', publicRequestStatus: 'approved', publishedAt: new Date().toISOString() }
+      : { publicRequestStatus: 'declined' };
+
+    return Model.findOneAndUpdate({ id: questionId }, update, { new: true }).lean();
+  }
+
+  const { readJSON, writeJSON } = await import('../lib/db.js');
+  const { QUESTIONS_PATH } = await import('../config/paths.js');
+  const questions = readJSON(QUESTIONS_PATH, []);
+  const q = questions.find(q => q.id === questionId);
+  if (!q) throw new Error('Question not found');
+  if (q.authorId !== userId) throw new Error('Only the client who asked this question can approve or decline');
+
+  if (approve) {
+    q.isPrivate = false;
+    q.status = 'public';
+    q.publicRequestStatus = 'approved';
+    q.publishedAt = new Date().toISOString();
+  } else {
+    q.publicRequestStatus = 'declined';
+  }
+
+  writeJSON(QUESTIONS_PATH, questions);
+  return q;
 }
 
 export async function publishQuestionToPublic(questionId, userId) {
@@ -109,7 +177,7 @@ export async function publishQuestionToPublic(questionId, userId) {
     if (q.authorId !== userId) throw new Error('Only the author can publish this question');
     return Model.findOneAndUpdate(
       { id: questionId },
-      { isPrivate: false, status: 'public', publishedAt: new Date().toISOString() },
+      { isPrivate: false, status: 'public', publicRequestStatus: 'approved', publishedAt: new Date().toISOString() },
       { new: true }
     ).lean();
   }
@@ -122,6 +190,7 @@ export async function publishQuestionToPublic(questionId, userId) {
   if (q.authorId !== userId) throw new Error('Only the author can publish this question');
   q.isPrivate = false;
   q.status = 'public';
+  q.publicRequestStatus = 'approved';
   q.publishedAt = new Date().toISOString();
   writeJSON(QUESTIONS_PATH, questions);
   return q;
