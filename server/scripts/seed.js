@@ -22,7 +22,7 @@ import {
 import User from "../models/User.js";
 import MojLicense from "../models/MojLicense.js";
 import CourtCase from "../models/CourtCase.js";
-import Question from "../models/Questions.js";
+import Question from "../models/Question.js";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
