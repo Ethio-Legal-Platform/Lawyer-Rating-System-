@@ -25,20 +25,13 @@ import { api } from './services/api';
 import { getStoredUser, storeUser, clearStoredUser, clearToken } from './utils/storage';
 
 export default function App() {
-  // State: Theme (Light Mode by default, remembered per account & device)
-  const [theme, setTheme] = useState(() => {
+  // Always enforce Light Theme
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
     try {
-      const currentUser = getStoredUser();
-      if (currentUser?.themePreference) {
-        return currentUser.themePreference;
-      }
-      const stored = localStorage.getItem('lex-theme');
-      if (stored) return stored;
-      return 'light';
-    } catch {
-      return 'light';
-    }
-  });
+      localStorage.setItem('lex-theme', 'light');
+    } catch {}
+  }, []);
 
   // State: Navigation & Authentication
   const [user, setUser] = useState(getStoredUser);
@@ -68,24 +61,7 @@ export default function App() {
   const [showAskModal, setShowAskModal] = useState(false);
   const [consultLawyer, setConsultLawyer] = useState(null);
 
-  // Theme Sync Effect
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try {
-      localStorage.setItem('lex-theme', theme);
-    } catch {}
-  }, [theme]);
 
-  const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    if (user?.id) {
-      const updatedUser = { ...user, themePreference: nextTheme };
-      setUser(updatedUser);
-      storeUser(updatedUser);
-      api.updateThemePreference(user.id, nextTheme).catch(() => {});
-    }
-  };
 
   // Data Fetching: Lawyers
   const fetchLawyers = useCallback(async (spec = searchSpec, city = searchCity) => {
@@ -214,8 +190,6 @@ export default function App() {
       <Navbar
         user={user}
         page={page}
-        theme={theme}
-        onToggleTheme={toggleTheme}
         onNavigate={handleNavigate}
         onSignIn={handleOpenAuth}
         onSignOut={handleLogout}
@@ -225,9 +199,11 @@ export default function App() {
       {/* Pages */}
       {page === 'home' && (
         <Home
+          lawyers={lawyers}
           onSearch={handleSearch}
           onSelectGuide={setSelectedGuide}
           onNavigate={setPage}
+          onSelectLawyer={setSelectedLawyer}
         />
       )}
 

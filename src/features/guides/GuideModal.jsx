@@ -12,41 +12,41 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="guide-reader-modal" role="dialog" aria-modal="true">
-        {/* Header */}
-        <div className="guide-reader-header">
-          <div className="guide-reader-top-row">
-            <span className="guide-cat-badge">{guide.cat}</span>
-            <span className="guide-read-chip">⏱ {guide.read}</span>
+      <div className="lex-guide-reader-modal" role="dialog" aria-modal="true">
+        {/* Close Button */}
+        <button className="lex-drawer-close" onClick={onClose} aria-label="Close">×</button>
+
+        {/* Hero Header */}
+        <div className="lex-guide-modal-header">
+          <div className="lex-guide-modal-top-row">
+            <span className="lex-guide-cat-badge">{guide.cat}</span>
+            <span className="lex-guide-read-time">{guide.read} read</span>
           </div>
-          <h2 className="guide-reader-title">{guide.title}</h2>
-          <p className="guide-reader-subtitle">{guide.subtitle}</p>
-          <div className="guide-reader-meta">
+          <h2 className="lex-guide-modal-title">{guide.title}</h2>
+          <p className="lex-guide-modal-sub">{guide.subtitle}</p>
+          <div className="lex-guide-modal-meta">
             <span>Author: <strong>{guide.author}</strong></span>
-            <span>·</span>
+            <span className="lex-dot">•</span>
             <span>{guide.updated}</span>
           </div>
-          <button className="modal-close" onClick={onClose} aria-label="Close">X</button>
         </div>
 
-        {/* Body */}
-        <div className="guide-reader-body">
+        {/* Body Content */}
+        <div className="lex-guide-modal-body">
           {/* Executive Summary Box */}
-          <div className="guide-summary-box">
-            <div className="guide-summary-title">Executive Summary</div>
-            <p className="guide-summary-text">{guide.summary}</p>
+          <div className="lex-info-card" style={{ marginBottom: '2.4rem' }}>
+            <h4 className="lex-info-card-title">Executive Summary</h4>
+            <p style={{ fontSize: '1.35rem', lineHeight: '1.6' }}>{guide.summary}</p>
           </div>
 
-          {/* Governing Proclamations & Statutes cited */}
+          {/* Governing Proclamations */}
           {guide.proclamations && guide.proclamations.length > 0 && (
-            <div className="guide-proclamations-box">
-              <div className="guide-proclamations-title">
-                Governing Ethiopian Statutes & Proclamations
-              </div>
-              <ul className="guide-proclamations-list">
+            <div className="lex-info-card" style={{ marginBottom: '2.4rem' }}>
+              <h4 className="lex-info-card-title">Governing Ethiopian Statutes & Proclamations</h4>
+              <ul className="lex-simple-list">
                 {guide.proclamations.map((p, idx) => (
-                  <li key={idx}>
-                    <span className="proclamation-bullet">§</span>
+                  <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                    <span style={{ color: '#2563EB', fontWeight: 800 }}>§</span>
                     <span>{p}</span>
                   </li>
                 ))}
@@ -56,15 +56,15 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
 
           {/* Detailed Sections */}
           {guide.sections && guide.sections.map((sec, idx) => (
-            <div key={idx} className="guide-article-section">
-              <h3 className="guide-section-heading">{sec.heading}</h3>
-              <p className="guide-section-content">{sec.content}</p>
+            <div key={idx} className="lex-guide-section-block">
+              <h3 className="lex-section-heading" style={{ fontSize: '1.6rem', marginTop: '2rem' }}>{sec.heading}</h3>
+              <p className="lex-about-text" style={{ fontSize: '1.4rem', lineHeight: '1.65' }}>{sec.content}</p>
               {sec.alert && (
-                <div className="guide-alert-box">
-                  <div className="guide-alert-icon">⚠️</div>
+                <div className="lex-privacy-notice-box" style={{ background: '#FFFBEB', borderColor: '#FCD34D' }}>
+                  <span style={{ fontSize: '1.6rem' }}>ℹ️</span>
                   <div>
-                    <strong className="guide-alert-title">Important Legal Note:</strong>
-                    <div className="guide-alert-text">{sec.alert.text}</div>
+                    <strong style={{ color: '#92400E', display: 'block', marginBottom: '0.2rem' }}>Important Legal Note:</strong>
+                    <span style={{ color: '#78350F' }}>{sec.alert.text}</span>
                   </div>
                 </div>
               )}
@@ -73,14 +73,12 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
 
           {/* Key Takeaways & Checklist */}
           {guide.keyTakeaways && (
-            <div className="guide-takeaways-box">
-              <div className="guide-takeaways-title">
-                Key Takeaways & Citizen Checklist
-              </div>
-              <ul className="guide-takeaways-list">
+            <div className="lex-info-card" style={{ margin: '2.4rem 0' }}>
+              <h4 className="lex-info-card-title">Key Takeaways & Citizen Checklist</h4>
+              <ul className="lex-check-list">
                 {guide.keyTakeaways.map((item, idx) => (
                   <li key={idx}>
-                    <span className="takeaway-check">✓</span>
+                    <span className="lex-check-icon">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -88,15 +86,15 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
             </div>
           )}
 
-          {/* Frequently Asked Questions */}
+          {/* FAQs */}
           {guide.faqs && guide.faqs.length > 0 && (
-            <div className="guide-faqs-section">
-              <h3 className="guide-faqs-title">Frequently Asked Questions</h3>
-              <div className="guide-faqs-list">
+            <div className="lex-guide-faqs-block" style={{ margin: '2.4rem 0' }}>
+              <h3 className="lex-section-heading">Frequently Asked Questions</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1rem' }}>
                 {guide.faqs.map((faq, idx) => (
-                  <div key={idx} className="guide-faq-item">
-                    <div className="guide-faq-q">Q: {faq.q}</div>
-                    <div className="guide-faq-a">{faq.a}</div>
+                  <div key={idx} className="lex-info-card">
+                    <h5 className="lex-info-card-title">Q: {faq.q}</h5>
+                    <p style={{ fontSize: '1.35rem', color: '#475569' }}>{faq.a}</p>
                   </div>
                 ))}
               </div>
@@ -104,21 +102,22 @@ export default function GuideModal({ guide, onClose, onConsultAdvocate }) {
           )}
 
           {/* Advocate Consultation CTA */}
-          <div className="guide-advocate-cta">
-            <div className="guide-cta-content">
-              <h4>Need Personalized Legal Advice in {guide.cat}?</h4>
-              <p>
+          <div className="lex-cta-banner" style={{ margin: '3rem 0 1rem 0', padding: '2.8rem 2rem' }}>
+            <div className="lex-cta-info">
+              <h3 className="lex-cta-title" style={{ fontSize: '2rem' }}>Need Personalized Legal Advice in {guide.cat}?</h3>
+              <p className="lex-cta-sub">
                 Connect with licensed Ethiopian advocates specialized in {guide.cat} to represent your case or review your contracts.
               </p>
             </div>
             <button
-              className="btn btn-gold btn-lg"
+              type="button"
+              className="lex-btn-dark-lg"
               onClick={() => {
                 onClose();
                 if (onConsultAdvocate) onConsultAdvocate(guide.cat);
               }}
             >
-              Find {guide.cat} Advocates &rarr;
+              Find {guide.cat} Advocates →
             </button>
           </div>
         </div>

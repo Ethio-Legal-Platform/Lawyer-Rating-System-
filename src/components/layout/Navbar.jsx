@@ -3,120 +3,138 @@ import React from 'react';
 export default function Navbar({ 
   user, 
   page, 
-  theme = 'dark',
-  onToggleTheme,
   onNavigate, 
   onSignIn, 
   onSignOut,
   onOpenProfile
 }) {
   return (
-    <nav className="avvo-nav">
-      <div className="avvo-nav-inner">
+    <header className="lex-navbar">
+      <div className="lex-nav-container">
+        {/* Brand Logo */}
         <button
-          className="avvo-logo"
+          type="button"
+          className="lex-logo-btn"
           onClick={() => onNavigate('home')}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
         >
-          <img
-            src="/images/lex-logo.png"
-            alt="LEX - Lawyer Rating Logo"
-            className="avvo-logo-img"
-          />
-          <div className="avvo-logo-text-wrap">
-            <span className="avvo-logo-title">LEX-RATING</span>
-            <span className="avvo-logo-sub">Lawyer Experience</span>
+          <div className="lex-logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3V21M12 3L4 7M12 3L20 7M4 7V11C4 13.2091 7.58172 15 12 15C16.4183 15 20 13.2091 20 11V7M4 7L12 11M20 7L12 11M7 18.5C7 19.3284 9.23858 20 12 20C14.7614 20 17 19.3284 17 18.5" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div className="lex-logo-text">
+            <span className="lex-logo-title">LEX</span>
+            <span className="lex-logo-subtitle">Find. Review. Trust.</span>
           </div>
         </button>
 
-        <div className="avvo-nav-links">
-          <button
-            className={`avvo-nav-link${page === 'directory' ? ' active' : ''}`}
-            onClick={() => onNavigate('directory')}
-          >
-            Find a Lawyer
-          </button>
-          <button
-            className={`avvo-nav-link${page === 'qa' ? ' active' : ''}`}
-            onClick={() => onNavigate('qa')}
-          >
-            Legal Q&A
-          </button>
-          <button
-            className={`avvo-nav-link${page === 'guides' ? ' active' : ''}`}
-            onClick={() => onNavigate('guides')}
-          >
-            Legal Guides
-          </button>
-          <button
-            className={`avvo-nav-link${page === 'about' ? ' active' : ''}`}
-            onClick={() => onNavigate('about')}
-          >
-            About
-          </button>
-        </div>
-
-        <div className="avvo-nav-actions">
-          {/* Theme Toggle Button (Light / Dark Mode) */}
+        {/* Navigation Links */}
+        <nav className="lex-nav-menu">
           <button
             type="button"
-            className="avvo-theme-toggle"
-            onClick={onToggleTheme}
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            className={`lex-nav-link${page === 'home' ? ' active' : ''}`}
+            onClick={() => onNavigate('home')}
           >
-            <span className="theme-toggle-icon">
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </span>
-            <span className="theme-toggle-text">
-              {theme === 'dark' ? 'Light' : 'Dark'}
-            </span>
+            Home
+          </button>
+          <button
+            type="button"
+            className={`lex-nav-link${page === 'directory' ? ' active' : ''}`}
+            onClick={() => onNavigate('directory')}
+          >
+            Lawyers
+          </button>
+          <button
+            type="button"
+            className={`lex-nav-link${page === 'qa' ? ' active' : ''}`}
+            onClick={() => onNavigate('qa')}
+          >
+            Q&A
+          </button>
+          <button
+            type="button"
+            className={`lex-nav-link${page === 'guides' ? ' active' : ''}`}
+            onClick={() => onNavigate('guides')}
+          >
+            Resources
+          </button>
+          <button
+            type="button"
+            className={`lex-nav-link${page === 'about' ? ' active' : ''}`}
+            onClick={() => onNavigate('about')}
+          >
+            About Us
+          </button>
+          <button
+            type="button"
+            className="lex-nav-link"
+            onClick={() => onNavigate('about')}
+          >
+            Contact
+          </button>
+        </nav>
+
+        {/* Right Action Controls */}
+        <div className="lex-nav-actions">
+          {/* Search Trigger */}
+          <button
+            type="button"
+            className="lex-icon-btn"
+            onClick={() => onNavigate('directory')}
+            title="Search Lawyers"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
           </button>
 
           {user ? (
-            <>
-              {/* Clickable Profile Card to edit profile */}
+            <div className="lex-user-profile-group">
               <button 
                 type="button"
-                className="avvo-nav-user avvo-nav-user-clickable"
+                className="lex-user-card-btn"
                 onClick={onOpenProfile}
-                title="Click to view and edit your profile"
+                title="View & Edit Profile"
               >
                 <img
                   src={user.profilePic || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'}
                   alt={user.name}
-                  className="avvo-nav-avatar"
+                  className="lex-user-avatar"
                   onError={e => {
                     e.target.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200';
                   }}
                 />
-                <div className="avvo-nav-user-info">
-                  <span className="avvo-nav-username">{user.name}</span>
-                  <span className="avvo-nav-edit-hint">Edit Profile ✎</span>
-                </div>
-                {user.role === 'lawyer' && (
-                  <span className="avvo-nav-role-badge lawyer">
-                    Advocate
-                  </span>
-                )}
+                <span className="lex-user-name">{user.name}</span>
               </button>
-
-              <button className="btn btn-ghost btn-sm" onClick={onSignOut}>
+              <button 
+                type="button" 
+                className="lex-btn-outline-sm" 
+                onClick={onSignOut}
+              >
                 Sign Out
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <button className="btn btn-ghost btn-sm" onClick={() => onSignIn({ tab: 'login' })}>
-                Sign In
+            <div className="lex-auth-group">
+              <button 
+                type="button" 
+                className="lex-nav-login-btn" 
+                onClick={() => onSignIn({ tab: 'login' })}
+              >
+                Login
               </button>
-              <button className="btn btn-gold btn-sm" onClick={() => onSignIn({ tab: 'register', role: 'lawyer' })}>
-                For Lawyers
+              <button 
+                type="button" 
+                className="lex-btn-gold" 
+                onClick={() => onSignIn({ tab: 'register' })}
+              >
+                Sign Up
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

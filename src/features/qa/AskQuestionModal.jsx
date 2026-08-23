@@ -61,26 +61,29 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="auth-modal" style={{ maxWidth: 640 }} role="dialog" aria-modal="true">
-        <div className="auth-modal-header">
-          <div className="auth-modal-title">
+      <div className="lex-guide-reader-modal" style={{ maxWidth: 640 }} role="dialog" aria-modal="true">
+        {/* Close Button */}
+        <button className="lex-drawer-close" onClick={onClose} aria-label="Close">×</button>
+
+        {/* Header */}
+        <div className="lex-guide-modal-header">
+          <h2 className="lex-guide-modal-title" style={{ fontSize: '2.2rem' }}>
             {initialLawyer ? `Inquiry for ${initialLawyer.name}` : 'Ask a Legal Question'}
-          </div>
-          <div className="auth-modal-sub">
+          </h2>
+          <p className="lex-guide-modal-sub" style={{ margin: 0 }}>
             Connect with Ministry of Justice verified advocates in Ethiopia
-          </div>
-          <button className="modal-close" onClick={onClose} aria-label="Close">X</button>
+          </p>
         </div>
 
-        <div className="auth-body" style={{ padding: '2.8rem' }}>
-          {error && <div className="alert alert-error" style={{ marginBottom: '1.6rem' }}>{error}</div>}
+        <div className="lex-guide-modal-body">
+          {error && <div className="alert alert-error" style={{ marginBottom: '1.6rem', color: '#DC2626', background: '#FEF2F2', padding: '1rem', borderRadius: 8 }}>{error}</div>}
 
           <form onSubmit={handleSubmit}>
             {/* Privacy Mode Selector */}
-            <div className="form-group" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 8, padding: '1.6rem', marginBottom: '2rem' }}>
-              <label className="form-label" style={{ marginBottom: '1rem', fontWeight: 800, color: 'var(--gold)' }}>
+            <div className="lex-info-card" style={{ marginBottom: '2rem' }}>
+              <h4 className="lex-info-card-title" style={{ marginBottom: '1rem' }}>
                 Inquiry Visibility Mode
-              </label>
+              </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                 <label style={{ display: 'flex', alignItems: 'flex-start', gap: '1.2rem', cursor: 'pointer' }}>
                   <input
@@ -88,11 +91,12 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                     name="privacy"
                     checked={!isPrivate}
                     onChange={() => setIsPrivate(false)}
-                    style={{ accentColor: '#fdb813', marginTop: '0.3rem' }}
+                    className="lex-radio-input"
+                    style={{ marginTop: '0.3rem' }}
                   />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: 'var(--text-white)' }}>Public Legal Q&A</div>
-                    <div style={{ fontSize: '1.3rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: '#0F172A' }}>Public Legal Q&A</div>
+                    <div style={{ fontSize: '1.3rem', color: '#64748B', marginTop: '0.2rem' }}>
                       Visible on the community forum so verified advocates and litigants can discuss publicly.
                     </div>
                   </div>
@@ -104,13 +108,14 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
                     name="privacy"
                     checked={isPrivate}
                     onChange={() => setIsPrivate(true)}
-                    style={{ accentColor: '#fdb813', marginTop: '0.3rem' }}
+                    className="lex-radio-input"
+                    style={{ marginTop: '0.3rem' }}
                   />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: 'var(--blue)' }}>
+                    <div style={{ fontWeight: 700, fontSize: '1.45rem', color: '#2563EB' }}>
                       Private Consultation (Direct to Advocates)
                     </div>
-                    <div style={{ fontSize: '1.3rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '1.3rem', color: '#64748B', marginTop: '0.2rem' }}>
                       Sent privately to verified advocates in {city}. You can review responses and publish anytime!
                     </div>
                   </div>
@@ -118,11 +123,11 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Question Title *</label>
+            <div className="lex-dir-search-field" style={{ marginBottom: '1.6rem' }}>
+              <label className="lex-search-label">Question Title *</label>
               <input
                 type="text"
-                className="form-input"
+                className="lex-search-input"
                 placeholder="e.g. Can my landlord increase rent without notice under federal law?"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
@@ -131,19 +136,19 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.4rem' }}>
-              <div className="form-group">
-                <label className="form-label">Legal Category *</label>
-                <select className="form-select" value={category} onChange={e => setCategory(e.target.value)}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.4rem', marginBottom: '1.6rem' }}>
+              <div className="lex-dir-search-field">
+                <label className="lex-search-label">Legal Category *</label>
+                <select className="lex-search-select" value={category} onChange={e => setCategory(e.target.value)}>
                   {SPECIALIZATION_LIST.map(c => (
                     <option key={c} value={c}>{c} Law</option>
                   ))}
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">City Jurisdiction *</label>
-                <select className="form-select" value={city} onChange={e => setCity(e.target.value)}>
+              <div className="lex-dir-search-field">
+                <label className="lex-search-label">City Jurisdiction *</label>
+                <select className="lex-search-select" value={city} onChange={e => setCity(e.target.value)}>
                   {ETHIOPIAN_CITIES.map(c => (
                     <option key={c} value={c}>{c}</option>
                   ))}
@@ -151,11 +156,11 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Detailed Facts & Situation *</label>
+            <div className="lex-dir-search-field" style={{ marginBottom: '1.6rem' }}>
+              <label className="lex-search-label">Detailed Facts & Situation *</label>
               <textarea
-                className="form-textarea"
-                rows={5}
+                className="lex-search-input"
+                style={{ height: '120px', resize: 'vertical' }}
                 placeholder="Describe your situation in detail: What occurred, what contracts/documents exist, and what legal clarification do you require?"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
@@ -163,21 +168,18 @@ export default function AskQuestionModal({ currentUser, onClose, onQuestionCreat
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Your Name or Pseudonym</label>
+            <div className="lex-dir-search-field" style={{ marginBottom: '2rem' }}>
+              <label className="lex-search-label">Your Name or Pseudonym</label>
               <input
                 type="text"
-                className="form-input"
+                className="lex-search-input"
                 placeholder={currentUser ? currentUser.name : 'e.g. Anonymous Litigant'}
                 value={authorName}
                 onChange={e => setAuthorName(e.target.value)}
               />
-              <p className="form-helper">
-                {isPrivate ? 'Private consultation sent directly to verified advocates.' : 'Public inquiry visible on the community legal forum.'}
-              </p>
             </div>
 
-            <button type="submit" className="btn btn-gold" style={{ width: '100%', marginTop: '1rem', padding: '1.3rem' }} disabled={loading}>
+            <button type="submit" className="lex-btn-dark-full" style={{ padding: '1.2rem', fontSize: '1.5rem' }} disabled={loading}>
               {loading
                 ? 'Submitting…'
                 : isPrivate

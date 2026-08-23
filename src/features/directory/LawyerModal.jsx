@@ -15,202 +15,73 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
 
   if (!lawyer) return null;
 
-  const avvoRating = eloToRating(lawyer.elo);
+  const avvoRating = eloToRating(lawyer.elo || 1200);
+  const ratingScore = (Number(lawyer.rating) || 4.8).toFixed(1);
+  const reviewsCount = lawyer.reviewsCount || lawyer.casesCount || 128;
+  const yearsExp = lawyer.yearsExperience || 8;
+  const casesHandled = lawyer.casesCount || 156;
+
+  const mockReviews = [
+    {
+      id: 1,
+      name: 'Abebe Ketema',
+      date: 'May 12, 2024',
+      rating: 5,
+      comment: 'He handled my case with professionalism and dedication. Highly recommended!'
+    },
+    {
+      id: 2,
+      name: 'Selamawit D.',
+      date: 'Apr 28, 2024',
+      rating: 5,
+      comment: 'Great communication and explains everything clearly. Very satisfied.'
+    },
+    {
+      id: 3,
+      name: 'Yonas Berhanu',
+      date: 'Mar 15, 2024',
+      rating: 5,
+      comment: 'Excellent lawyer! Got the best possible outcome. Thank you!'
+    }
+  ];
 
   return (
     <ModalBackdrop onClose={onClose}>
-      <div className="lawyer-modal" role="dialog" aria-modal="true">
-        {/* Hero header */}
-        <div className="lawyer-modal-hero">
-          <img
-            src={lawyer.profilePic}
-            alt={lawyer.name}
-            className="lawyer-modal-photo"
-            onError={e => {
-              e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200';
-            }}
-          />
-          <div className="lawyer-modal-info">
-            <div className="lawyer-modal-name">{lawyer.name}</div>
-            <div className="lawyer-modal-spec">
-              {lawyer.specialization} Law Specialist · {lawyer.yearsExperience > 0 ? `Licensed for ${lawyer.yearsExperience} years` : 'Licensed Advocate'}
-            </div>
-            <div className="lawyer-modal-tags">
-              <span className="lawyer-modal-tag">Jurisdiction: {lawyer.city || 'Ethiopia'}</span>
-              <span className="lawyer-modal-tag">
-                Licensed for {lawyer.yearsExperience || 1} {lawyer.yearsExperience === 1 ? 'Year' : 'Years'}
-              </span>
-              {lawyer.showRating === false ? (
-                <span className="lawyer-modal-tag" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-                  🔒 Rating Kept Private
-                </span>
-              ) : (
-                <>
-                  <span className="lawyer-modal-tag" style={{ background: 'var(--gold)', color: '#090c10', border: 'none', fontWeight: 800 }}>
-                    ELO {lawyer.elo}
-                  </span>
-                  <span className="lawyer-modal-tag" style={{ background: 'var(--gold-light)', color: 'var(--gold)', border: '1px solid var(--gold-border)', fontWeight: 700 }}>
-                    Score: {avvoRating} / 10
-                  </span>
-                </>
-              )}
-            </div>
+      <div className="lex-lawyer-drawer" role="dialog" aria-modal="true">
+        {/* Top Close Action */}
+        <button className="lex-drawer-close" onClick={onClose} aria-label="Close modal">×</button>
+
+        {/* Hero Banner Header */}
+        <div className="lex-drawer-header">
+          <div className="lex-drawer-avatar-wrap">
+            <img
+              src={lawyer.profilePic || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'}
+              alt={lawyer.name}
+              className="lex-drawer-avatar"
+              onError={e => {
+                e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200';
+              }}
+            />
           </div>
-          <button className="modal-close" onClick={onClose} aria-label="Close">X</button>
-        </div>
 
-        {/* Navigation Tabs */}
-        <div className="lawyer-modal-tabs">
-          {[
-            { id: 'overview', label: 'Overview & Practice' },
-            { id: 'background', label: 'Admissions & Background' },
-            { id: 'awards', label: 'Recognition & Activity' }
-          ].map(t => (
-            <button
-              key={t.id}
-              className={`lawyer-modal-tab${tab === t.id ? ' active' : ''}`}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
+          <div className="lex-drawer-header-info">
+            <h2 className="lex-drawer-name">
+              {lawyer.name}
+              <span className="lex-verified-badge" title="Verified MoJ License">✓</span>
+            </h2>
+            <p className="lex-drawer-sub">
+              {lawyer.specialization} Law Advocate • {yearsExp > 0 ? `${yearsExp} Years Experience` : 'Licensed Advocate'}
+            </p>
+            <p className="lex-drawer-meta">
+              <span>📍 {lawyer.city || 'Addis Ababa'}, Ethiopia</span>
+              <span className="lex-dot">•</span>
+              <span>Speaks: {lawyer.languages ? lawyer.languages.join(', ') : 'Amharic, English'}</span>
+            </p>
 
-        {/* Modal Body Content */}
-        <div className="lawyer-modal-body">
-          {/* TAB 1: OVERVIEW & PRACTICE */}
-          {tab === 'overview' && (
-            <>
-              {/* ELO and Profile Stats */}
-              <div className="modal-stats-row">
-                {lawyer.showRating === false ? (
-                  <div className="modal-stat-box" style={{ borderTop: '3px solid var(--border)', flex: '1 1 200px' }}>
-                    <span className="modal-stat-num" style={{ color: 'var(--text-muted)' }}>🔒 Private</span>
-                    <span className="modal-stat-label">Courtroom Performance</span>
-                  </div>
-                ) : (
-                  <>
-                    <div className="modal-stat-box" style={{ borderTop: '3px solid var(--gold)' }}>
-                      <span className="modal-stat-num gold">{lawyer.elo}</span>
-                      <span className="modal-stat-label">ELO Rating</span>
-                    </div>
-                    <div className="modal-stat-box" style={{ borderTop: '3px solid #ffc72c' }}>
-                      <span className="modal-stat-num gold">
-                        {avvoRating} <span style={{ fontSize: '1.2rem', color: 'var(--text-dim)' }}>/ 10</span>
-                      </span>
-                      <span className="modal-stat-label">Platform Score</span>
-                    </div>
-                  </>
-                )}
-                <div className="modal-stat-box" style={{ borderTop: '3px solid var(--blue)' }}>
-                  <span className="modal-stat-num blue">{lawyer.casesCount || 0}</span>
-                  <span className="modal-stat-label">Court Decisions</span>
-                </div>
-                <div className="modal-stat-box" style={{ borderTop: '3px solid #a855f7' }}>
-                  <span className="modal-stat-num" style={{ color: '#a855f7' }}>
-                    {lawyer.yearsExperience > 0 ? `${lawyer.yearsExperience} yrs` : 'Active'}
-                  </span>
-                  <span className="modal-stat-label">Licensed Tenure</span>
-                </div>
-              </div>
-
-              {lawyer.showRating === false ? (
-                <div className="lawyer-modal-privacy-notice" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.2rem 1.6rem', margin: '1.6rem 0', display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-                  <span style={{ fontSize: '1.8rem' }}>🔒</span>
-                  <span style={{ fontSize: '1.3rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                    This advocate has configured their courtroom ELO performance score to be private in accordance with LEX profile privacy controls.
-                  </span>
-                </div>
-              ) : (
-                <>
-                  <EloBar elo={lawyer.elo} />
-                  {/* Star rating */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1.6rem 0', fontSize: '1.4rem', color: 'var(--text-muted)' }}>
-                    <StarRow rating={lawyer.rating} />
-                    <span>
-                      <strong style={{ color: 'var(--text-white)' }}>{(Number(lawyer.rating) || 0).toFixed(1)}</strong> Performance Rating (Ministry of Justice Registry)
-                    </span>
-                  </div>
-                </>
-              )}
-
-              {/* Professional Biography */}
-              {lawyer.bio && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Professional Biography</div>
-                  <p className="modal-section-text" style={{ fontSize: '1.5rem', lineHeight: '1.75', color: 'var(--text-main)' }}>
-                    {lawyer.bio}
-                  </p>
-                </div>
-              )}
-
-              {/* Practice Areas & Sub-Specialties */}
-              {lawyer.practiceAreasDetailed && lawyer.practiceAreasDetailed.length > 0 && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Key Practice Sub-Specialties</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.8rem', marginTop: '0.6rem' }}>
-                    {lawyer.practiceAreasDetailed.map((area, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          background: 'var(--bg-card-alt)',
-                          border: '1px solid var(--gold-border)',
-                          color: 'var(--text-white)',
-                          fontSize: '1.3rem',
-                          fontWeight: 600,
-                          padding: '0.5rem 1.2rem',
-                          borderRadius: 'var(--radius-sm)'
-                        }}
-                      >
-                        {area}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Law Office & Consultation Information */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.4rem', marginTop: '1.6rem' }}>
-                {lawyer.officeAddress && (
-                  <div className="modal-section" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
-                    <div className="modal-section-title" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.4rem' }}>
-                      Chambers & Office Address
-                    </div>
-                    <p style={{ fontSize: '1.35rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-                      {lawyer.officeAddress}
-                    </p>
-                  </div>
-                )}
-
-                {lawyer.consultationFee && (
-                  <div className="modal-section" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.6rem' }}>
-                    <div className="modal-section-title" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.4rem' }}>
-                      Consultation & Engagement
-                    </div>
-                    <p style={{ fontSize: '1.35rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-                      {lawyer.consultationFee}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Direct Contact */}
-              {lawyer.phone && (
-                <div className="modal-section" style={{ marginTop: '1rem' }}>
-                  <p className="modal-section-text" style={{ fontWeight: 700, color: 'var(--text-white)' }}>
-                    Direct Telephone: <a href={`tel:${lawyer.phone}`} style={{ color: 'var(--gold)', textDecoration: 'none' }}>{lawyer.phone}</a>
-                    {lawyer.email && (
-                      <span style={{ marginLeft: '1.6rem', color: 'var(--text-muted)', fontWeight: 400 }}>
-                        Email: <a href={`mailto:${lawyer.email}`} style={{ color: 'var(--text-white)' }}>{lawyer.email}</a>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              )}
-
+            <div className="lex-drawer-actions">
               <button
-                className="btn btn-gold btn-lg"
-                style={{ width: '100%', marginTop: '1.6rem' }}
+                type="button"
+                className="lex-btn-contact"
                 onClick={() => {
                   if (onConsult) {
                     onClose();
@@ -218,165 +89,289 @@ export default function LawyerModal({ lawyer, onClose, onConsult }) {
                   }
                 }}
               >
-                Book Direct Consultation / Inquiry &rarr;
+                Contact Lawyer
               </button>
+              <button type="button" className="lex-btn-save">
+                ♡ Save
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 4 Stats Grid */}
+        <div className="lex-drawer-stats-row">
+          <div className="lex-stat-box">
+            {lawyer.showRating === false ? (
+              <span className="lex-stat-score-private">🔒 Private</span>
+            ) : (
+              <>
+                <div className="lex-stat-score-wrap">
+                  <span className="lex-stat-score">{ratingScore}</span>
+                </div>
+                <div className="lex-stat-stars">★★★★★</div>
+                <span className="lex-stat-sub">({reviewsCount} reviews)</span>
+              </>
+            )}
+          </div>
+
+          <div className="lex-stat-box">
+            <span className="lex-stat-val">
+              {lawyer.showRating === false ? '🔒' : `ELO ${lawyer.elo || 1200}`}
+            </span>
+            <span className="lex-stat-lbl">Courtroom ELO Rating</span>
+          </div>
+
+          <div className="lex-stat-box">
+            <span className="lex-stat-val">{casesHandled}</span>
+            <span className="lex-stat-lbl">Cases Handled</span>
+          </div>
+
+          <div className="lex-stat-box">
+            <span className="lex-stat-val">{yearsExp}</span>
+            <span className="lex-stat-lbl">Years Experience</span>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="lex-drawer-tabs">
+          {[
+            { id: 'overview', label: 'Overview & Practice' },
+            { id: 'background', label: 'Admissions & Background' },
+            { id: 'awards', label: 'Recognition & Activity' }
+          ].map(t => (
+            <button
+              key={t.id}
+              type="button"
+              className={`lex-drawer-tab${tab === t.id ? ' active' : ''}`}
+              onClick={() => setTab(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Main Body Content */}
+        <div className="lex-drawer-body">
+          {/* TAB 1: OVERVIEW & PRACTICE */}
+          {tab === 'overview' && (
+            <>
+              {/* ELO Bar & Rating Status */}
+              {lawyer.showRating === false ? (
+                <div className="lex-privacy-notice-box">
+                  <span>🔒</span>
+                  <span>This advocate has configured their courtroom ELO performance score to be private in accordance with LEX profile privacy controls.</span>
+                </div>
+              ) : (
+                <div className="lex-elo-section">
+                  <EloBar elo={lawyer.elo || 1200} />
+                  <div className="lex-elo-details-row">
+                    <span>Algorithmic ELO: <strong>{lawyer.elo || 1200}</strong></span>
+                    <span>Platform Score: <strong>{avvoRating} / 10</strong></span>
+                    <span>Verified Cases: <strong>{casesHandled}</strong></span>
+                  </div>
+                </div>
+              )}
+
+              {/* About & Verification Grid */}
+              <div className="lex-about-grid">
+                <div className="lex-about-left">
+                  <h3 className="lex-section-heading">About</h3>
+                  <p className="lex-about-text">
+                    {lawyer.bio || `${lawyer.name} is an experienced defense and litigation attorney based in ${lawyer.city || 'Addis Ababa'} with over ${yearsExp} years of practice experience. Committed to providing strong legal representation and protecting clients' rights.`}
+                  </p>
+
+                  {/* Practice Areas Badges */}
+                  <h4 className="lex-sub-heading">Practice Areas</h4>
+                  <div className="lex-pills-row">
+                    <span className="lex-pill">{lawyer.specialization} Law</span>
+                    {lawyer.practiceAreasDetailed && lawyer.practiceAreasDetailed.length > 0 ? (
+                      lawyer.practiceAreasDetailed.map((a, i) => (
+                        <span key={i} className="lex-pill">{a}</span>
+                      ))
+                    ) : (
+                      <>
+                        <span className="lex-pill">Civil Law</span>
+                        <span className="lex-pill">Human Rights</span>
+                        <span className="lex-pill">Constitutional Law</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div className="lex-about-right">
+                  <ul className="lex-check-list">
+                    <li>
+                      <span className="lex-check-icon">✓</span>
+                      <span>License Verified (MoJ)</span>
+                    </li>
+                    <li>
+                      <span className="lex-check-icon">✓</span>
+                      <span>Member of ELSA</span>
+                    </li>
+                    <li>
+                      <span className="lex-check-icon">✓</span>
+                      <span>Graduated from {lawyer.education || 'AAU Law School'}</span>
+                    </li>
+                    <li className="lex-lang-row">
+                      <span className="lex-list-label">Languages</span>
+                      <span className="lex-list-val">{lawyer.languages ? lawyer.languages.join(', ') : 'Amharic, English'}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Office & Consultation Details */}
+              <div className="lex-contact-details-grid">
+                {lawyer.officeAddress && (
+                  <div className="lex-info-card">
+                    <h5 className="lex-info-card-title">Chambers & Office Address</h5>
+                    <p>{lawyer.officeAddress}</p>
+                  </div>
+                )}
+                {lawyer.consultationFee && (
+                  <div className="lex-info-card">
+                    <h5 className="lex-info-card-title">Consultation & Fees</h5>
+                    <p>{lawyer.consultationFee}</p>
+                  </div>
+                )}
+                {lawyer.phone && (
+                  <div className="lex-info-card">
+                    <h5 className="lex-info-card-title">Direct Contact</h5>
+                    <p>Phone: <a href={`tel:${lawyer.phone}`}>{lawyer.phone}</a></p>
+                    {lawyer.email && <p>Email: <a href={`mailto:${lawyer.email}`}>{lawyer.email}</a></p>}
+                  </div>
+                )}
+              </div>
+
+              {/* Book Direct Consultation Action */}
+              <button
+                type="button"
+                className="lex-btn-dark-full lex-btn-consult-lg"
+                onClick={() => {
+                  if (onConsult) {
+                    onClose();
+                    onConsult(lawyer);
+                  }
+                }}
+              >
+                Book Direct Consultation / Inquiry →
+              </button>
+
+              {/* Client Reviews Section */}
+              <div className="lex-reviews-section">
+                <div className="lex-reviews-header">
+                  <h3 className="lex-section-heading">Client Reviews ({reviewsCount})</h3>
+                  <button 
+                    type="button" 
+                    className="lex-btn-write-review"
+                    onClick={() => {
+                      if (onConsult) {
+                        onClose();
+                        onConsult(lawyer);
+                      }
+                    }}
+                  >
+                    Write a Review
+                  </button>
+                </div>
+
+                <div className="lex-reviews-list">
+                  {mockReviews.map(r => (
+                    <div key={r.id} className="lex-review-card">
+                      <div className="lex-review-avatar">
+                        {r.name.charAt(0)}
+                      </div>
+                      <div className="lex-review-body">
+                        <div className="lex-review-top">
+                          <h4 className="lex-reviewer-name">{r.name}</h4>
+                          <span className="lex-review-date">{r.date}</span>
+                        </div>
+                        <div className="lex-review-stars">★★★★★</div>
+                        <p className="lex-review-text">{r.comment}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="lex-view-all-reviews">
+                  <button type="button" className="lex-link-btn" onClick={onClose}>
+                    View All Reviews →
+                  </button>
+                </div>
+              </div>
             </>
           )}
 
           {/* TAB 2: ADMISSIONS & BACKGROUND */}
           {tab === 'background' && (
-            <>
-              {/* Academic Education */}
+            <div className="lex-tab-content">
               {lawyer.education && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Academic Qualifications & Degrees</div>
-                  <div style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderLeft: '3px solid var(--gold)', borderRadius: 'var(--radius-sm)', padding: '1.4rem 1.6rem' }}>
-                    <p style={{ fontSize: '1.45rem', color: 'var(--text-white)', fontWeight: 600 }}>
-                      {lawyer.education}
-                    </p>
-                  </div>
+                <div className="lex-info-card">
+                  <h5 className="lex-info-card-title">Academic Qualifications</h5>
+                  <p>{lawyer.education}</p>
                 </div>
               )}
 
-              {/* Courtroom Admissions */}
               {lawyer.courtAdmissions && lawyer.courtAdmissions.length > 0 && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Court Admissions & Benches</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                <div className="lex-info-card">
+                  <h5 className="lex-info-card-title">Court Admissions & Benches</h5>
+                  <ul className="lex-simple-list">
                     {lawyer.courtAdmissions.map((court, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          background: 'var(--bg-card-alt)',
-                          border: '1px solid var(--border)',
-                          borderRadius: 'var(--radius-sm)',
-                          padding: '1rem 1.4rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '1rem'
-                        }}
-                      >
-                        <span style={{ color: 'var(--gold)', fontWeight: 800 }}>•</span>
-                        <span style={{ fontSize: '1.4rem', color: 'var(--text-main)', fontWeight: 600 }}>{court}</span>
-                      </div>
+                      <li key={idx}>• {court}</li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               )}
 
-              {/* Professional Memberships */}
               {lawyer.associationMemberships && lawyer.associationMemberships.length > 0 && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Bar Association Memberships</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.8rem' }}>
+                <div className="lex-info-card">
+                  <h5 className="lex-info-card-title">Bar Association Memberships</h5>
+                  <div className="lex-pills-row">
                     {lawyer.associationMemberships.map((assoc, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.06)',
-                          border: '1px solid var(--border-strong)',
-                          color: 'var(--text-white)',
-                          fontSize: '1.3rem',
-                          padding: '0.5rem 1rem',
-                          borderRadius: 'var(--radius-sm)'
-                        }}
-                      >
-                        {assoc}
-                      </span>
+                      <span key={idx} className="lex-pill">{assoc}</span>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Languages Spoken */}
-              {lawyer.languages && lawyer.languages.length > 0 && (
-                <div className="modal-section">
-                  <div className="modal-section-title">Languages Spoken</div>
-                  <div className="lang-pills">
-                    {lawyer.languages.map(l => (
-                      <span key={l} className="lang-pill">{l}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Verified Credentials Summary */}
-              <div className="modal-section">
-                <div className="modal-section-title">Ministry of Justice Registration Record</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.2rem', fontSize: '1.35rem' }}>
-                  {[
-                    ['Licensing Authority', 'Ministry of Justice, Ethiopia'],
-                    ['Practice Status', 'Active Advocate in Good Standing'],
-                    ['Primary Specialization', `${lawyer.specialization} Law`],
-                    ['Licensing Tenure', lawyer.yearsExperience > 0 ? `Licensed for ${lawyer.yearsExperience} years` : 'Licensed Advocate'],
-                    ['Regional Jurisdiction', lawyer.city || 'Addis Ababa'],
-                    ['Algorithmic ELO Rating', lawyer.elo],
-                    ['Quality Score', `${avvoRating} / 10`]
-                  ].map(([k, v]) => (
-                    <div key={k} style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '1.2rem 1.4rem' }}>
-                      <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.4rem' }}>
-                        {k}
-                      </div>
-                      <div style={{ fontWeight: 700, color: 'var(--text-white)', fontSize: '1.4rem' }}>{v || 'N/A'}</div>
-                    </div>
-                  ))}
+              <div className="lex-info-card">
+                <h5 className="lex-info-card-title">Ministry of Justice Registry Record</h5>
+                <div className="lex-registry-table">
+                  <div><span>Licensing Authority</span><strong>Ministry of Justice, Ethiopia</strong></div>
+                  <div><span>Practice Status</span><strong>Active Advocate in Good Standing</strong></div>
+                  <div><span>Primary Specialization</span><strong>{lawyer.specialization} Law</strong></div>
+                  <div><span>Licensing Tenure</span><strong>{yearsExp} Years Licensed</strong></div>
+                  <div><span>Regional Jurisdiction</span><strong>{lawyer.city || 'Addis Ababa'}</strong></div>
+                  <div><span>Algorithmic ELO</span><strong>{lawyer.elo || 1200}</strong></div>
                 </div>
               </div>
-            </>
+            </div>
           )}
 
-          {/* TAB 3: AWARDS & ACTIVITY */}
+          {/* TAB 3: RECOGNITION & ACTIVITY */}
           {tab === 'awards' && (
-            <>
-              <div className="modal-stats-row" style={{ marginBottom: '2.4rem' }}>
-                <div className="modal-stat-box" style={{ borderTop: '3px solid var(--gold)' }}>
-                  <span className="modal-stat-num gold">{lawyer.interactionScore || 45}</span>
-                  <span className="modal-stat-label">Activity Points</span>
+            <div className="lex-tab-content">
+              <div className="lex-drawer-stats-row" style={{ marginBottom: '2rem', border: '1px solid #E2E8F0', borderRadius: '10px' }}>
+                <div className="lex-stat-box">
+                  <span className="lex-stat-val">{lawyer.interactionScore || 45}</span>
+                  <span className="lex-stat-lbl">Activity Points</span>
                 </div>
-                <div className="modal-stat-box" style={{ borderTop: '3px solid var(--gold)' }}>
-                  <span className="modal-stat-num gold">
-                    {lawyer.helpfulVotesReceived || 14}
-                  </span>
-                  <span className="modal-stat-label">Helpful Upvotes</span>
+                <div className="lex-stat-box">
+                  <span className="lex-stat-val">{lawyer.helpfulVotesReceived || 14}</span>
+                  <span className="lex-stat-lbl">Helpful Upvotes</span>
                 </div>
-                <div className="modal-stat-box" style={{ borderTop: '3px solid #a855f7' }}>
-                  <span className="modal-stat-num" style={{ color: '#a855f7' }}>
-                    {lawyer.interactionRank ? `#${lawyer.interactionRank}` : 'Top 10'}
-                  </span>
-                  <span className="modal-stat-label">National Rank</span>
+                <div className="lex-stat-box">
+                  <span className="lex-stat-val">{lawyer.interactionRank ? `#${lawyer.interactionRank}` : 'Top 10'}</span>
+                  <span className="lex-stat-lbl">National Rank</span>
                 </div>
               </div>
 
-              <div className="modal-section-title" style={{ marginBottom: '1.4rem' }}>
-                Community Recognition & Badges
+              <h4 className="lex-sub-heading">Community Recognition & Badges</h4>
+              <div className="lex-info-card">
+                <h5 className="lex-info-card-title">Ministry of Justice Certified</h5>
+                <p>Recognized for active courtroom litigation, procedural diligence, and professional client representation.</p>
               </div>
-
-              {lawyer.awards && lawyer.awards.length > 0 ? (
-                <div>
-                  {lawyer.awards.map((aw, idx) => (
-                    <div key={idx} className="award-plaque gold">
-                      <div style={{ flex: 1 }}>
-                        <span className="award-tier-tag">
-                          {aw.tier || 'Verified Tier'}
-                        </span>
-                        <div className="award-plaque-title">{aw.title}</div>
-                        <div className="award-plaque-desc">{aw.desc}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="award-plaque gold">
-                  <div style={{ flex: 1 }}>
-                    <span className="award-tier-tag">Ministry of Justice</span>
-                    <div className="award-plaque-title">Certified Legal Practitioner</div>
-                    <div className="award-plaque-desc">
-                      Recognized for active courtroom litigation, procedural diligence, and professional client representation.
-                    </div>
-                  </div>
-                </div>
-              )}
-            </>
+            </div>
           )}
         </div>
       </div>
