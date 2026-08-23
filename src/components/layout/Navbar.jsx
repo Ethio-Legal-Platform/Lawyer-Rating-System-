@@ -75,13 +75,13 @@ export default function Navbar({
           >
             About Us
           </button>
-          <button
+          {/* <button
             type="button"
             className="lex-nav-link"
             onClick={() => onNavigate('about')}
           >
             Contact
-          </button>
+          </button> */}
         </nav>
 
         {/* Right Action Controls */}
