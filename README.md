@@ -9,7 +9,7 @@
 | # | Team Member | Student ID | Primary Engineering Role | Assigned Branch | Primary Modules & Files |
 |:---:|:---|:---:|:---|:---:|:---|
 | 1 | **Kalalew** | `CTC-4154-26` | **Backend Developer 1** | `backend/auth-court` | **Authentication, Court System & ELO Rating Engine**<br>• `server/routes/authRoutes.js`<br>• `server/routes/courtRoutes.js`<br>• `server/routes/lawyerRoutes.js`<br>• `server/services/ratingService.js`<br>• `server/services/emailService.js`<br>• `server/middleware/auth.js`<br>• Models: `User.js`, `CourtCase.js` |
-| 2 | **Maraky** | `CTC-2122-26` | **Backend Developer 2** | `backend/qa-moj` | **MongoDB Core, Legal Q&A, MoJ Gateway & Analytics**<br>• `server/config/db.js` (MongoDB Setup)<br>• `server/routes/qaRoutes.js`<br>• `server/routes/mojRoutes.js`<br>• `server/services/qaService.js`<br>• `server/services/interactionService.js`<br>• Models: `Question.js`, `MojLicense.js` |
+| 2 | **Maraky** | `CTC-2122-26` | **Backend Developer 2** | `backend/qa-moj` | **MongoDB Core, Legal Q&A, MoJ Gateway & Analytics**<br>• `server/lib/mongoose.js` (MongoDB Setup)<br>• `server/routes/qaRoutes.js`<br>• `server/routes/mojRoutes.js`<br>• `server/services/qaService.js`<br>• `server/services/interactionService.js`<br>• Models: `Questions.js`, `MojLicense.js` |
 | 3 | **Lemi** | `CTC-1272-26` | **Frontend Developer 1** | `frontend/directory-views` | **Navigation, Auth & Lawyer Directory System**<br>• `src/components/layout/Navbar.jsx`<br>• `src/components/layout/Footer.jsx`<br>• `src/components/common/` (ModalBackdrop, StarRow, EloBar)<br>• `src/features/auth/AuthModal.jsx`<br>• `src/features/directory/` (LawyerCard, LawyerModal)<br>• `src/pages/Home.jsx`<br>• `src/pages/DirectoryPage.jsx`<br>• `src/utils/` (storage.js, ratingUtils.js) |
 | 4 | **Liel** | `CTC-882-26` | **Frontend Developer 2** | `frontend/qa-guides` | **Legal Q&A, Legal Guides & About Platform**<br>• `src/features/qa/QuestionThreadModal.jsx`<br>• `src/features/qa/AskQuestionModal.jsx`<br>• `src/features/guides/` (GuideCard, GuideModal)<br>• `src/pages/QAPage.jsx`<br>• `src/pages/GuidesPage.jsx`<br>• `src/pages/AboutPage.jsx`<br>• `src/data/legalGuides.js`<br>• `src/services/api.js` (Q&A & Inquiries Client) |
 
@@ -125,7 +125,7 @@ graph TB
    Backend Dev 1 (Kalalew)                         Backend Dev 2 (Maraky)
   [backend/auth-court]                            [backend/qa-moj]
   ─────────────────────────────────               ─────────────────────────────────
-  • User & CourtCase Models                       • MongoDB Setup (server/config/db.js)
+  • User & CourtCase Models                       • MongoDB Setup (server/lib/mongoose.js)
   • JWT Auth & Bcrypt Hashing                     • Question & MoJ License Models
   • Auth Middleware (requireAuth/Role)            • Q&A Service & Endpoints
   • Court Case Registration (Judge Only)          • MoJ Registry Verification
@@ -155,16 +155,16 @@ graph TB
 #### 2. Backend Dev 2 (Maraky) — `backend/qa-moj`
 * **Domain**: MongoDB Database Configuration, Legal Q&A, Inquiries, MoJ Gateway & Analytics.
 * **Files Assigned**:
-  * `server/config/db.js`
+  * `server/lib/mongoose.js`
   * `server/routes/qaRoutes.js`
   * `server/routes/mojRoutes.js`
   * `server/services/qaService.js`
   * `server/services/interactionService.js`
 * **Mongoose Models**:
-  * `Question.js`: Schema for public questions, private consultations, sub-document answers, and upvoters.
+  * `Questions.js`: Schema for public questions, private consultations, sub-document answers, and upvoters.
   * `MojLicense.js`: Schema for Ministry of Justice official advocate licensing records.
 * **Key Tasks**:
-  * Setup MongoDB connection with Mongoose in `server/config/db.js` and initialize in `server/server.js`.
+  * Setup MongoDB connection with Mongoose in `server/lib/mongoose.js` and initialize in `server/server.js`.
   * Create data seed/migration script to import data into MongoDB collections.
   * Migrate Q&A and private inquiries CRUD operations to MongoDB.
   * Atomic upvote toggling using MongoDB `$addToSet` / `$pull` operators.
@@ -366,6 +366,9 @@ $$\text{ELO}_{\text{new}} = \text{ELO}_{\text{old}} + \operatorname{round}\Big(3
 | `POST` | `/api/auth/register-verify` | Validates OTP and persists user | Public |
 | `POST` | `/api/auth/login` | Validates credentials & returns JWT token | Public |
 | `POST` | `/api/auth/resend-otp` | Re-dispatches OTP verification code | Public |
+| `GET` | `/api/auth/me` | Returns authenticated user's profile | 🔒 Token |
+| `PUT` | `/api/auth/profile` | Updates user profile fields | 🔒 Token |
+| `PUT` | `/api/auth/theme` | Syncs light/dark theme preference | 🔒 Token |
 
 ### 🏛️ 2. Ministry of Justice Gateway (`/api/moj`)
 | Method | Route | Description | Auth / Role |
@@ -389,7 +392,8 @@ $$\text{ELO}_{\text{new}} = \text{ELO}_{\text{old}} + \operatorname{round}\Big(3
 ### 💬 5. Legal Q&A & Consultations (`/api/qa`)
 | Method | Route | Description | Auth / Role |
 |---|---|---|---|
-| `GET` | `/api/qa/questions` | Fetches public community questions | Public |
+| `GET` | `/api/qa/questions` | Fetches public community questions (paginated) | Public |
+| `GET` | `/api/qa/questions/:id` | Fetches a single question thread | Public |
 | `GET` | `/api/qa/inquiries` | Fetches private client-lawyer inquiries | Public (User query) |
 | `POST` | `/api/qa/questions` | Submits public question or private inquiry | 🔒 `requireAuth` |
 | `POST` | `/api/qa/questions/:id/publish` | Author publishes private inquiry to forum | 🔒 `requireAuth` |
@@ -416,12 +420,12 @@ cd Lawyer-Rating-System-
 Create a `.env` file in the project root directory:
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://app_user:test123@cluster0.vqsc69h.mongodb.net/lexrating?appName=Cluster0
-JWT_SECRET=my_custom_secret_key_849204812398471209384
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.vqsc69h.mongodb.net/lexrating?retryWrites=true&w=majority
+JWT_SECRET=your_secure_jwt_secret_key_here
 
 # Brevo Transactional Email Service
 BREVO_API_KEY=your_brevo_api_key_here
-BREVO_SENDER_EMAIL=kalalewtere@gmail.com
+BREVO_SENDER_EMAIL=noreply@lexrating.et
 BREVO_SENDER_NAME="LEX-RATING"
 ```
 
@@ -431,11 +435,10 @@ BREVO_SENDER_NAME="LEX-RATING"
 npm install
 
 # Start both Express Backend & React Vite Frontend concurrently
-npm run server    # Launch Express API Gateway on Port 5000
-npx vite          # Launch Vite Frontend SPA on Port 5173 / 5174
+npm start
 ```
 
-* **Frontend UI**: `http://localhost:5174`
+* **Frontend UI**: `http://localhost:5173`
 * **Backend API Gateway**: `http://localhost:5000`
 * **API Health Check**: `http://localhost:5000/`
 
@@ -467,7 +470,7 @@ docker compose ps
 ### Accessing Containers
 - **Web Application UI**: `http://localhost`
 - **Backend API Gateway**: `http://localhost:5000`
-- **MongoDB Connection**: `mongodb://localhost:27017/lex_rating`
+- **MongoDB Connection**: `mongodb://localhost:27017/lexrating`
 
 ### Stop & Cleanup
 ```bash
