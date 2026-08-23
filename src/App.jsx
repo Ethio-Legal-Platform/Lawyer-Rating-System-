@@ -118,10 +118,42 @@ export default function App() {
   }, [page, fetchQuestions]);
 
   useEffect(() => {
-    if (user && (page === 'qa' || qaTab === 'private')) {
+    if (user) {
       fetchPrivateInquiries();
+    } else {
+      setPrivateInquiries([]);
     }
-  }, [user, page, qaTab, fetchPrivateInquiries]);
+  }, [user, fetchPrivateInquiries]);
+
+  // Track visited/seen public release requests
+  const [seenPublicRequestIds, setSeenPublicRequestIds] = useState(() => {
+    try {
+      const stored = localStorage.getItem('lex_seen_public_requests');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const pendingPublicRequests = (user?.role === 'client')
+    ? privateInquiries.filter(q => q.publicRequestStatus === 'requested')
+    : [];
+
+  const unreadQaNotificationCount = pendingPublicRequests.filter(
+    q => !seenPublicRequestIds.includes(q.id)
+  ).length;
+
+  const handleClearQaNotifications = useCallback(() => {
+    if (pendingPublicRequests.length > 0) {
+      const newSeen = Array.from(new Set([...seenPublicRequestIds, ...pendingPublicRequests.map(q => q.id)]));
+      setSeenPublicRequestIds(newSeen);
+      try {
+        localStorage.setItem('lex_seen_public_requests', JSON.stringify(newSeen));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, [pendingPublicRequests, seenPublicRequestIds]);
 
   // Auth Handlers
   const handleLogin = (nextUser) => {
@@ -141,6 +173,9 @@ export default function App() {
   };
 
   const handleNavigate = (nextPage) => {
+    if (nextPage === 'qa') {
+      handleClearQaNotifications();
+    }
     setPage(nextPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -190,7 +225,9 @@ export default function App() {
       <Navbar
         user={user}
         page={page}
+        qaNotificationCount={unreadQaNotificationCount}
         onNavigate={handleNavigate}
+        onClearQaNotifications={handleClearQaNotifications}
         onSignIn={handleOpenAuth}
         onSignOut={handleLogout}
         onOpenProfile={() => setShowProfileModal(true)}

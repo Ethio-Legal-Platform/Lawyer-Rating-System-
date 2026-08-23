@@ -3,7 +3,9 @@ import React from 'react';
 export default function Navbar({ 
   user, 
   page, 
+  qaNotificationCount = 0,
   onNavigate, 
+  onClearQaNotifications,
   onSignIn, 
   onSignOut,
   onOpenProfile
@@ -47,9 +49,17 @@ export default function Navbar({
           <button
             type="button"
             className={`lex-nav-link${page === 'qa' ? ' active' : ''}`}
-            onClick={() => onNavigate('qa')}
+            onClick={() => {
+              if (onClearQaNotifications) onClearQaNotifications();
+              onNavigate('qa');
+            }}
           >
-            Q&A
+            <span>Q&A</span>
+            {qaNotificationCount > 0 && (
+              <span className="lex-nav-badge" title={`${qaNotificationCount} unread request`}>
+                {qaNotificationCount}
+              </span>
+            )}
           </button>
           <button
             type="button"

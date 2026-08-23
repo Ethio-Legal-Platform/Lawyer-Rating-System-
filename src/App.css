@@ -7780,6 +7780,95 @@ select option {
   color: #FFFFFF;
 }
 
+/* ─── Notification Badges & Private Alert Cards ────────────────────────── */
+.lex-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-size: 1.05rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  margin-left: 0.4rem;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.lex-tab-action-badge {
+  background: #FEF08A;
+  color: #854D0E;
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.2rem 0.8rem;
+  border-radius: 12px;
+  margin-left: 0.6rem;
+}
+
+.lex-qa-card.has-request {
+  border-color: #FBBF24;
+  background: #FFFDF7;
+}
+
+.lex-qa-card-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  background: #FEFCE8;
+  border: 1px solid #FEF08A;
+  border-radius: 8px;
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 1.4rem;
+  font-size: 1.3rem;
+}
+
+.lex-qa-card-alert-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.lex-qa-card-alert-banner strong {
+  display: block;
+  color: #92400E;
+  font-size: 1.35rem;
+  margin-bottom: 0.2rem;
+}
+
+.lex-qa-card-alert-banner p {
+  color: #B45309;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.lex-qa-badge-pending-request {
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+}
+
+.lex-qa-badge-declined {
+  background: #F1F5F9;
+  color: #64748B;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+}
+
+
 
 
 
