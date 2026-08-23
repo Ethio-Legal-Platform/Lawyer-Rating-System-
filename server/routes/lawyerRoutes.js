@@ -7,8 +7,11 @@ const router = Router();
 
 async function getAllUsers() {
   if (mongoose.connection.readyState === 1) {
-    const User = (await import('../models/User.js')).default;
-    return User.find().lean();
+    try {
+      const User = (await import('../models/User.js')).default;
+      return await User.find().maxTimeMS(5000).lean();
+    } catch {
+    }
   }
   const { readJSON } = await import('../lib/db.js');
   const { USERS_PATH } = await import('../config/paths.js');
@@ -17,8 +20,11 @@ async function getAllUsers() {
 
 async function getAllCases() {
   if (mongoose.connection.readyState === 1) {
-    const CourtCase = (await import('../models/CourtCase.js')).default;
-    return CourtCase.find().lean();
+    try {
+      const CourtCase = (await import('../models/CourtCase.js')).default;
+      return await CourtCase.find().maxTimeMS(5000).lean();
+    } catch {
+    }
   }
   const { readJSON } = await import('../lib/db.js');
   const { COURT_CASES_PATH } = await import('../config/paths.js');

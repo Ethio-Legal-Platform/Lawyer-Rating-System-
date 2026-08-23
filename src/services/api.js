@@ -24,7 +24,8 @@ export const api = {
     if (city) params.append('city', city);
     if (search) params.append('search', search);
     const res = await authFetch(`/lawyers/search?${params}`);
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : (data.data || []);
   },
 
   getLeaderboard: async () => {
@@ -43,7 +44,8 @@ export const api = {
     if (category && category !== 'All') params.append('category', category);
     if (search) params.append('search', search);
     const res = await authFetch(`/qa/questions?${params}`);
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : (data.data || []);
   },
 
   getInquiries: async (user) => {

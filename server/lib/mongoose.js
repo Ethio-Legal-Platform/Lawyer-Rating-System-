@@ -12,7 +12,10 @@ export async function connectDB() {
   }
 
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000
+    });
     isConnected = true;
     console.log('  MongoDB connected successfully.\n');
   } catch (err) {
